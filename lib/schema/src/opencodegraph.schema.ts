@@ -1,31 +1,50 @@
 /**
  * Metadata about code
  */
-export interface Data {
+export interface Schema {
     annotations?: Annotation[]
 }
 /**
- * An annotation describes information relevant to a specific range in a file.
+ * An annotation describes information relevant to a file (or a range within a file).
  */
 export interface Annotation {
-    item: Item
-    range: Range
-}
-export interface Item {
-    title: string
-    detail?: string
     /**
-     * An external URL with more information.
+     * A descriptive title of the annotation.
+     */
+    title?: string
+    /**
+     * An external URL with more information about the annotation.
      */
     url?: string
-    image?: ItemImage
+    ui?: AnnotationUI
+    ai?: AssistantInfo
+    range?: Range
 }
-export interface ItemImage {
-    url: string
-    width?: number
-    height?: number
-    alt?: string
+/**
+ * The human user interface of the annotation, with information for human consumption.
+ */
+export interface AnnotationUI {
+    /**
+     * Text containing additional details for the human, shown when they interact with the annotation.
+     */
+    detail?: string
+    /**
+     * The format of the title and description (Markdown or plain text).
+     */
+    format?: 'markdown' | 'plaintext'
 }
+/**
+ * Information from the annotation intended for consumption by AI, not humans.222
+ */
+export interface AssistantInfo {
+    /**
+     * Text content for AI to consume.
+     */
+    content?: string
+}
+/**
+ * The range in the file that this annotation applies to. If not set, the annotation applies to the entire file.
+ */
 export interface Range {
     start: Position
     end: Position

@@ -24,6 +24,7 @@
     "@codemirror/lint": "^6.4.2",
     "@opencodegraph/client": "workspace:*",
     "@opencodegraph/codemirror-extension": "workspace:*",
+    "@opencodegraph/provider-docs": "workspace:*",
     "@opencodegraph/provider-links": "workspace:*",
     "@opencodegraph/provider-storybook": "workspace:*",
     "@opencodegraph/ui-react": "workspace:*",

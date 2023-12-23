@@ -17,7 +17,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "generate": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only ../schema/dev/generateJsonSchemaTypes.ts src/opencodegraph-protocol.schema.json \"import { Item, Annotation } from '@opencodegraph/schema'\" > src/opencodegraph-protocol.schema.ts && pnpm -w run format \"$PNPM_SCRIPT_SRC_DIR/src/opencodegraph-protocol.schema.ts\"",
+    "generate": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only ../schema/dev/generateJsonSchemaTypes.ts src/opencodegraph-protocol.schema.json \"import { Annotation } from '@opencodegraph/schema'\" > src/opencodegraph-protocol.schema.ts && pnpm -w run format \"$PNPM_SCRIPT_SRC_DIR/src/opencodegraph-protocol.schema.ts\"",
     "build": "pnpm run --silent generate && tsc --build",
     "test": "vitest",
     "prepublishOnly": "tsc --build --clean && pnpm run build"

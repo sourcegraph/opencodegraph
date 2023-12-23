@@ -39,4 +39,5 @@ _Status: alpha_
 
 ## TODOs
 
-- rename opencodegraphdata -> something shorter
+- item.ui and item.ai
+- add support for resolving annotations (because )

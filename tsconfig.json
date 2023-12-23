@@ -4,7 +4,7 @@
     "noEmit": true
   },
   "files": [],
-  "exclude": ["**/dist", "client/browser"],
+  "exclude": ["**/dist", "**/testdata", "client/browser"],
   "references": [
     { "path": "lib/client" },
     { "path": "lib/protocol" },
@@ -22,6 +22,7 @@
     { "path": "client/vscode/dev" },
     { "path": "client/vscode/test/integration" },
     { "path": "client/web-playground" },
+    { "path": "provider/docs" },
     { "path": "provider/hello-world" },
     { "path": "provider/links" },
     { "path": "provider/prometheus" },

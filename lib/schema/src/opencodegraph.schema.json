@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "opencodegraph.schema.json#",
-  "title": "Data",
+  "title": "Schema",
   "description": "Metadata about code",
   "allowComments": true,
   "type": "object",
@@ -14,35 +14,59 @@
   },
   "definitions": {
     "Annotation": {
-      "description": "An annotation describes information relevant to a specific range in a file.",
+      "description": "An annotation describes information relevant to a file (or a range within a file).",
       "type": "object",
       "additionalProperties": false,
-      "required": ["item", "range"],
+      "required": [],
       "properties": {
-        "item": { "$ref": "#/definitions/Item" },
-        "range": { "$ref": "#/definitions/Range" }
+        "title": {
+          "description": "A descriptive title of the annotation.",
+          "type": "string"
+        },
+        "url": {
+          "description": "An external URL with more information about the annotation.",
+          "type": "string",
+          "format": "uri"
+        },
+        "ui": {
+          "description": "The human user interface of the annotation, with information for human consumption.",
+          "$ref": "#/definitions/AnnotationUI"
+        },
+        "ai": {
+          "description": "Information from the annotation intended for consumption by AI, not humans.222",
+          "$ref": "#/definitions/AssistantInfo"
+        },
+        "range": {
+          "description": "The range in the file that this annotation applies to. If not set, the annotation applies to the entire file.",
+          "$ref": "#/definitions/Range"
+        }
       }
     },
-    "Item": {
+    "AnnotationUI": {
+      "description": "The human user interface of an annotation, with information for human consumption.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["title"],
       "properties": {
-        "title": { "type": "string" },
-        "detail": { "type": "string" },
-        "url": { "description": "An external URL with more information.", "type": "string", "format": "uri" },
-        "image": { "$ref": "#/definitions/ItemImage" }
+        "detail": {
+          "description": "Text containing additional details for the human, shown when they interact with the annotation.",
+          "type": "string"
+        },
+        "format": {
+          "description": "The format of the title and description (Markdown or plain text).",
+          "type": "string",
+          "enum": ["markdown", "plaintext"]
+        }
       }
     },
-    "ItemImage": {
+    "AssistantInfo": {
+      "description": "Information from an annotation intended for consumption by AI, not humans.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["url"],
       "properties": {
-        "url": { "type": "string", "format": "uri" },
-        "width": { "type": "number" },
-        "height": { "type": "number" },
-        "alt": { "type": "string" }
+        "content": {
+          "description": "Text content for AI to consume.",
+          "type": "string"
+        }
       }
     },
     "Range": {

@@ -56,6 +56,7 @@ export function observeAnnotations<R extends Range>(
                               emitPartial ? startWith(null) : tap(),
                               catchError(error => {
                                   logger?.(`failed to get annotations: ${error}`)
+                                  console.error(error)
                                   return of(null)
                               })
                           )

@@ -1,12 +1,15 @@
 import { resolve } from 'path'
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig, searchForWorkspaceRoot } from 'vite'
+
+// TODO(sqs): un-hardcode
+const docsProviderDataDir = resolve('/Users/sqs/tmp/ocg-provider-docs')
 
 export default defineConfig(({ mode }) => ({
     plugins: [react()],
     resolve: {
-        alias:
-            mode === 'development'
+        alias: [
+            ...(mode === 'development'
                 ? [
                       // In dev mode, build from TypeScript sources so we don't need to run `tsc -b`
                       // in the background.
@@ -17,8 +20,14 @@ export default defineConfig(({ mode }) => ({
                           replacement: '$1/src/index',
                       },
                   ]
-                : [],
+                : []),
+            {
+                find: 'tmp-ocg-provider-docs',
+                replacement: docsProviderDataDir,
+            },
+        ],
     },
+    define: {},
     css: {
         devSourcemap: true,
         modules: {
@@ -27,6 +36,9 @@ export default defineConfig(({ mode }) => ({
     },
     server: {
         port: 5900,
+        fs: {
+            allow: [searchForWorkspaceRoot(process.cwd()), docsProviderDataDir],
+        },
     },
     build: {
         emptyOutDir: false,

@@ -1,0 +1,41 @@
+{
+  "name": "@opencodegraph/provider-docs",
+  "version": "0.0.1",
+  "description": "Add contextual documentation to your code from an existing documentation corpus (OpenCodeGraph provider)",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sourcegraph/opencodegraph",
+    "directory": "provider/docs"
+  },
+  "type": "module",
+  "main": "dist/src/provider/provider.js",
+  "types": "dist/src/provider/provider.d.ts",
+  "files": [
+    "dist",
+    "!**/*.test.*",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc --build",
+    "test": "vitest",
+    "docs-query": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm/transpile-only bin/docs-query.ts",
+    "create-file-corpus": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm/transpile-only bin/create-file-corpus.ts",
+    "create-web-corpus": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm/transpile-only bin/create-web-corpus.ts"
+  },
+  "dependencies": {
+    "@mozilla/readability": "^0.5.0",
+    "@opencodegraph/provider": "workspace:*",
+    "@xenova/transformers": "^2.12.1",
+    "better-localstorage": "^1.0.5",
+    "buffer": "^6.0.3",
+    "env-paths": "^3.0.0",
+    "jsdom": "^23.0.1",
+    "onnxruntime-web": "*"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.6",
+    "vitest-fetch-mock": "^0.2.2"
+  }
+}

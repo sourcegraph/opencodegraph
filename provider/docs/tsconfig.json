@@ -1,0 +1,12 @@
+{
+  "extends": "../../.config/tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "rootDir": ".",
+    "outDir": "dist",
+    "lib": ["ESNext"],
+  },
+  "include": ["src", "bin"],
+  "exclude": ["dist", "src/testdata", "vitest.config.ts"],
+  "references": [{ "path": "../../lib/provider" }],
+}

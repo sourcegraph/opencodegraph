@@ -63,3 +63,7 @@ How do clients authenticate with providers? Right now, a few hostnames are hard-
 ### Implementing providers: thin clients or lots-of-logic?
 
 Will OpenCodeGraph providers be super lightweight presentation-layer programs that hit some existing system that makes the data easy to fetch? Maybe that existing system is a separate server built for OCG to hit for now, but ideally in the future (years) it would become a common endpoint for dev tools vendors to expose, like oEmbed.
+
+### Recording additional metadata
+
+How should annotations record other kinds of metadata to make it searchable and exportable? For example, the Storybook provider could add `{"storybook": true}` metadata in an annotation on all storybook files, which would make it possible to identify all storybook files in a code search application.
