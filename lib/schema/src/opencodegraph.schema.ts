@@ -2,11 +2,16 @@
  * Metadata about code
  */
 export interface Data {
-    items: Item[]
-    annotations: Annotation[]
+    annotations?: Annotation[]
+}
+/**
+ * An annotation describes information relevant to a specific range in a file.
+ */
+export interface Annotation {
+    item: Item
+    range: Range
 }
 export interface Item {
-    id: string
     title: string
     detail?: string
     /**
@@ -21,10 +26,6 @@ export interface ItemImage {
     height?: number
     alt?: string
 }
-export interface Annotation {
-    range: Range
-    item: ItemRef
-}
 export interface Range {
     start: Position
     end: Position
@@ -32,7 +33,4 @@ export interface Range {
 export interface Position {
     line: number
     character: number
-}
-export interface ItemRef {
-    id: string
 }

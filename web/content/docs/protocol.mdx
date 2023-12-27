@@ -81,7 +81,7 @@ interface Selector {
 
 ### Annotations
 
-The annotations request is sent by the client to the provider to fetch a list of annotations and items for a file.
+The annotations request is sent by the client to the provider to fetch a list of annotations for a file.
 
 **Request:** `{ method: "annotations", params: AnnotationsParams, settings?: object }`
 
@@ -98,17 +98,10 @@ interface AnnotationsParams {
 **Response:** `{ result: AnnotationsResult }` or `{ error: { code, integer, data? } }`
 
 ```typescript
-interface AnnotationsResult {
-  /** Items that contain information relevant to the file. */
-  items: Item[]
-
-  /** Annotations that attach items to specific ranges in the file. */
-  annotations: Annotation[]
-}
+/** Annotations that attach items to specific ranges in the file. */
+type AnnotationsResult = Annotation[]
 
 interface Item {
-  id: string
-
   title: string
 
   /** An external link with more information. */
@@ -120,8 +113,8 @@ interface Item {
 }
 
 interface Annotation {
-  /** The item (referenced by its `Item.id`). */
-  item: { id: string }
+  /** The item. */
+  item: Item
 
   /** The range in the file that the item is relevant to. */
   range: { start: Position; end: Position }

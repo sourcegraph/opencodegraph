@@ -32,31 +32,28 @@ describe('links', () => {
                 },
                 SETTINGS
             )
-        ).toEqual<AnnotationsResult>({
-            items: [
-                {
-                    id: 'https://example.com/foo:Foo:',
+        ).toEqual<AnnotationsResult>([
+            {
+                item: {
                     title: '📘 Docs: Foo',
                     url: 'https://example.com/foo',
                 },
-            ],
-            annotations: [
-                {
-                    item: { id: 'https://example.com/foo:Foo:' },
-                    range: {
-                        start: { line: 0, character: 1 },
-                        end: { line: 0, character: 4 },
-                    },
+                range: {
+                    start: { line: 0, character: 1 },
+                    end: { line: 0, character: 4 },
                 },
-                {
-                    item: { id: 'https://example.com/foo:Foo:' },
-                    range: {
-                        start: { line: 3, character: 1 },
-                        end: { line: 3, character: 4 },
-                    },
+            },
+            {
+                item: {
+                    title: '📘 Docs: Foo',
+                    url: 'https://example.com/foo',
                 },
-            ],
-        })
+                range: {
+                    start: { line: 3, character: 1 },
+                    end: { line: 3, character: 4 },
+                },
+            },
+        ])
     })
 
     test('patterns with capture groups', () => {
@@ -73,24 +70,18 @@ describe('links', () => {
         }
         expect(
             links.annotations({ file: 'file:///a/b.ts', content: 'log.Print(foo, b/a+r)' }, settingsWithCaptureGroups)
-        ).toEqual<AnnotationsResult>({
-            items: [
-                {
-                    id: 'https://example.com/search?q=b%2Fa%2Br:Print foo $3 b/a+r:b/a+r',
+        ).toEqual<AnnotationsResult>([
+            {
+                item: {
                     title: 'Print foo $3 b/a+r',
                     detail: 'b/a+r',
                     url: 'https://example.com/search?q=b%2Fa%2Br',
                 },
-            ],
-            annotations: [
-                {
-                    item: { id: 'https://example.com/search?q=b%2Fa%2Br:Print foo $3 b/a+r:b/a+r' },
-                    range: {
-                        start: { line: 0, character: 0 },
-                        end: { line: 0, character: 21 },
-                    },
+                range: {
+                    start: { line: 0, character: 0 },
+                    end: { line: 0, character: 21 },
                 },
-            ],
-        })
+            },
+        ])
     })
 })
