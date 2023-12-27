@@ -63,47 +63,25 @@ export function observeAnnotations<R extends Range>(
                   )
                 : of([])
         ),
-        map(result => mergeData(result)),
-        map(result => {
-            const items: Record<string, Item> = {}
-            for (const item of result.items) {
-                items[item.id] = item
-            }
-
-            const anns: Annotation<R>[] = []
-            for (const ann of result.annotations) {
-                const item = items[ann.item.id]
-                if (!item) {
-                    continue
-                }
-                anns.push({
-                    item,
-                    range: makeRange(ann.range),
+        map(result => result.filter((v): v is AnnotationsResult => v !== null).flat()),
+        map(anns =>
+            anns
+                .map(ann => ({ ...ann, range: makeRange(ann.range) }))
+                .sort((a, b) => {
+                    if (a.range.start.line < b.range.start.line) {
+                        return -1
+                    }
+                    if (a.range.start.line > b.range.start.line) {
+                        return 1
+                    }
+                    if (a.range.start.character < b.range.start.character) {
+                        return -1
+                    }
+                    if (a.range.start.character > b.range.start.character) {
+                        return 1
+                    }
+                    return 0
                 })
-            }
-
-            return anns.sort((a, b) => {
-                if (a.range.start.line < b.range.start.line) {
-                    return -1
-                }
-                if (a.range.start.line > b.range.start.line) {
-                    return 1
-                }
-                if (a.range.start.character < b.range.start.character) {
-                    return -1
-                }
-                if (a.range.start.character > b.range.start.character) {
-                    return 1
-                }
-                return 0
-            })
-        })
+        )
     )
-}
-
-function mergeData(datas: readonly (AnnotationsResult | null)[]): AnnotationsResult {
-    return {
-        items: datas.flatMap(data => data?.items ?? []),
-        annotations: datas.flatMap(data => data?.annotations ?? []),
-    }
 }

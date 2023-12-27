@@ -6,24 +6,28 @@
   "allowComments": true,
   "type": "object",
   "additionalProperties": false,
-  "required": ["items", "annotations"],
   "properties": {
-    "items": {
-      "type": "array",
-      "items": { "$ref": "#/definitions/Item" }
-    },
     "annotations": {
       "type": "array",
       "items": { "$ref": "#/definitions/Annotation" }
     }
   },
   "definitions": {
+    "Annotation": {
+      "description": "An annotation describes information relevant to a specific range in a file.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["item", "range"],
+      "properties": {
+        "item": { "$ref": "#/definitions/Item" },
+        "range": { "$ref": "#/definitions/Range" }
+      }
+    },
     "Item": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "title"],
+      "required": ["title"],
       "properties": {
-        "id": { "type": "string" },
         "title": { "type": "string" },
         "detail": { "type": "string" },
         "url": { "description": "An external URL with more information.", "type": "string", "format": "uri" },
@@ -39,23 +43,6 @@
         "width": { "type": "number" },
         "height": { "type": "number" },
         "alt": { "type": "string" }
-      }
-    },
-    "Annotation": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["range", "item"],
-      "properties": {
-        "range": { "$ref": "#/definitions/Range" },
-        "item": {
-          "title": "ItemRef",
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["id"],
-          "properties": {
-            "id": { "type": "string" }
-          }
-        }
       }
     },
     "Range": {

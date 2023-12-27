@@ -51,10 +51,9 @@ export const Bar: Story = {}
                     },
                     SETTINGS
                 )
-            ).toEqual<AnnotationsResult>({
-                items: [
-                    {
-                        id: 'Foo:0',
+            ).toEqual<AnnotationsResult>([
+                {
+                    item: {
                         title: '🖼️ Storybook: a/b/Foo',
                         url: 'https://main--abc123.chromatic.com/?path=%2Fstory%2Fa-b--foo',
                         image: {
@@ -64,29 +63,22 @@ export const Bar: Story = {}
                             height: 300,
                         },
                     },
-                    {
-                        id: 'Bar:1',
+                    range: {
+                        start: { line: 5, character: 13 },
+                        end: { line: 5, character: 16 },
+                    },
+                },
+                {
+                    item: {
                         title: '🖼️ Storybook: a/b/Bar',
                         url: 'https://main--abc123.chromatic.com/?path=%2Fstory%2Fa-b--bar',
                     },
-                ],
-                annotations: [
-                    {
-                        item: { id: 'Foo:0' },
-                        range: {
-                            start: { line: 5, character: 13 },
-                            end: { line: 5, character: 16 },
-                        },
+                    range: {
+                        start: { line: 7, character: 13 },
+                        end: { line: 7, character: 16 },
                     },
-                    {
-                        item: { id: 'Bar:1' },
-                        range: {
-                            start: { line: 7, character: 13 },
-                            end: { line: 7, character: 16 },
-                        },
-                    },
-                ],
-            })
+                },
+            ])
         })
     })
 })

@@ -66,8 +66,8 @@ export const ItemChipList: React.FunctionComponent<{
     popoverClassName?: string
 }> = ({ items, className, chipClassName, popoverClassName }) => (
     <div className={classNames(styles.list, className)}>
-        {items.map(item => (
-            <ItemChip key={item.id} item={item} className={chipClassName} popoverClassName={popoverClassName} />
+        {items.map((item, i) => (
+            <ItemChip key={item.url ?? i} item={item} className={chipClassName} popoverClassName={popoverClassName} />
         ))}
     </div>
 )
