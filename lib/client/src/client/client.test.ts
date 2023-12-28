@@ -16,16 +16,18 @@ const FIXTURE_PARAMS: AnnotationsParams = {
     content: 'A',
 }
 
-function fixtureProviderResult(id: string): AnnotationsResult {
-    return {
-        items: [{ id, title: id.toUpperCase() }],
-        annotations: [{ item: { id }, range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } } }],
-    }
+function fixtureProviderResult(label: string): AnnotationsResult {
+    return [
+        {
+            item: { title: label.toUpperCase() },
+            range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } },
+        },
+    ]
 }
 
-function fixtureResult(id: string): Annotation {
+function fixtureResult(label: string): Annotation {
     return {
-        item: { id, title: id.toUpperCase() },
+        item: { title: label.toUpperCase() },
         range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } },
     }
 }
@@ -51,10 +53,10 @@ describe('Client', () => {
                     Promise.resolve({ enable: true, providers: { [testdataFileUri('simple.js')]: {} } }),
             })
 
-            const anns = simplifyItemIds(await client.annotations(FIXTURE_PARAMS))
+            const anns = await client.annotations(FIXTURE_PARAMS)
             expect(anns).toStrictEqual<typeof anns>([
                 {
-                    item: { id: 'a', title: 'A' },
+                    item: { title: 'A' },
                     range: { start: { line: 1, character: 2 }, end: { line: 3, character: 4 } },
                 },
             ])
@@ -87,10 +89,3 @@ describe('Client', () => {
         })
     })
 })
-
-/**
- * Item IDs include the absolute file path to the provider, which is not portable.
- */
-function simplifyItemIds(anns: Annotation[]): Annotation[] {
-    return anns.map(ann => ({ ...ann, item: { ...ann.item, id: ann.item.id.slice(ann.item.id.lastIndexOf('/') + 1) } }))
-}

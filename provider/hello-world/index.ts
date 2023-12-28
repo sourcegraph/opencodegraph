@@ -20,7 +20,6 @@ const helloWorld: Provider = {
 
     annotations(params: AnnotationsParams, settings: ProviderSettings): AnnotationsResult {
         const item: Item = {
-            id: 'hello-world',
             title: '✨ Hello, world!',
             detail: 'From OpenCodeGraph',
             url: 'https://opencodegraph.org',
@@ -33,15 +32,15 @@ const helloWorld: Provider = {
                 continue
             }
             annotations.push({
+                item,
                 range: {
                     start: { line: i, character: 0 },
                     end: { line: i, character: line.length },
                 },
-                item: { id: item.id },
             })
         }
 
-        return { items: [item], annotations }
+        return annotations
     },
 }
 

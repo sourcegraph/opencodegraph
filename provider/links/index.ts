@@ -4,7 +4,6 @@ import {
     type AnnotationsResult,
     type CapabilitiesParams,
     type CapabilitiesResult,
-    type Item,
     type Provider,
     type Range,
 } from '@opencodegraph/provider'
@@ -79,14 +78,8 @@ const links: Provider<Settings> = {
             matchPath: matchGlob(path),
         }))
 
-        const result: AnnotationsResult = {
-            items: [],
-            annotations: [],
-        }
-        const hasItem = (id: string): boolean => result.items.some(item => item.id === id)
-
         const lines = params.content.split(/\r?\n/)
-
+        const anns: AnnotationsResult = []
         for (const { title, url, description, type, matchPath, pattern } of compiledPatterns || []) {
             if (!matchPath(new URL(params.file).pathname)) {
                 continue
@@ -94,30 +87,18 @@ const links: Provider<Settings> = {
 
             const ranges = matchResults(pattern, lines)
             for (const { range, groups } of ranges) {
-                const item: Item = {
-                    id: '',
-                    title: interpolate(title, groups),
-                    detail: description ? interpolate(description, groups) : undefined,
-                    url: interpolate(url, groups),
-                }
-                item.id = `${item.url}:${item.title}:${item.detail || ''}`
-
-                if (type === 'docs') {
-                    item.title = `📘 Docs: ${item.title}`
-                }
-
-                result.annotations.push({
-                    item: { id: item.id },
+                anns.push({
+                    item: {
+                        title: `${type === 'docs' ? '📘 Docs: ' : ''}${interpolate(title, groups)}`,
+                        detail: description ? interpolate(description, groups) : undefined,
+                        url: interpolate(url, groups),
+                    },
                     range,
                 })
-
-                if (!hasItem(item.id)) {
-                    result.items.push(item)
-                }
             }
         }
 
-        return result
+        return anns
     },
 }
 

@@ -19,7 +19,6 @@ const meta: Meta = {
 export default meta
 
 const FIXTURE_ITEM: Item = {
-    id: 'css-docs',
     title: '📘 Docs: CSS in client/web',
 }
 

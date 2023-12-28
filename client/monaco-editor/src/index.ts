@@ -73,7 +73,7 @@ export function createExtension(client: Client<MonacoRange>): MonacoExtension {
                     const anns = await client.annotations({ file: model.uri.toString(), content: model.getValue() })
 
                     return {
-                        lenses: anns.map((ann, i) => toCodeLens(ann, i)),
+                        lenses: anns.map(toCodeLens),
                         dispose: () => {},
                     }
                 },
@@ -90,9 +90,8 @@ export function createExtension(client: Client<MonacoRange>): MonacoExtension {
     }
 }
 
-function toCodeLens(ann: Annotation<MonacoRange>, i: number): monaco.languages.CodeLens {
+function toCodeLens(ann: Annotation<MonacoRange>): monaco.languages.CodeLens {
     return {
-        id: `${ann.item.id}:${i}`,
         command: {
             title: ann.item.title,
             tooltip: ann.item.detail,

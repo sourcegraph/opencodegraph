@@ -4,7 +4,6 @@ import {
     type AnnotationsResult,
     type CapabilitiesParams,
     type CapabilitiesResult,
-    type Item,
     type Position,
     type Provider,
     type Range,
@@ -75,12 +74,7 @@ const prometheus: Provider<Settings> = {
 
         const positionCalculator = createFilePositionCalculator(params.content)
 
-        const result: AnnotationsResult = {
-            items: [],
-            annotations: [],
-        }
-        const hasItem = (id: string): boolean => result.items.some(item => item.id === id)
-
+        const anns: AnnotationsResult = []
         for (const { matchPath, pattern, urlTemplate } of compiledPatterns || []) {
             if (!matchPath(new URL(params.file).pathname)) {
                 continue
@@ -88,25 +82,16 @@ const prometheus: Provider<Settings> = {
 
             const ranges = matchResults(pattern, params.content, positionCalculator)
             for (const { range, metricName } of ranges) {
-                const item: Item = {
-                    id: '',
-                    title: `📟 Prometheus metric: ${metricName}`,
-                    url: urlTemplate.replaceAll('$1', metricName),
-                }
-                item.id = metricName
-
-                result.annotations.push({
-                    item: { id: item.id },
+                anns.push({
+                    item: {
+                        title: `📟 Prometheus metric: ${metricName}`,
+                        url: urlTemplate.replaceAll('$1', metricName),
+                    },
                     range,
                 })
-
-                if (!hasItem(item.id)) {
-                    result.items.push(item)
-                }
             }
         }
-
-        return result
+        return anns
     },
 }
 

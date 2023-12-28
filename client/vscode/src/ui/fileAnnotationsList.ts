@@ -97,12 +97,9 @@ async function showQuickPick(controller: Controller): Promise<void> {
 }
 
 function toQuickPickItems(anns: Annotation<vscode.Range>[]): QuickPickItem[] {
-    const items = new Map<string, QuickPickItem & Required<Pick<QuickPickItem, 'item' | 'firstRange'>>>()
+    const items: (QuickPickItem & Required<Pick<QuickPickItem, 'item' | 'firstRange'>>)[] = []
     for (const ann of anns) {
-        if (items.has(ann.item.id)) {
-            continue
-        }
-        items.set(ann.item.id, {
+        items.push({
             label: ann.item.title,
             detail: ann.item.detail,
             buttons: ann.item.url
@@ -112,5 +109,5 @@ function toQuickPickItems(anns: Annotation<vscode.Range>[]): QuickPickItem[] {
             firstRange: ann.range,
         })
     }
-    return [...items.values()].sort((a, b) => a.firstRange.start.compareTo(b.firstRange.start))
+    return items.sort((a, b) => a.firstRange.start.compareTo(b.firstRange.start))
 }

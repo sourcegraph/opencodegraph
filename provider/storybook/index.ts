@@ -3,7 +3,6 @@ import {
     type AnnotationsResult,
     type CapabilitiesParams,
     type CapabilitiesResult,
-    type Item,
     type ItemImage,
     type Provider,
     type Range,
@@ -40,10 +39,10 @@ const storybook: Provider<Settings> = {
     },
 
     async annotations(params: AnnotationsParams, settings: Settings): Promise<AnnotationsResult> {
-        const result: AnnotationsResult = { items: [], annotations: [] }
+        const anns: AnnotationsResult = []
 
         if (!settings.storybookUrl) {
-            return result
+            return anns
         }
 
         const contentLines = params.content.split(/\r?\n/)
@@ -59,17 +58,12 @@ const storybook: Provider<Settings> = {
                 for (const [i, story] of matches.entries()) {
                     const storyName = getStoryNameAlias(story, params.content)
                     const storyURL = chromaticStoryURL(component, storyName, settings)
-                    const item: Item = {
-                        id: `${story}:${i}`,
-                        title: `🖼️ Storybook: ${component}/${storyName}`,
-                        url: storyURL,
-                    }
-
-                    item.image = await getImagePreview(storyURL)
-
-                    result.items.push(item)
-                    result.annotations.push({
-                        item: { id: item.id },
+                    anns.push({
+                        item: {
+                            title: `🖼️ Storybook: ${component}/${storyName}`,
+                            url: storyURL,
+                            image: await getImagePreview(storyURL),
+                        },
                         range: ranges[i],
                     })
                 }
@@ -87,24 +81,19 @@ const storybook: Provider<Settings> = {
                 if (storyTitle) {
                     const story = 'Default'
                     const storyURL = chromaticStoryURL(storyTitle, story, settings)
-                    const item: Item = {
-                        id: `${storyTitle}:${i}`,
-                        title: `🖼️ Storybook: ${storyTitle}`,
-                        url: storyURL,
-                    }
-
-                    item.image = await getImagePreview(storyURL)
-
-                    result.items.push(item)
-                    result.annotations.push({
-                        item: { id: item.id },
+                    anns.push({
+                        item: {
+                            title: `🖼️ Storybook: ${storyTitle}`,
+                            url: storyURL,
+                            image: await getImagePreview(storyURL),
+                        },
                         range: ranges[i],
                     })
                 }
             }
         }
 
-        return result
+        return anns
     },
 }
 

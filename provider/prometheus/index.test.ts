@@ -34,23 +34,17 @@ var histogram = promauto.NewHistogram(prometheus.HistogramOpts{
                 },
                 SETTINGS
             )
-        ).toEqual<AnnotationsResult>({
-            items: [
-                {
-                    id: 'random_numbers',
+        ).toEqual<AnnotationsResult>([
+            {
+                item: {
                     title: '📟 Prometheus metric: random_numbers',
                     url: 'https://example.com/?q=random_numbers',
                 },
-            ],
-            annotations: [
-                {
-                    item: { id: 'random_numbers' },
-                    range: {
-                        start: { line: 2, character: 14 },
-                        end: { line: 2, character: 28 },
-                    },
+                range: {
+                    start: { line: 2, character: 14 },
+                    end: { line: 2, character: 28 },
                 },
-            ],
-        })
+            },
+        ])
     })
 })

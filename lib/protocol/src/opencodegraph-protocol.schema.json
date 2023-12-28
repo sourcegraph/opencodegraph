@@ -96,27 +96,11 @@
       }
     },
     "AnnotationsResult": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["items", "annotations"],
-      "properties": {
-        "items": {
-          "description": "Items that contain information relevant to the file.",
-          "type": "array",
-          "items": {
-            "$ref": "../../schema/src/opencodegraph.schema.json#/definitions/Item"
-          },
-          "tsType": "Item[]"
-        },
-        "annotations": {
-          "description": "Annotations that attach items to specific ranges in the file.",
-          "type": "array",
-          "items": {
-            "$ref": "../../schema/src/opencodegraph.schema.json#/definitions/Annotation"
-          },
-          "tsType": "Annotation[]"
-        }
-      }
+      "type": "array",
+      "items": {
+        "$ref": "../../schema/src/opencodegraph.schema.json#/definitions/Annotation"
+      },
+      "tsType": "Annotation[]"
     }
   }
 }

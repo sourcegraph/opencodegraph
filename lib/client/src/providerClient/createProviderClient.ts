@@ -56,25 +56,11 @@ export function createProviderClient(
                 return null
             }
             try {
-                const result = await transport.annotations(params, settings)
-                return addProviderIdPrefix(providerUri, result)
+                return await transport.annotations(params, settings)
             } catch (error) {
                 logger?.(`failed to get annotations: ${error}`)
                 return Promise.reject(error)
             }
         },
-    }
-}
-
-/**
- * Namespace item IDs so that they do not collide across providers.
- */
-function addProviderIdPrefix(providerUri: string, result: AnnotationsResult): AnnotationsResult {
-    return {
-        items: result.items.map(item => ({ ...item, id: `${providerUri}/${item.id}` })),
-        annotations: result.annotations.map(annotation => ({
-            ...annotation,
-            item: { id: `${providerUri}/${annotation.item.id}` },
-        })),
     }
 }

@@ -14,16 +14,13 @@ describe('createProviderClient', () => {
 
         // File URI that satisfies the provider's selector.
         expect(
-            simplifyItemIds(await pc.annotations({ file: 'file:///foo', content: 'A\nB\nC\nD' }, settings))
-        ).toStrictEqual<AnnotationsResult | null>({
-            items: [{ id: 'a', title: 'ABC' }],
-            annotations: [
-                {
-                    item: { id: 'a' },
-                    range: { start: { line: 1, character: 2 }, end: { line: 3, character: 4 } },
-                },
-            ],
-        })
+            await pc.annotations({ file: 'file:///foo', content: 'A\nB\nC\nD' }, settings)
+        ).toStrictEqual<AnnotationsResult | null>([
+            {
+                item: { title: 'ABC' },
+                range: { start: { line: 1, character: 2 }, end: { line: 3, character: 4 } },
+            },
+        ])
 
         // File URI that does NOT satisfy the provider's selector.
         expect(
@@ -96,19 +93,3 @@ describe('createProviderClient', () => {
         expect(info.annotationsCalls).toBe(3)
     })
 })
-
-/**
- * Item IDs include the absolute file path to the provider, which is not portable.
- */
-function simplifyItemIds(result: AnnotationsResult | null): AnnotationsResult | null {
-    if (result === null) {
-        return null
-    }
-    return {
-        items: result.items.map(item => ({ ...item, id: item.id.slice(item.id.lastIndexOf('/') + 1) })),
-        annotations: result.annotations.map(ann => ({
-            ...ann,
-            item: { id: ann.item.id.slice(ann.item.id.lastIndexOf('/') + 1) },
-        })),
-    }
-}
