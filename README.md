@@ -36,9 +36,3 @@ _Status: alpha_
 - [Source code](https://github.com/sourcegraph/opencodegraph)
 - [Docs](https://opencodegraph.org)
 - License: [Apache 2.0](LICENSE)
-
-## TODOs
-
-- item.ui and item.ai
-- add support for resolving annotations (because )
-- classnames -> clsx for consistency
