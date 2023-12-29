@@ -1,17 +1,17 @@
 import { type Annotation } from '@opencodegraph/schema'
 import classNames from 'classnames'
-import React, { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef, useState, type FunctionComponent } from 'react'
 import styles from './Chip.module.css'
 import { Popover } from './Popover'
 
 /**
  * A single OpenCodeGraph annotation, displayed as a "chip".
  */
-export const Chip: React.FunctionComponent<{
-    ann: Annotation
+export const Chip: FunctionComponent<{
+    annotation: Annotation
     className?: string
     popoverClassName?: string
-}> = ({ ann, className, popoverClassName }) => {
+}> = ({ annotation: ann, className, popoverClassName }) => {
     const hasDetail = Boolean(ann.ui?.detail)
 
     const [popoverVisible, setPopoverVisible] = useState(false)
@@ -43,15 +43,20 @@ export const Chip: React.FunctionComponent<{
 /**
  * A list of OpenCodeGraph chips.
  */
-export const ChipList: React.FunctionComponent<{
+export const ChipList: FunctionComponent<{
     annotations: Annotation[]
     className?: string
     chipClassName?: string
     popoverClassName?: string
 }> = ({ annotations, className, chipClassName, popoverClassName }) => (
     <div className={classNames(styles.list, className)}>
-        {annotations.map((ann, i) => (
-            <Chip key={ann.url ?? i} ann={ann} className={chipClassName} popoverClassName={popoverClassName} />
+        {annotations.map((annotation, i) => (
+            <Chip
+                key={annotation.url ?? i}
+                annotation={annotation}
+                className={chipClassName}
+                popoverClassName={popoverClassName}
+            />
         ))}
     </div>
 )

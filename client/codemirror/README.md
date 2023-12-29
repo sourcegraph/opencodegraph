@@ -61,17 +61,17 @@ Otherwise, set up the extension manually. If you're using React, you can get UI 
 ```tsx
 import type { Extension } from '@codemirror/state'
 import { openCodeGraphData, showOpenCodeGraphDecorations } from '@opencodegraph/codemirror-extension'
-import { IndentationWrapper, ItemChipList } from '@opencodegraph/ui-react'
+import { ChipList, IndentationWrapper } from '@opencodegraph/ui-react'
 
 const ocgExtension: Extension = [
   openCodeGraphData(annotations),
   showOpenCodeGraphDecorations({
     visibility: true,
-    createDecoration(container, { indent, items }) {
+    createDecoration(container, { indent, annotations }) {
       const root = createRoot(container)
       root.render(
         <IndentationWrapper indent={indent}>
-          <ItemChipList items={items} chipClassName="ocg-chip" popoverClassName="ocg-chip-popover" />
+          <ChipList annotations={annotations} chipClassName="ocg-chip" popoverClassName="ocg-chip-popover" />
         </IndentationWrapper>
       )
       return {

@@ -41,3 +41,4 @@ _Status: alpha_
 
 - item.ui and item.ai
 - add support for resolving annotations (because )
+- classnames -> clsx for consistency

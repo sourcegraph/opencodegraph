@@ -32,19 +32,19 @@ const ocgExtension: Extension = [
     openCodeGraphData(annotations),
     showOpenCodeGraphDecorations({
         visibility: true,
-        createDecoration(container, { annotations: items }) {
+        createDecoration(container, { annotations }) {
             const div = document.createElement('div')
             div.style.display = 'flex'
             div.style.gap = '1rem'
 
-            for (const item of items) {
-                const el = document.createElement(item.url ? 'a' : 'span')
-                el.innerText = item.title
-                if (item.detail) {
-                    el.title = item.detail
+            for (const ann of annotations) {
+                const el = document.createElement(ann.url ? 'a' : 'span')
+                el.innerText = ann.title ?? 'Untitled'
+                if (ann.ui?.detail) {
+                    el.title = ann.ui?.detail
                 }
-                if (item.url && el instanceof HTMLAnchorElement) {
-                    el.href = item.url
+                if (ann.url && el instanceof HTMLAnchorElement) {
+                    el.href = ann.url
                     el.style.textDecoration = 'none'
                     el.style.fontFamily = 'system-ui, sans-serif'
                     el.style.backgroundColor = '#ffffff22'

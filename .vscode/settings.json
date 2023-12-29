@@ -33,5 +33,6 @@
   },
   "opencodegraph.providers": {
     // "https://sourcegraph.test:3443/.api/opencodegraph": true
-  }
+  },
+  "opencodegraph.enable": true
 }

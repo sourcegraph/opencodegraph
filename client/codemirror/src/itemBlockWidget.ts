@@ -49,22 +49,22 @@ function computeDecorations(
     const annotationsByLine: { line: number; annotations: Annotation[] }[] = []
     for (const ann of annotations) {
         let cur = annotationsByLine.at(-1)
-        if (!cur || cur.line !== ann.range.start.line) {
-            cur = { line: ann.range.start.line, annotations: [] }
+        const startLine = ann.range?.start.line ?? 0
+        if (!cur || cur.line !== startLine) {
+            cur = { line: startLine, annotations: [] }
             annotationsByLine.push(cur)
         }
         cur.annotations.push(ann)
     }
 
     for (const { line: lineNum, annotations } of annotationsByLine) {
-        const lineItems = annotations.map(ann => ann.item)
         const line = state.doc.line(lineNum + 1)
         const indent = line.text.match(/^\s*/)?.[0]
         builder.add(
             line.from,
             line.from,
             Decoration.widget({
-                widget: new BlockWidget(lineItems, indent, config),
+                widget: new BlockWidget(annotations, indent, config),
             })
         )
     }

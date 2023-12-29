@@ -16,10 +16,10 @@ describe('helloWorld', () => {
             )
         ).toStrictEqual<AnnotationsResult>([
             {
-                item: {
-                    title: '✨ Hello, world!',
+                title: '✨ Hello, world!',
+                url: 'https://opencodegraph.org',
+                ui: {
                     detail: 'From OpenCodeGraph',
-                    url: 'https://opencodegraph.org',
                 },
                 range: {
                     start: { line: 0, character: 0 },
@@ -27,10 +27,10 @@ describe('helloWorld', () => {
                 },
             },
             {
-                item: {
-                    title: '✨ Hello, world!',
+                title: '✨ Hello, world!',
+                url: 'https://opencodegraph.org',
+                ui: {
                     detail: 'From OpenCodeGraph',
-                    url: 'https://opencodegraph.org',
                 },
                 range: {
                     start: { line: 10, character: 0 },

@@ -58,7 +58,7 @@ async function getProviders(): Promise<Record<string, ProviderSettings | boolean
     })
     for (const [path, url] of Object.entries(providerModules)) {
         const providerUri = new URL(await url(), import.meta.url).toString()
-        const settings = providerSettings[path] ?? true
+        const settings = providerSettings[path] ?? false // TODO(sqs): back to true
         delete providerSettings[path]
         providerSettings[providerUri] = settings
     }

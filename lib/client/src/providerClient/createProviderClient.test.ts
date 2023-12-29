@@ -17,7 +17,7 @@ describe('createProviderClient', () => {
             await pc.annotations({ file: 'file:///foo', content: 'A\nB\nC\nD' }, settings)
         ).toStrictEqual<AnnotationsResult | null>([
             {
-                item: { title: 'ABC' },
+                title: 'ABC',
                 range: { start: { line: 1, character: 2 }, end: { line: 3, character: 4 } },
             },
         ])
