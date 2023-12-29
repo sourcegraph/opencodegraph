@@ -66,7 +66,7 @@ export const baseTheme = EditorView.baseTheme({
             backgroundColor: '#00000022',
         },
     },
-    [hackRootCssSelector('.ocg-chip-popover')]: {
+    '.ocg-chip-popover': {
         backgroundColor: '#000000',
         color: 'white',
         border: 'solid 1px #ffffff22',
@@ -83,10 +83,3 @@ export const baseTheme = EditorView.baseTheme({
         },
     },
 })
-
-function hackRootCssSelector(cssSelector: string): string {
-    // CodeMirror tries to namespace all selectors, but this hacks around it by tricking it so that
-    // we can define a root CSS rule. This is necessary because the ItemChip popover is rendered in
-    // a portal, which is not in the CodeMirror editor's DOM tree.
-    return `.a{} ${cssSelector}`
-}
