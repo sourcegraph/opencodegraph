@@ -36,10 +36,8 @@ var histogram = promauto.NewHistogram(prometheus.HistogramOpts{
             )
         ).toEqual<AnnotationsResult>([
             {
-                item: {
-                    title: '📟 Prometheus metric: random_numbers',
-                    url: 'https://example.com/?q=random_numbers',
-                },
+                title: '📟 Prometheus metric: random_numbers',
+                url: 'https://example.com/?q=random_numbers',
                 range: {
                     start: { line: 2, character: 14 },
                     end: { line: 2, character: 28 },

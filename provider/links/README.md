@@ -78,7 +78,7 @@ interface LinkPattern {
   /** URL of the link. */
   url: string
 
-  /** A description of the link's destination. */
+  /** A description of the link's destination. Markdown is supported. */
   description?: string
 
   /** The type of link (if applicable), which may affect the appearance. */

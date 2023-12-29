@@ -42,6 +42,7 @@ export const Image: Story = {
             ...FIXTURE_ANN,
             ui: {
                 detail: '<img src="https://lh3.googleusercontent.com/d_S5gxu_S1P6NR1gXeMthZeBzkrQMHdI5uvXrpn3nfJuXpCjlqhLQKH_hbOxTHxFhp5WugVOEcl4WDrv9rmKBDOMExhKU5KmmLFQVg" width=512 height=300 />',
+                format: 'markdown',
             },
         } satisfies Annotation,
     },

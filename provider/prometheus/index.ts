@@ -83,10 +83,8 @@ const prometheus: Provider<Settings> = {
             const ranges = matchResults(pattern, params.content, positionCalculator)
             for (const { range, metricName } of ranges) {
                 anns.push({
-                    item: {
-                        title: `📟 Prometheus metric: ${metricName}`,
-                        url: urlTemplate.replaceAll('$1', metricName),
-                    },
+                    title: `📟 Prometheus metric: ${metricName}`,
+                    url: urlTemplate.replaceAll('$1', metricName),
                     range,
                 })
             }

@@ -20,7 +20,7 @@ interface LinkPattern {
     /** URL of the link. */
     url: string
 
-    /** A description of the link's destination. */
+    /** A description of the link's destination. Markdown is supported. */
     description?: string
 
     /** The type of link (if applicable), which may affect the appearance. */
@@ -88,11 +88,9 @@ const links: Provider<Settings> = {
             const ranges = matchResults(pattern, lines)
             for (const { range, groups } of ranges) {
                 anns.push({
-                    item: {
-                        title: `${type === 'docs' ? '📘 Docs: ' : ''}${interpolate(title, groups)}`,
-                        detail: description ? interpolate(description, groups) : undefined,
-                        url: interpolate(url, groups),
-                    },
+                    title: `${type === 'docs' ? '📘 Docs: ' : ''}${interpolate(title, groups)}`,
+                    url: interpolate(url, groups),
+                    ui: description ? { detail: interpolate(description, groups), format: 'markdown' } : undefined,
                     range,
                 })
             }

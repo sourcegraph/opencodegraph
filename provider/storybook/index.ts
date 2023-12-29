@@ -3,7 +3,6 @@ import {
     type AnnotationsResult,
     type CapabilitiesParams,
     type CapabilitiesResult,
-    type ItemImage,
     type Provider,
     type Range,
 } from '@opencodegraph/provider'
@@ -58,12 +57,11 @@ const storybook: Provider<Settings> = {
                 for (const [i, story] of matches.entries()) {
                     const storyName = getStoryNameAlias(story, params.content)
                     const storyURL = chromaticStoryURL(component, storyName, settings)
+                    const detail = await getImagePreviewMarkdown(storyURL)
                     anns.push({
-                        item: {
-                            title: `🖼️ Storybook: ${component}/${storyName}`,
-                            url: storyURL,
-                            image: await getImagePreview(storyURL),
-                        },
+                        title: `🖼️ Storybook: ${component}/${storyName}`,
+                        url: storyURL,
+                        ui: detail ? { detail, format: 'markdown' } : undefined,
                         range: ranges[i],
                     })
                 }
@@ -81,12 +79,11 @@ const storybook: Provider<Settings> = {
                 if (storyTitle) {
                     const story = 'Default'
                     const storyURL = chromaticStoryURL(storyTitle, story, settings)
+                    const detail = await getImagePreviewMarkdown(storyURL)
                     anns.push({
-                        item: {
-                            title: `🖼️ Storybook: ${storyTitle}`,
-                            url: storyURL,
-                            image: await getImagePreview(storyURL),
-                        },
+                        title: `🖼️ Storybook: ${storyTitle}`,
+                        url: storyURL,
+                        ui: detail ? { detail, format: 'markdown' } : undefined,
                         range: ranges[i],
                     })
                 }
@@ -155,7 +152,7 @@ function chromaticStoryURL(component: string, story: string, settings: Settings)
     return url.toString()
 }
 
-async function getImagePreview(storyUrlStr: string): Promise<ItemImage | undefined> {
+async function getImagePreviewMarkdown(storyUrlStr: string): Promise<string | undefined> {
     const storyUrl = new URL(storyUrlStr)
     if (!storyUrl.hostname.endsWith('.chromatic.com')) {
         return undefined // only oEmbed for Chromatic is supported
@@ -195,14 +192,28 @@ async function getImagePreview(storyUrlStr: string): Promise<ItemImage | undefin
 
     const oembedData = (await resp.json()) as OEmbedData
     if (oembedData.thumbnail_url) {
-        return {
-            url: oembedData.thumbnail_url,
-            width: oembedData.thumbnail_width,
-            height: oembedData.thumbnail_height,
-            alt: oembedData.title,
-        }
+        const attrs = [
+            `src="${escapeHTMLAttributeValue(oembedData.thumbnail_url)}"`,
+            oembedData.title && `alt="${escapeHTMLAttributeValue(oembedData.title)}"`,
+            oembedData.thumbnail_width && `width="${escapeHTMLAttributeValue(oembedData.thumbnail_width.toString())}"`,
+            oembedData.thumbnail_height &&
+                `height="${escapeHTMLAttributeValue(oembedData.thumbnail_height.toString())}"`,
+        ]
+        return `<img ${attrs.filter(a => a).join(' ')} />`
     }
     return undefined
+}
+
+const HTML_ESCAPES: { [char: string]: string } = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&#39;',
+    '"': '&quot;',
+}
+
+function escapeHTMLAttributeValue(text: string): string {
+    return text.replaceAll(/["&'<>]/g, tag => HTML_ESCAPES[tag])
 }
 
 /**

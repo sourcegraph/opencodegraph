@@ -53,15 +53,11 @@ export const Bar: Story = {}
                 )
             ).toEqual<AnnotationsResult>([
                 {
-                    item: {
-                        title: '🖼️ Storybook: a/b/Foo',
-                        url: 'https://main--abc123.chromatic.com/?path=%2Fstory%2Fa-b--foo',
-                        image: {
-                            url: 'https://example.com/thumbnail.png',
-                            alt: 'chromatic-oembed-image',
-                            width: 400,
-                            height: 300,
-                        },
+                    title: '🖼️ Storybook: a/b/Foo',
+                    url: 'https://main--abc123.chromatic.com/?path=%2Fstory%2Fa-b--foo',
+                    ui: {
+                        detail: '<img src="https://example.com/thumbnail.png" alt="chromatic-oembed-image" width="400" height="300" />',
+                        format: 'markdown',
                     },
                     range: {
                         start: { line: 5, character: 13 },
@@ -69,10 +65,8 @@ export const Bar: Story = {}
                     },
                 },
                 {
-                    item: {
-                        title: '🖼️ Storybook: a/b/Bar',
-                        url: 'https://main--abc123.chromatic.com/?path=%2Fstory%2Fa-b--bar',
-                    },
+                    title: '🖼️ Storybook: a/b/Bar',
+                    url: 'https://main--abc123.chromatic.com/?path=%2Fstory%2Fa-b--bar',
                     range: {
                         start: { line: 7, character: 13 },
                         end: { line: 7, character: 16 },
