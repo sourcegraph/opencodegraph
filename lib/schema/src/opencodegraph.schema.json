@@ -30,7 +30,7 @@
         },
         "ui": {
           "description": "The human user interface of the annotation, with information for human consumption.",
-          "$ref": "#/definitions/AnnotationUI"
+          "$ref": "#/definitions/UserInterface"
         },
         "ai": {
           "description": "Information from the annotation intended for consumption by AI, not humans.222",
@@ -42,7 +42,7 @@
         }
       }
     },
-    "AnnotationUI": {
+    "UserInterface": {
       "description": "The human user interface of an annotation, with information for human consumption.",
       "type": "object",
       "additionalProperties": false,
@@ -55,6 +55,10 @@
           "description": "The format of the title and description (Markdown or plain text).",
           "type": "string",
           "enum": ["markdown", "plaintext"]
+        },
+        "group": {
+          "description": "If set, this annotation is grouped together with all other annotations with the same `group` value.",
+          "type": "string"
         }
       }
     },

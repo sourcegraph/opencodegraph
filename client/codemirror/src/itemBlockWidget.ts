@@ -1,6 +1,6 @@
 import { RangeSetBuilder, type EditorState, type Extension } from '@codemirror/state'
 import { Decoration, EditorView, WidgetType, type DecorationSet } from '@codemirror/view'
-import { type Annotation, type Item } from '@opencodegraph/client'
+import { type Annotation } from '@opencodegraph/client'
 import deepEqual from 'deep-equal'
 import { openCodeGraphDataFacet, type OpenCodeGraphDecorationsConfig } from './extension'
 
@@ -9,7 +9,7 @@ class BlockWidget extends WidgetType {
     private decoration: ReturnType<OpenCodeGraphDecorationsConfig['createDecoration']> | undefined
 
     constructor(
-        private readonly items: Item[],
+        private readonly anns: Annotation[],
         private readonly indent: string | undefined,
         private readonly config: OpenCodeGraphDecorationsConfig
     ) {
@@ -17,7 +17,7 @@ class BlockWidget extends WidgetType {
     }
 
     public eq(other: BlockWidget): boolean {
-        return this.config.visibility === other.config.visibility && deepEqual(this.items, other.items)
+        return this.config.visibility === other.config.visibility && deepEqual(this.anns, other.anns)
     }
 
     public toDOM(): HTMLElement {
@@ -25,7 +25,7 @@ class BlockWidget extends WidgetType {
             this.container = document.createElement('div')
             this.decoration = this.config.createDecoration(this.container, {
                 indent: this.indent,
-                items: this.items,
+                annotations: this.anns,
             })
         }
         return this.container

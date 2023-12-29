@@ -16,14 +16,14 @@ export interface Annotation {
      * An external URL with more information about the annotation.
      */
     url?: string
-    ui?: AnnotationUI
+    ui?: UserInterface
     ai?: AssistantInfo
     range?: Range
 }
 /**
  * The human user interface of the annotation, with information for human consumption.
  */
-export interface AnnotationUI {
+export interface UserInterface {
     /**
      * Text containing additional details for the human, shown when they interact with the annotation.
      */
@@ -32,6 +32,10 @@ export interface AnnotationUI {
      * The format of the title and description (Markdown or plain text).
      */
     format?: 'markdown' | 'plaintext'
+    /**
+     * If set, this annotation is grouped together with all other annotations with the same `group` value.
+     */
+    group?: string
 }
 /**
  * Information from the annotation intended for consumption by AI, not humans.222

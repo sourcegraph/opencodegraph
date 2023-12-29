@@ -32,7 +32,7 @@ const ocgExtension: Extension = [
     openCodeGraphData(annotations),
     showOpenCodeGraphDecorations({
         visibility: true,
-        createDecoration(container, { items }) {
+        createDecoration(container, { annotations: items }) {
             const div = document.createElement('div')
             div.style.display = 'flex'
             div.style.gap = '1rem'

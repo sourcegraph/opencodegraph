@@ -1,6 +1,6 @@
 import { Facet, type Extension } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
-import { type Annotation, type Item } from '@opencodegraph/client'
+import { type Annotation } from '@opencodegraph/client'
 import { openCodeGraphWidgets } from './itemBlockWidget'
 
 export interface OpenCodeGraphDecorationsConfig {
@@ -12,7 +12,7 @@ export interface OpenCodeGraphDecorationsConfig {
              */
             indent: string | undefined
 
-            items: Item[]
+            annotations: Annotation[]
         }
     ) => { destroy?: () => void }
 

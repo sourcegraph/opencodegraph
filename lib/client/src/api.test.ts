@@ -13,7 +13,7 @@ const FIXTURE_PARAMS: AnnotationsParams = {
 function fixtureProviderResult(label: string): AnnotationsResult {
     return [
         {
-            item: { title: label.toUpperCase() },
+            title: label.toUpperCase(),
             range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } },
         },
     ]
@@ -21,7 +21,7 @@ function fixtureProviderResult(label: string): AnnotationsResult {
 
 function fixtureResult(label: string): Annotation {
     return {
-        item: { title: label.toUpperCase() },
+        title: label.toUpperCase(),
         range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } },
     }
 }

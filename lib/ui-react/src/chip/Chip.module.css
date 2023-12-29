@@ -1,6 +1,6 @@
 /* TODO(sqs): dedupe with ui-standalone */
 
-.item {
+.chip {
     display: inline-flex;
     flex-direction: column;
     position: relative;
@@ -9,11 +9,7 @@
     padding: 2px 3px;
 }
 
-.item--has-detail {
-    cursor: pointer;
-}
-
-.item-header {
+.chip-header {
     display: flex;
     justify-content: space-between;
 }

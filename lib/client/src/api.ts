@@ -1,5 +1,5 @@
 import { type AnnotationsParams, type AnnotationsResult, type ProviderSettings } from '@opencodegraph/protocol'
-import { type Item, type Range } from '@opencodegraph/schema'
+import { type Annotation as AnnotationWithPlainRange, type Range } from '@opencodegraph/schema'
 import {
     catchError,
     combineLatest,
@@ -19,9 +19,8 @@ import { type ProviderClient } from './providerClient/createProviderClient'
 /**
  * An OpenCodeGraph annotation.
  */
-export interface Annotation<R extends Range = Range> {
-    item: Item
-    range: R
+export interface Annotation<R extends Range = Range> extends Omit<AnnotationWithPlainRange, 'range'> {
+    range: R | undefined
 }
 
 /**
@@ -67,21 +66,13 @@ export function observeAnnotations<R extends Range>(
         map(result => result.filter((v): v is AnnotationsResult => v !== null).flat()),
         map(anns =>
             anns
-                .map(ann => ({ ...ann, range: makeRange(ann.range) }))
+                .map(ann => ({ ...ann, range: ann.range ? makeRange(ann.range) : undefined }))
                 .sort((a, b) => {
-                    if (a.range.start.line < b.range.start.line) {
-                        return -1
+                    const lineCmp = (a.range?.start.line ?? 0) - (b.range?.start.line ?? 0)
+                    if (lineCmp !== 0) {
+                        return lineCmp
                     }
-                    if (a.range.start.line > b.range.start.line) {
-                        return 1
-                    }
-                    if (a.range.start.character < b.range.start.character) {
-                        return -1
-                    }
-                    if (a.range.start.character > b.range.start.character) {
-                        return 1
-                    }
-                    return 0
+                    return (a.range?.start.character ?? 0) - (b.range?.start.character ?? 0)
                 })
         )
     )
