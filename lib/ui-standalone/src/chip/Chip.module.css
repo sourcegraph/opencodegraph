@@ -46,17 +46,6 @@
     margin: 0;
 }
 
-.image-container {
-    max-width: 32rem;
-    overflow: hidden;
-}
-
-.image {
-    height: 100%;
-    width: 100%;
-    object-fit: contain;
-}
-
 .stretched-link::after {
     position: absolute;
     top: 0;

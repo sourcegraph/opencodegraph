@@ -28,7 +28,7 @@ export const Chip: FunctionComponent<{
                 <Popover anchor={anchorRef.current} visible={popoverVisible}>
                     <aside className={classNames(styles.popoverContent, popoverClassName)}>
                         {/* TODO(sqs): support markdown */}
-                        {annotation.ui?.detail}
+                        <p className={styles.detail}>{annotation.ui?.detail}</p>
                     </aside>
                 </Popover>
             )}
@@ -37,7 +37,7 @@ export const Chip: FunctionComponent<{
 }
 
 /**
- * A list of OpenCodeGraph chips.
+ * A list of OpenCodeGraph annotations (displayed as "chips").
  */
 export const ChipList: FunctionComponent<{
     annotations: Annotation[]

@@ -1,8 +1,8 @@
 import { type FunctionComponent, type ReactNode } from 'react'
 
 /**
- * Indents its content by the specified whitespace. This is used to align OCG item chips with the
- * non-whitespace characters on the line they're attached to.
+ * Indents its content by the specified whitespace. This is used to align OpenCodeGraph chips with
+ * the non-whitespace characters on the line they're attached to.
  */
 export const IndentationWrapper: FunctionComponent<{
     indent: string | undefined
