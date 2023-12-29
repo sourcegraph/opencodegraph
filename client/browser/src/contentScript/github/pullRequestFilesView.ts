@@ -1,5 +1,5 @@
 import { type Annotation, type AnnotationsParams } from '@opencodegraph/client'
-import { createItemChipList } from '@opencodegraph/ui-standalone'
+import { createChipList } from '@opencodegraph/ui-standalone'
 import { combineLatest, EMPTY, filter, fromEvent, map, mergeMap, startWith, tap, type Observable } from 'rxjs'
 import { DEBUG, debugTap } from '../debug'
 import { withDOMElements } from '../detectElements'
@@ -82,7 +82,7 @@ function redraw(file: DiffViewFileVersionData, annotations: Annotation[]): void 
             chipListEl.remove()
         }
 
-        const chipList = createItemChipList(
+        const chipList = createChipList(
             styledItemChipListParams({
                 annotations: lineAnnotations.map(ann => ann.item),
             })

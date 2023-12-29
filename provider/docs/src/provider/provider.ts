@@ -1,10 +1,5 @@
 /* eslint-disable import/no-default-export */
-import {
-    type AnnotationsParams,
-    type AnnotationsResult,
-    type CapabilitiesResult,
-    type Item,
-} from '@opencodegraph/provider'
+import { type AnnotationsParams, type AnnotationsResult, type CapabilitiesResult } from '@opencodegraph/provider'
 import { indexCorpus } from '../corpus'
 import { createIndexedDBCorpusCache } from '../corpus/cache/indexedDb'
 import { createWebStorageCorpusCache } from '../corpus/cache/localStorage'
@@ -61,7 +56,7 @@ export default multiplex<Settings>(async settings => {
             const searchResults = await index.search(params.content)
             console.timeEnd('search')
 
-            const result: AnnotationsResult = { items: [], annotations: [] }
+            const result: AnnotationsResult = []
             for (const [i, sr] of searchResults.entries()) {
                 const MAX_RESULTS = 4
                 if (i >= MAX_RESULTS) {
@@ -69,19 +64,10 @@ export default multiplex<Settings>(async settings => {
                 }
 
                 const doc = index.doc(sr.doc)
-                const item: Item = {
-                    id: i.toString(),
+                result.push({
                     title: truncate(doc.content?.title || doc.doc.url || 'Untitled', 50),
-                    detail: truncate(doc.content?.textContent || sr.excerpt, 100),
                     url: doc.doc.url,
-                }
-                result.items.push(item)
-                result.annotations.push({
-                    item: { id: item.id },
-                    range: {
-                        start: { line: 0, character: 0 },
-                        end: { line: 0, character: 0 },
-                    },
+                    ui: { detail: truncate(doc.content?.textContent || sr.excerpt, 100) },
                 })
             }
             return result

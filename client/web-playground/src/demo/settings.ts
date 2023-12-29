@@ -5,19 +5,19 @@ const USE_STORED_CORPUS = true
 async function getProviders(): Promise<Record<string, ProviderSettings | boolean>> {
     const providerSettings: Record<string, ProviderSettings | boolean> = {
         '../../../../provider/hello-world/index.ts': true,
-        // '../../../../provider/docs/src/provider/provider.ts': {
-        //     corpus: USE_STORED_CORPUS
-        //         ? {
-        //               url: new URL(
-        //                   'tmp-ocg-provider-docs/sourcegraph-docs-old-web-corpus.json',
-        //                   import.meta.url
-        //               ).toString(),
-        //           }
-        //         : {
-        //               entryPage: 'http://localhost:5800/docs/start',
-        //               prefix: 'http://localhost:5800/docs',
-        //           },
-        // } satisfies import('@opencodegraph/provider-docs').Settings,
+        '../../../../provider/docs/src/provider/provider.ts': {
+            corpus: USE_STORED_CORPUS
+                ? {
+                      url: new URL(
+                          'tmp-ocg-provider-docs/sourcegraph-docs-old-web-corpus.json',
+                          import.meta.url
+                      ).toString(),
+                  }
+                : {
+                      entryPage: 'http://localhost:5800/docs/start',
+                      prefix: 'http://localhost:5800/docs',
+                  },
+        } satisfies import('@opencodegraph/provider-docs').Settings,
         '../../../../provider/links/index.ts': {
             links: [
                 {
