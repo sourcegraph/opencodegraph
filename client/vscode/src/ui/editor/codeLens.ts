@@ -36,18 +36,18 @@ export function createCodeLensProvider(controller: Controller): vscode.CodeLensP
 
 function createCodeLens(
     doc: vscode.TextDocument,
-    { item, range }: Annotation<vscode.Range>,
+    ann: Annotation<vscode.Range>,
     showHover: ReturnType<typeof createShowHoverCommand>
 ): CodeLens {
+    const range = ann.range ?? new vscode.Range(0, 0, 0, 0)
     return {
         range,
         command: {
-            title: item.title,
-            tooltip: item.detail,
-            ...(item.image
+            title: ann.title,
+            ...(ann.ui?.detail
                 ? showHover.createCommandArgs(doc.uri, range.start)
-                : item.url
-                ? openWebBrowserCommandArgs(item.url)
+                : ann.url
+                ? openWebBrowserCommandArgs(ann.url)
                 : { command: 'noop' }),
         },
         isResolved: true,

@@ -5,8 +5,9 @@ export function annotationsByLine(annotations: Annotation[]): { line: number; an
     const byLine: { line: number; annotations: Annotation[] }[] = []
     for (const ann of annotations) {
         let cur = byLine.at(-1)
-        if (!cur || cur.line !== ann.range.start.line) {
-            cur = { line: ann.range.start.line, annotations: [] }
+        const startLine = ann.range?.start.line ?? 0
+        if (!cur || cur.line !== startLine) {
+            cur = { line: startLine, annotations: [] }
             byLine.push(cur)
         }
         cur.annotations.push(ann)
