@@ -17,7 +17,7 @@
       "description": "An annotation describes information relevant to a file (or a range within a file).",
       "type": "object",
       "additionalProperties": false,
-      "required": [],
+      "required": ["title"],
       "properties": {
         "title": {
           "description": "A descriptive title of the annotation.",

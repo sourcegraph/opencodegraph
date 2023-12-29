@@ -20,8 +20,6 @@ export const Chip: FunctionComponent<{
 
     const anchorRef = useRef<HTMLElement>(null)
 
-    // TODO(sqs): handle no title
-
     return (
         <aside className={classNames(styles.chip, className)} ref={anchorRef}>
             <header onMouseEnter={showPopover} onMouseLeave={hidePopover} onFocus={showPopover} onBlur={hidePopover}>

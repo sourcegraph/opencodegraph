@@ -93,15 +93,15 @@ export function createExtension(client: Client<MonacoRange>): MonacoExtension {
 function toCodeLens(ann: Annotation<MonacoRange>): monaco.languages.CodeLens {
     return {
         command: {
-            title: ann.item.title,
-            tooltip: ann.item.detail,
-            ...(ann.item.url
+            title: ann.title,
+            tooltip: ann.ui?.detail,
+            ...(ann.url
                 ? {
                       id: OPEN_URL_COMMAND,
-                      arguments: [ann.item.url],
+                      arguments: [ann.url],
                   }
                 : { id: 'noop' }),
         },
-        range: ann.range,
+        range: ann.range ?? new MonacoRange(0, 0, 0, 0),
     }
 }

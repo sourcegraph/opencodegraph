@@ -11,7 +11,7 @@ export interface Annotation {
     /**
      * A descriptive title of the annotation.
      */
-    title?: string
+    title: string
     /**
      * An external URL with more information about the annotation.
      */

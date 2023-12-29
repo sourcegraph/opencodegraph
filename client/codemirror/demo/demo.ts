@@ -39,7 +39,7 @@ const ocgExtension: Extension = [
 
             for (const ann of annotations) {
                 const el = document.createElement(ann.url ? 'a' : 'span')
-                el.innerText = ann.title ?? 'Untitled'
+                el.innerText = ann.title
                 if (ann.ui?.detail) {
                     el.title = ann.ui?.detail
                 }
