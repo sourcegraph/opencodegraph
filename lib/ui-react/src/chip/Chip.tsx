@@ -11,9 +11,7 @@ export const Chip: FunctionComponent<{
     annotation: Annotation
     className?: string
     popoverClassName?: string
-}> = ({ annotation: ann, className, popoverClassName }) => {
-    const hasDetail = Boolean(ann.ui?.detail)
-
+}> = ({ annotation, className, popoverClassName }) => {
     const [popoverVisible, setPopoverVisible] = useState(false)
     const showPopover = useCallback((): void => setPopoverVisible(true), [])
     const hidePopover = useCallback((): void => setPopoverVisible(false), [])
@@ -23,14 +21,14 @@ export const Chip: FunctionComponent<{
     return (
         <aside className={classNames(styles.chip, className)} ref={anchorRef}>
             <header onMouseEnter={showPopover} onMouseLeave={hidePopover} onFocus={showPopover} onBlur={hidePopover}>
-                <h4 className={styles.title}>{ann.title}</h4>
-                {ann.url && <a className={styles.stretchedLink} aria-hidden={true} href={ann.url} />}
+                <h4 className={styles.title}>{annotation.title}</h4>
+                {annotation.url && <a className={styles.stretchedLink} aria-hidden={true} href={annotation.url} />}
             </header>
-            {hasDetail && anchorRef.current && (
+            {annotation.ui?.detail && anchorRef.current && (
                 <Popover anchor={anchorRef.current} visible={popoverVisible}>
                     <aside className={classNames(styles.popoverContent, popoverClassName)}>
-                        {/* TODO(sqs): markdown */}
-                        {ann.ui?.detail}
+                        {/* TODO(sqs): support markdown */}
+                        {annotation.ui?.detail}
                     </aside>
                 </Popover>
             )}

@@ -84,7 +84,7 @@ function redraw(file: DiffViewFileVersionData, annotations: Annotation[]): void 
 
         const chipList = createItemChipList(
             styledItemChipListParams({
-                items: lineAnnotations.map(ann => ann.item),
+                annotations: lineAnnotations.map(ann => ann.item),
             })
         )
         lineEl.append(chipList)

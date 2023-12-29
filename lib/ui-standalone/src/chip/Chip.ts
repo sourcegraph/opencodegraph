@@ -1,53 +1,51 @@
-import { type Item } from '@opencodegraph/schema'
+import { type Annotation } from '@opencodegraph/schema'
 import clsx from 'clsx'
-import styles from './ItemChip.module.css'
+import styles from './Chip.module.css'
 import { getPopoverDimensions } from './popover'
 
 /**
- * A single OpenCodeGraph item, displayed as a "chip".
+ * A single OpenCodeGraph annotation, displayed as a "chip".
  */
-export function createItemChip({
-    item,
+export function createChip({
+    annotation,
     className,
     popoverClassName,
 }: {
-    item: Item
+    annotation: Annotation
     className?: string
     popoverClassName?: string
 }): HTMLElement {
-    const hasDetail = Boolean(item.detail || item.image)
-
     const el = document.createElement('aside')
-    el.className = clsx(styles.item, hasDetail ? styles.itemHasDetail : null, className)
+    el.className = clsx(styles.item, className)
 
     const headerEl = document.createElement('header')
 
     const titleEl = document.createElement('h4')
     titleEl.className = styles.title
-    titleEl.innerText = item.title
+    titleEl.innerText = annotation.title
     headerEl.append(titleEl)
 
-    if (item.url) {
+    if (annotation.url) {
         const linkEl = document.createElement('a')
         linkEl.className = styles.stretchedLink
         linkEl.ariaHidden = 'true'
-        linkEl.href = item.url
+        linkEl.href = annotation.url
         headerEl.append(linkEl)
     }
 
-    if (item.url || hasDetail) {
+    if (annotation.url || annotation.ui) {
         headerEl.tabIndex = 0
     }
 
     el.append(headerEl)
 
-    if (hasDetail) {
+    if (annotation.ui?.detail) {
         const popoverEl = document.createElement('div')
         popoverEl.popover = 'auto'
         popoverEl.className = styles.popover
         popoverEl.append(
             createPopoverContent({
-                ...item,
+                ui: annotation.ui,
                 className: popoverClassName,
             })
         )
@@ -80,10 +78,10 @@ export function createItemChip({
 }
 
 function createPopoverContent({
-    detail,
-    image,
+    ui: { detail },
     className,
-}: Pick<Item, 'detail' | 'image'> & { className?: string }): HTMLElement {
+}: { ui: NonNullable<Annotation['ui']> } & { className?: string }): HTMLElement {
+    // TODO(sqs): support markdown
     const el = document.createElement('aside')
     el.className = clsx(styles.popoverContent, className)
 
@@ -93,45 +91,28 @@ function createPopoverContent({
         detailEl.innerText = detail
         el.append(detailEl)
     }
-    if (image) {
-        const imageContainerEl = document.createElement('div')
-        imageContainerEl.className = styles.imageContainer
-
-        const imageEl = document.createElement('img')
-        imageEl.className = styles.image
-        imageEl.src = image.url
-        if (image.width) {
-            imageEl.width = image.width
-        }
-        if (image.height) {
-            imageEl.height = image.height
-        }
-
-        imageContainerEl.append(imageEl)
-        el.append(imageContainerEl)
-    }
 
     return el
 }
 
 /**
- * A list of OCG items.
+ * A list of OpenCodeGraph chips.
  */
-export function createItemChipList({
-    items,
+export function createChipList({
+    annotations,
     className,
     chipClassName,
     popoverClassName,
 }: {
-    items: Item[]
+    annotations: Annotation[]
     className?: string
     chipClassName?: string
     popoverClassName?: string
 }): HTMLElement {
     const el = document.createElement('div')
     el.className = clsx(styles.list, className)
-    for (const item of items) {
-        el.append(createItemChip({ item, className: chipClassName, popoverClassName }))
+    for (const annotation of annotations) {
+        el.append(createChip({ annotation, className: chipClassName, popoverClassName }))
     }
     return el
 }

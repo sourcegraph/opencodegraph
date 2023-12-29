@@ -114,7 +114,7 @@ function redraw(annotations: Annotation[]): void {
         if (lineEl) {
             const chipList = createItemChipList(
                 styledItemChipListParams({
-                    items,
+                    annotations: items,
                 })
             )
             lineEl.append(chipList)

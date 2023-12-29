@@ -24,7 +24,7 @@
     "prebuild": "mkdir -p dist && cp -R src/* dist/ && find dist/ -name '*.ts' -not -name '*.d.ts' -delete",
     "build": "pnpm run --silent prebuild && tsc --build",
     "test": "vitest",
-    "storybook": "storybook dev --no-open --no-version-updates --no-release-notes",
+    "storybook": "storybook dev --no-version-updates",
     "prepublishOnly": "tsc --build --clean && pnpm run build"
   },
   "dependencies": {
