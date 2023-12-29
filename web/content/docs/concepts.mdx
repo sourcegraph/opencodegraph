@@ -5,22 +5,22 @@ export const info = {
 
 # Concepts
 
-## Items and annotations
+## Annotations
 
-An **item** is a piece of information that is relevant to parts of a code file, such as:
+An annotation is some information that is relevant to parts of a code file, such as:
 
 - A link to an internal wiki page with documentation about a package
 - A link to live logs being printed by a logging statement
 - A design mockup (image) showing how a UI component should appear
 - A user analytics chart showing how often a certain UI button is pressed
 
-The item describes how to present the information to the user and exposes raw information to code AI tools.
+The annotation describes how to present the information to the user and exposes raw information to code AI tools.
 
-An **annotation** attaches an item to one or more ranges in a code file.
+See the [protocol documentation](protocol.mdx) for the schema of annotations.
 
 ## Providers
 
-A provider returns information (items and annotations) about a code file.
+A provider returns annotations for a code file.
 
 A provider is just a program that implements the [provider API](protocol.mdx#provider-api), which is basically: "given a file, return a list of annotations (for ranges in the file)".
 

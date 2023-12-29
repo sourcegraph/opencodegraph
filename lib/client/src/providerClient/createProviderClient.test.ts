@@ -10,7 +10,7 @@ function testdataFileUri(file: string): string {
 describe('createProviderClient', () => {
     test('simple', async () => {
         const pc = createProviderClient(testdataFileUri('provider.js'))
-        const settings: ProviderSettings = { myItemTitle: 'ABC' }
+        const settings: ProviderSettings = { myTitle: 'ABC' }
 
         // File URI that satisfies the provider's selector.
         expect(

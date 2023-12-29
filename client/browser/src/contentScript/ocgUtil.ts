@@ -17,7 +17,7 @@ export function annotationsByLine(annotations: Annotation[]): { line: number; an
 
 export const LINE_CHIPS_CLASSNAME = 'ocg-line-chips'
 
-export function styledItemChipListParams(
+export function styledChipListParams(
     params: Omit<Parameters<typeof createChipList>[0], 'className' | 'chipClassName' | 'popoverClassName'>
 ): Parameters<typeof createChipList>[0] {
     return {

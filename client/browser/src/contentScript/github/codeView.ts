@@ -4,7 +4,7 @@ import { combineLatest, debounceTime, EMPTY, map, mergeMap, Observable, startWit
 import { toLineRangeStrings } from '../../shared/util/toLineRangeStrings'
 import { DEBUG, debugTap } from '../debug'
 import { withDOMElement } from '../detectElements'
-import { annotationsByLine, LINE_CHIPS_CLASSNAME, styledItemChipListParams } from '../ocgUtil'
+import { annotationsByLine, LINE_CHIPS_CLASSNAME, styledChipListParams } from '../ocgUtil'
 
 /**
  * Inject OpenCodeGraph features into the GitHub code view.
@@ -110,7 +110,7 @@ function redraw(annotations: Annotation[]): void {
         const lineEl = document.querySelector(`.react-file-line[data-line-number="${line + 1}"]`)
         if (lineEl) {
             const chipList = createChipList(
-                styledItemChipListParams({
+                styledChipListParams({
                     annotations,
                 })
             )

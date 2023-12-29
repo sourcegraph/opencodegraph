@@ -16,7 +16,7 @@ export function createChip({
     popoverClassName?: string
 }): HTMLElement {
     const el = document.createElement('aside')
-    el.className = clsx(styles.item, className)
+    el.className = clsx(styles.chip, className)
 
     const headerEl = document.createElement('header')
 

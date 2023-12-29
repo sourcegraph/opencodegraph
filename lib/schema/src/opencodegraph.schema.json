@@ -33,7 +33,7 @@
           "$ref": "#/definitions/UserInterface"
         },
         "ai": {
-          "description": "Information from the annotation intended for consumption by AI, not humans.222",
+          "description": "Information from the annotation intended for consumption by AI, not humans.",
           "$ref": "#/definitions/AssistantInfo"
         },
         "range": {

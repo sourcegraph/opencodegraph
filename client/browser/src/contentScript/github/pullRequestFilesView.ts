@@ -3,7 +3,7 @@ import { createChipList } from '@opencodegraph/ui-standalone'
 import { combineLatest, EMPTY, filter, fromEvent, map, mergeMap, startWith, tap, type Observable } from 'rxjs'
 import { DEBUG, debugTap } from '../debug'
 import { withDOMElements } from '../detectElements'
-import { annotationsByLine, LINE_CHIPS_CLASSNAME, styledItemChipListParams } from '../ocgUtil'
+import { annotationsByLine, LINE_CHIPS_CLASSNAME, styledChipListParams } from '../ocgUtil'
 
 /**
  * Inject OpenCodeGraph features into the GitHub pull request files view.
@@ -55,7 +55,7 @@ export function injectOnGitHubPullRequestFilesView(
     )
 }
 
-function getItemChipListElementsAtEndOfLine(lineEl: HTMLElement): HTMLElement[] {
+function getChipListElementsAtEndOfLine(lineEl: HTMLElement): HTMLElement[] {
     // There might be 2 of these in a unified (non-split) diff, since one was added by each of the old
     // and new file's providers.
     return [
@@ -78,12 +78,12 @@ function redraw(file: DiffViewFileVersionData, annotations: Annotation[]): void 
             continue
         }
 
-        for (const chipListEl of getItemChipListElementsAtEndOfLine(lineEl)) {
+        for (const chipListEl of getChipListElementsAtEndOfLine(lineEl)) {
             chipListEl.remove()
         }
 
         const chipList = createChipList(
-            styledItemChipListParams({
+            styledChipListParams({
                 annotations: lineAnnotations,
             })
         )
@@ -190,7 +190,7 @@ function fileContentFromDiffViewSelector(fileDiffTableEl: HTMLTableElement, sele
     return els
         .map(el => {
             // Ignore innerText from the OCG chip.
-            const chipListEls = getItemChipListElementsAtEndOfLine(el)
+            const chipListEls = getChipListElementsAtEndOfLine(el)
             for (const chipListEl of chipListEls) {
                 chipListEl.hidden = true
             }

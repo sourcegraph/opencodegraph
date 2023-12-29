@@ -98,26 +98,64 @@ interface AnnotationsParams {
 **Response:** `{ result: AnnotationsResult }` or `{ error: { code, integer, data? } }`
 
 ```typescript
-/** Annotations that attach items to specific ranges in the file. */
 type AnnotationsResult = Annotation[]
 
-interface Item {
+/**
+ * An annotation describes information relevant to a file (or a range within a file).
+ */
+interface Annotation {
+  /**
+   * A descriptive title of the annotation.
+   */
   title: string
 
-  /** An external link with more information. */
+  /**
+   * An external URL with more information about the annotation.
+   */
   url?: string
 
-  image?: { url?: string }
+  /**
+   * The human user interface of the annotation, with information for human consumption.
+   */
+  ui?: UserInterface
 
-  // Some fields omitted.
+  /**
+   * Information from the annotation intended for consumption by AI, not humans.
+   */
+  ai?: AssistantInfo
+
+  /**
+   * The range in the file that this annotation applies to. If not set, the annotation applies to the entire file.
+   */
+  range?: { start: Position; end: Position }
 }
 
-interface Annotation {
-  /** The item. */
-  item: Item
+/**
+ * The human user interface of the annotation, with information for human consumption.
+ */
+export interface UserInterface {
+  /**
+   * Text containing additional details for the human, shown when they interact with the annotation.
+   */
+  detail?: string
+  /**
+   * The format of the title and description (Markdown or plain text).
+   */
+  format?: 'markdown' | 'plaintext'
+  /**
+   * If set, this annotation is grouped together with all other annotations with the same `group` value.
+   */
+  group?: string
+}
 
-  /** The range in the file that the item is relevant to. */
-  range: { start: Position; end: Position }
+/**
+ * Information from the annotation intended for consumption by AI, not humans.
+ */
+export interface AssistantInfo {
+  /**
+   * Text content for AI to consume.
+   */
+  content?: string
 }
 
 interface Position {

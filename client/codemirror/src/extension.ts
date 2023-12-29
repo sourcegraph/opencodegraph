@@ -1,14 +1,14 @@
 import { Facet, type Extension } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { type Annotation } from '@opencodegraph/client'
-import { openCodeGraphWidgets } from './itemBlockWidget'
+import { openCodeGraphWidgets } from './blockWidget'
 
 export interface OpenCodeGraphDecorationsConfig {
     createDecoration: (
         container: HTMLElement,
         spec: {
             /**
-             * The leading whitespace on the line of code that the items are attached to.
+             * The leading whitespace on the line of code that the annotations are attached to.
              */
             indent: string | undefined
 
