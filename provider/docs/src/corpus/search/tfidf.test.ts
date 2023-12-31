@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest'
 import { indexCorpus } from '..'
 import { corpusData } from '../data'
-import { calculateTFIDF, createTFIDFIndex } from './tfidf'
+import { calculateTFIDF, computeTFIDF, createTFIDFIndex } from './tfidf'
 
-describe('createIndexForTFIDF', async () => {
+describe('createTFIDFIndex', async () => {
     const data = corpusData([
         { id: 1, text: 'a b c c c' },
         { id: 2, text: 'b c d' },
@@ -11,10 +11,10 @@ describe('createIndexForTFIDF', async () => {
     ])
     const docIDs = data.docs.map(({ id }) => id)
     const index = await indexCorpus(data)
-    const tfidf = createTFIDFIndex(index.docs)
+    const tfidfIndex = createTFIDFIndex(index.docs)
 
     test('term in 1 doc', () => {
-        expect(docIDs.map(docID => tfidf('a', docID, 0))).toEqual([
+        expect(docIDs.map(docID => computeTFIDF('a', docID, 0, tfidfIndex))).toEqual([
             calculateTFIDF({ termOccurrencesInChunk: 1, chunkTermLength: 5, totalChunks: 3, termChunkFrequency: 1 }),
             0,
             0,
@@ -22,7 +22,7 @@ describe('createIndexForTFIDF', async () => {
     })
 
     test('term in all docs', () => {
-        expect(docIDs.map(docID => tfidf('c', docID, 0))).toEqual([
+        expect(docIDs.map(docID => computeTFIDF('c', docID, 0, tfidfIndex))).toEqual([
             calculateTFIDF({ termOccurrencesInChunk: 3, chunkTermLength: 5, totalChunks: 3, termChunkFrequency: 3 }),
             calculateTFIDF({ termOccurrencesInChunk: 1, chunkTermLength: 3, totalChunks: 3, termChunkFrequency: 3 }),
             calculateTFIDF({ termOccurrencesInChunk: 1, chunkTermLength: 3, totalChunks: 3, termChunkFrequency: 3 }),
@@ -30,6 +30,6 @@ describe('createIndexForTFIDF', async () => {
     })
 
     test('unknown term', () => {
-        expect(docIDs.map(docID => tfidf('x', docID, 0))).toEqual([0, 0, 0])
+        expect(docIDs.map(docID => computeTFIDF('x', docID, 0, tfidfIndex))).toEqual([0, 0, 0])
     })
 })
