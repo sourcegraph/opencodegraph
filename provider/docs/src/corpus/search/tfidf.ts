@@ -4,6 +4,8 @@ import { type DocID } from '../doc/doc'
 import { terms, type Term } from './terms'
 
 /**
+ * Index the corpus for fast computation of TF-IDF.
+ *
  * TF-IDF is a way of measuring the relevance of a term to a document in a corpus. See
  * https://en.wikipedia.org/wiki/Tf%E2%80%93idf.
  *
@@ -11,12 +13,7 @@ import { terms, type Term } from './terms'
  * - TF = number of occurrences of term in the chunk / number of (non-unique) terms in the chunk
  * - IDF = log(number of chunks / number of chunks containing the term)
  */
-export type TFIDF = (term: Term, doc: DocID, chunk: ChunkIndex) => number
-
-/**
- * Index the corpus for fast computation of TF-IDF. @see {TFIDF}
- */
-export function createIndexForTFIDF(docs: IndexedDoc[]): TFIDF {
+export function createTFIDFIndex(docs: IndexedDoc[]): TFIDFIndex {
     /**
      * Document -> chunk index -> term -> number of occurrences of term in the chunk.
      *
@@ -68,42 +65,66 @@ export function createIndexForTFIDF(docs: IndexedDoc[]): TFIDF {
         }
     }
 
-    return (termRaw: string, doc: DocID, chunk: ChunkIndex): number => {
-        const processedTerms = terms(termRaw)
-        if (processedTerms.length !== 1) {
-            throw new Error(`term ${JSON.stringify(termRaw)} is not a single term`)
-        }
-        const term = processedTerms[0]
-
-        const docTermLength = termLength.get(doc)
-        if (!docTermLength) {
-            throw new Error(`doc ${doc} not found in termLength`)
-        }
-        if (typeof docTermLength[chunk] !== 'number') {
-            throw new TypeError(`chunk ${chunk} not found in termLength for doc ${doc}`)
-        }
-
-        const docTermFrequency = termFrequency.get(doc)
-        if (!docTermFrequency) {
-            throw new Error(`doc ${doc} not found in termFrequency`)
-        }
-        if (!(docTermFrequency[chunk] instanceof Map)) {
-            throw new TypeError(`chunk ${chunk} not found in termFrequency for doc ${doc}`)
-        }
-
-        return calculateTFIDF({
-            termOccurrencesInChunk: docTermFrequency[chunk].get(term) ?? 0,
-            chunkTermLength: docTermLength[chunk],
-            totalChunks,
-            termChunkFrequency: chunkFrequency.get(term) ?? 0,
-        })
+    return {
+        termFrequency,
+        termLength,
+        totalChunks,
+        chunkFrequency,
     }
 }
 
 /**
- * Calculate TF-IDF given the formula inputs. @see {TFIDF}
+ * An index that can be used to compute TF-IDF for a term. Create the index with
+ * {@link createTFIDFIndex}.
+ */
+export interface TFIDFIndex {
+    termFrequency: Map<DocID, Map<Term, number>[]>
+    termLength: Map<DocID, number[]>
+    totalChunks: number
+    chunkFrequency: Map<Term, number>
+}
+
+/**
+ * Compute the TF-IDF for a term in a document chunk using an index created by
+ * {@link createTFIDFIndex}.
+ */
+export function computeTFIDF(termRaw: string, doc: DocID, chunk: ChunkIndex, index: TFIDFIndex): number {
+    const processedTerms = terms(termRaw)
+    if (processedTerms.length !== 1) {
+        throw new Error(`term ${JSON.stringify(termRaw)} is not a single term`)
+    }
+    const term = processedTerms[0]
+
+    const docTermLength = index.termLength.get(doc)
+    if (!docTermLength) {
+        throw new Error(`doc ${doc} not found in termLength`)
+    }
+    if (typeof docTermLength[chunk] !== 'number') {
+        throw new TypeError(`chunk ${chunk} not found in termLength for doc ${doc}`)
+    }
+
+    const docTermFrequency = index.termFrequency.get(doc)
+    if (!docTermFrequency) {
+        throw new Error(`doc ${doc} not found in termFrequency`)
+    }
+    if (!(docTermFrequency[chunk] instanceof Map)) {
+        throw new TypeError(`chunk ${chunk} not found in termFrequency for doc ${doc}`)
+    }
+
+    return calculateTFIDF({
+        termOccurrencesInChunk: docTermFrequency[chunk].get(term) ?? 0,
+        chunkTermLength: docTermLength[chunk],
+        totalChunks: index.totalChunks,
+        termChunkFrequency: index.chunkFrequency.get(term) ?? 0,
+    })
+}
+
+export type TFIDF = (term: Term, doc: DocID, chunk: ChunkIndex) => number
+
+/**
+ * Calculate TF-IDF given the formula inputs. @see {createTFIDFIndex}
  *
- * Use {@link createIndexForTFIDF} instead of calling this directly.
+ * Use {@link createTFIDFIndex} instead of calling this directly.
  */
 export function calculateTFIDF({
     termOccurrencesInChunk,

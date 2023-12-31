@@ -21,7 +21,7 @@ interface WebCorpusSourceOptions {
     ignore?: string[]
 
     /**
-     * Called to print a log message.
+     * Called to print log messages.
      */
     logger?: Logger
 }

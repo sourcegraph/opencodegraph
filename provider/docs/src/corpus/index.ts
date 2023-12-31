@@ -1,3 +1,4 @@
+import { type Logger } from '../logger'
 import { memo, noopCache, type CorpusCache } from './cache/cache'
 import { type CorpusData } from './data'
 import { chunk, type Chunk, type ChunkIndex } from './doc/chunks'
@@ -43,6 +44,11 @@ export interface CorpusSearchResult {
 export interface IndexOptions {
     cache?: CorpusCache
     contentExtractor?: ContentExtractor
+
+    /**
+     * Called to print log messages.
+     */
+    logger?: Logger
 }
 
 /**
@@ -50,7 +56,7 @@ export interface IndexOptions {
  */
 export async function indexCorpus(
     data: CorpusData,
-    { cache = noopCache, contentExtractor }: IndexOptions = { cache: noopCache }
+    { cache = noopCache, contentExtractor, logger }: IndexOptions = { cache: noopCache }
 ): Promise<CorpusIndex> {
     const indexedDocs: IndexedDoc[] = []
 
@@ -73,7 +79,7 @@ export async function indexCorpus(
             return doc
         },
         search(query) {
-            return multiSearch(index, query, cache)
+            return multiSearch(index, query, { cache, logger })
         },
     }
     return index

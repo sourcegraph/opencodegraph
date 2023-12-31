@@ -47,18 +47,10 @@ export interface Settings {
 
 - [Source code](https://sourcegraph.com/github.com/sourcegraph/opencodegraph/-/tree/provider/docs)
 - [Docs](https://opencodegraph.org/docs/providers/docs)
+- [Roadmap](https://github.com/sourcegraph/opencodegraph/issues/11)
 - License: Apache 2.0
 
 ```
-time p run -s docs-query 'redirect' $(find ~/src/github.com/vikejs/vike/docs/pages -type f)
-time p run -s docs-query 'making provider work in vscode' $(find ../../web/content/docs -type f)
+time p -C provider/docs run -s docs-query 'redirect' $(find ~/src/github.com/vikejs/vike/docs/pages -type f)
+time p -C provider/docs run -s docs-query 'making provider work in vscode' $(find ../../web/content/docs -type f)
 ```
-
-TODOs:
-
-- simplify cache interface
-- deal with different content types (markdown/html) differently
-- make it slurp up gdocs/confluence/markdown in repos
-- show OCG annotations (but in a way that doesn't overlay lines in the file, is more passive?)
-- show a demo of Cody working with this
-- show docs most relevant to the current visible portion or the selection, not the whole file

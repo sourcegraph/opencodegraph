@@ -44,6 +44,7 @@ export default multiplex<Settings>(async settings => {
     const index = await indexCorpus(corpusData(await source.docs()), {
         cache: CORPUS_CACHE,
         contentExtractor: extractContentUsingMozillaReadability,
+        logger: console.debug,
     })
 
     return {

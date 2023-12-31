@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { indexCorpus } from '..'
 import { corpusData } from '../data'
-import { calculateTFIDF, createIndexForTFIDF } from './tfidf'
+import { calculateTFIDF, createTFIDFIndex } from './tfidf'
 
 describe('createIndexForTFIDF', async () => {
     const data = corpusData([
@@ -11,7 +11,7 @@ describe('createIndexForTFIDF', async () => {
     ])
     const docIDs = data.docs.map(({ id }) => id)
     const index = await indexCorpus(data)
-    const tfidf = createIndexForTFIDF(index.docs)
+    const tfidf = createTFIDFIndex(index.docs)
 
     test('term in 1 doc', () => {
         expect(docIDs.map(docID => tfidf('a', docID, 0))).toEqual([

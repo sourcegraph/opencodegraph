@@ -23,10 +23,23 @@ export function scopedCache<T>(cache: CorpusCache<unknown>, scope: string): Corp
     function scopedKey(key: string): string {
         return `${scope}-${key}`
     }
-    return {
+    const scopedCache = {
         get: async (contentID, key) => cache.get(contentID, scopedKey(key)) as Promise<T | null>,
         set: async (contentID, key, value) => cache.set(contentID, scopedKey(key), value),
+        scope,
+    } satisfies CorpusCache<T> & ScopedCache
+    return scopedCache
+}
+
+interface ScopedCache {
+    scope: string
+}
+
+function cacheScope(cache: CorpusCache<unknown>): string | null {
+    function isScopedCache(cache: CorpusCache<unknown>): cache is ScopedCache & CorpusCache<unknown> {
+        return 'scope' in cache && typeof cache.scope === 'string'
     }
+    return isScopedCache(cache) ? cache.scope : null
 }
 
 /**
@@ -55,10 +68,10 @@ export async function memo<T>(
     const cid = await contentID(text)
     const memoized = await (cache as CorpusCache<T>).get(cid, key)
     if (memoized !== null) {
-        // console.log('HIT')
+        console.log(`cache:${cacheScope(cache)} HIT`)
         return fromJSONValue ? fromJSONValue(memoized) : memoized
     }
-    // console.log('MISS')
+    console.log(`cache:${cacheScope(cache)} MISS`)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const result = await fn()
     await (cache as CorpusCache<T>).set(cid, key, toJSONValue ? toJSONValue(result) : result)

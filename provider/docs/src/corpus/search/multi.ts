@@ -1,9 +1,15 @@
 import { type CorpusIndex, type CorpusSearchResult } from '..'
+import { type Logger } from '../../logger'
 import { scopedCache, type CorpusCache } from '../cache/cache'
 import { type ChunkIndex } from '../doc/chunks'
 import { type DocID } from '../doc/doc'
 import { embeddingsSearch } from './embeddings'
 import { keywordSearch } from './keyword'
+
+export interface SearchOptions {
+    cache: CorpusCache
+    logger?: Logger
+}
 
 /**
  * Search using multiple search methods.
@@ -11,11 +17,16 @@ import { keywordSearch } from './keyword'
 export async function multiSearch(
     index: CorpusIndex,
     query: string,
-    cache: CorpusCache
+    { cache, logger }: SearchOptions
 ): Promise<CorpusSearchResult[]> {
     const allResults = (
         await Promise.all(
-            Object.entries(SEARCH_METHODS).map(([name, searchFn]) => searchFn(index, query, scopedCache(cache, name)))
+            Object.entries(SEARCH_METHODS).map(async ([name, searchFn]) => {
+                const t0 = performance.now()
+                const results = await searchFn(index, query, { cache: scopedCache(cache, name), logger })
+                logger?.(`search[${name}] took ${Math.round(performance.now() - t0)}ms`)
+                return results
+            })
         )
     ).flat()
 
@@ -43,5 +54,5 @@ export async function multiSearch(
 
 const SEARCH_METHODS: Record<
     string,
-    (index: CorpusIndex, query: string, cache: CorpusCache) => CorpusSearchResult[] | Promise<CorpusSearchResult[]>
+    (index: CorpusIndex, query: string, options: SearchOptions) => CorpusSearchResult[] | Promise<CorpusSearchResult[]>
 > = { keywordSearch, embeddingsSearch }
