@@ -22,6 +22,7 @@ export interface Chunk {
  */
 export interface ChunkerHints {
     isMarkdown?: boolean
+    isTargetDoc?: boolean
 }
 
 /**
@@ -34,7 +35,36 @@ export function chunk(text: string, hints: ChunkerHints): Chunk[] {
     if (text.length === 0) {
         return []
     }
+    if (hints.isTargetDoc) {
+        return chunkBySeparator(text, /(?:\r?\n){2,}(?=\S)/, text => text.trim()).filter(
+            chunk => !chunk.text.startsWith('import ')
+        )
+    }
     return [{ text, range: { start: 0, end: text.length } }]
+}
+
+function chunkBySeparator(text: string, separator: RegExp, transform?: (text: string) => string): Chunk[] {
+    const chunks: Chunk[] = []
+    const parts = text.split(new RegExp(`(${separator.source})`, separator.flags))
+    let lastSep: string | undefined
+    for (const [i, part] of parts.entries()) {
+        const isSep = i % 2 === 1
+        if (isSep) {
+            lastSep = part
+        } else {
+            const lastChunkEnd = chunks.at(-1)?.range.end ?? 0
+            const lastSepLength = lastSep?.length ?? 0
+            const text = (lastSep ?? '') + part
+            chunks.push({
+                text: transform ? transform(text) : text,
+                range: {
+                    start: lastChunkEnd + lastSepLength,
+                    end: lastChunkEnd + lastSepLength + part.length,
+                },
+            })
+        }
+    }
+    return chunks
 }
 
 function chunkMarkdown(text: string): Chunk[] {

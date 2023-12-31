@@ -10,3 +10,5 @@ export type * from '@opencodegraph/protocol'
 
 // For convenience, since many providers need globs.
 export { matchGlob }
+
+export { type PositionCalculator, createFilePositionCalculator } from './helpers/position'

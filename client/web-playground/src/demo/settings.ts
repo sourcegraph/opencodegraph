@@ -4,7 +4,7 @@ const USE_STORED_CORPUS = true
 
 async function getProviders(): Promise<Record<string, ProviderSettings | boolean>> {
     const providerSettings: Record<string, ProviderSettings | boolean> = {
-        '../../../../provider/hello-world/index.ts': true,
+        '../../../../provider/hello-world/index.ts': false,
         '../../../../provider/docs/src/provider/provider.ts': {
             corpus: USE_STORED_CORPUS
                 ? {
