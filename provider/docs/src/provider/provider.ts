@@ -76,9 +76,9 @@ export default multiplex<Settings>(async settings => {
 
                         const doc = index.doc(sr.doc)
                         result.push({
-                            title: truncate(doc.content?.title || doc.doc.url || 'Untitled', 50),
+                            title: doc.content?.title || doc.doc.url || 'Untitled',
                             url: doc.doc.url,
-                            ui: { detail: truncate(doc.content?.textContent || sr.excerpt, 100) },
+                            ui: { detail: truncate(doc.content?.textContent || sr.excerpt, 200) },
                             range: {
                                 start: positionCalculator(contentChunk.range.start),
                                 end: positionCalculator(contentChunk.range.end),
@@ -87,10 +87,55 @@ export default multiplex<Settings>(async settings => {
                     }
                 })
             )
+
+            if (result.length >= 2) {
+                // Trim common suffix (which is often the name of the doc site, like " - My Doc
+                // Site").
+                const suffix = longestCommonSuffix(result.map(r => r.title))
+                if (suffix) {
+                    for (const r of result) {
+                        r.title = r.title.slice(0, -1 * suffix.length)
+                    }
+                }
+            }
+
+            // Truncate titles. Do this after trimming common suffixes, or else no common suffix
+            // will be found if any titles were truncated.
+            for (const r of result) {
+                r.title = truncate(r.title, 50)
+            }
+
             return result
         },
     }
 })
+
+function longestCommonSuffix(texts: string[]): string {
+    if (texts.length === 0) {
+        return ''
+    }
+    if (texts.length === 1) {
+        return texts[0]
+    }
+
+    const minLen = Math.min(...texts.map(text => text.length))
+    let suffix = ''
+
+    for (let i = 0; i < minLen; i++) {
+        // Get the current character from the end of the first string.
+        const currentChar = texts[0][texts[0].length - 1 - i]
+
+        // Check if this character is present at the same position from the end in all strings.
+        if (texts.every(text => text[text.length - 1 - i] === currentChar)) {
+            // If so, prepend it to the result.
+            suffix = currentChar + suffix
+        } else {
+            break
+        }
+    }
+
+    return suffix
+}
 
 function truncate(text: string, maxLength: number): string {
     if (text.length > maxLength) {
