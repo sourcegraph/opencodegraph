@@ -34,7 +34,7 @@ const cacheDir = envPaths('opencodegraph-provider-docs').cache
 const fsCache = createFileSystemCacheStore(cacheDir)
 
 const corpus = await indexCorpus(corpusData, {
-    cache: fsCache,
+    cacheStore: fsCache,
     contentExtractor: extractContentUsingMozillaReadability,
 })
 const results = await corpus.search(query)

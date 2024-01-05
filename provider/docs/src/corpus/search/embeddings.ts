@@ -1,9 +1,10 @@
-import { cos_sim, env, pipeline } from '@xenova/transformers'
+import { cos_sim, dot, env, magnitude, pipeline } from '@xenova/transformers'
 import * as onnxWeb from 'onnxruntime-web'
-import { type CorpusIndex, type CorpusSearchResult } from '..'
+import { type CorpusIndex, type CorpusSearchResult, type Query } from '..'
 import { useWebWorker } from '../../env'
 import { type Logger } from '../../logger'
 import { embedTextOnWorker } from '../../mlWorker/webWorkerClient'
+import { contentID } from '../cache/contentID'
 import { memo } from '../cache/memo'
 import { type SearchOptions } from './multi'
 
@@ -25,32 +26,41 @@ env.allowLocalModels = false
 
 export async function embeddingsSearch(
     index: CorpusIndex,
-    query: string,
+    query: Query,
     { cache, logger }: SearchOptions
 ): Promise<CorpusSearchResult[]> {
-    const queryVec = await embedText(query)
+    const textToEmbed = [query.meta?.activeFilename && `// ${query.meta?.activeFilename}`, query.text]
+        .filter((s): s is string => Boolean(s))
+        .join('\n')
+    const queryVec = await embedText(textToEmbed)
+    const cosSim = cosSimWith(queryVec)
+
+    const MIN_SCORE = 0.1
 
     // Compute embeddings in parallel.
-    const results: CorpusSearchResult[] = await Promise.all(
-        index.docs.flatMap(({ doc, chunks }) =>
-            chunks.map(async (chunk, i) => {
-                const chunkVec = await cachedEmbedText(chunk.text, { cache, logger })
-                const score = cos_sim(queryVec, chunkVec)
-                return { doc: doc.id, chunk: i, score, excerpt: chunk.text } satisfies CorpusSearchResult
-            })
+    const results: CorpusSearchResult[] = (
+        await Promise.all(
+            index.docs.flatMap(({ doc, chunks }) =>
+                chunks.map(async (chunk, i) => {
+                    const chunkVec = await cachedEmbedText(chunk.text, { cache, logger })
+                    const score = cosSim(chunkVec)
+                    return score >= MIN_SCORE
+                        ? ({ doc: doc.id, chunk: i, score, excerpt: chunk.text } satisfies CorpusSearchResult)
+                        : null
+                })
+            )
         )
-    )
+    ).filter((r): r is CorpusSearchResult => r !== null)
 
     results.sort((a, b) => b.score - a.score)
 
     return results.slice(0, 1)
 }
 
-function cachedEmbedText(text: string, { cache, logger }: SearchOptions): Promise<Float32Array> {
+async function cachedEmbedText(text: string, { cache, logger }: SearchOptions): Promise<Float32Array> {
     return memo(
         cache,
-        text,
-        'embedText',
+        `embedText:${await contentID(text)}`,
         () => embedText(text, logger),
         f32a => Array.from(f32a),
         arr => new Float32Array(arr)
@@ -72,13 +82,20 @@ export const embedText = useWebWorker ? embedTextOnWorker : embedTextInThisScope
 export async function embedTextInThisScope(text: string, logger?: Logger): Promise<Float32Array> {
     try {
         const t0 = performance.now()
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const out = await pipe(text, { pooling: 'mean', normalize: true })
         logger?.(`embedText (${text.length} chars) took ${Math.round(performance.now() - t0)}ms`)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         return out.data
     } catch (error) {
         console.log(error)
         throw error
     }
+}
+
+function cosSimWith(a: Float32Array): (b: Float32Array) => number {
+    const mA = magnitude(a)
+    return b => dot(a, b) / (mA * magnitude(b))
 }
 
 /**
@@ -91,7 +108,9 @@ export async function similarity(text1: string, text2: string): Promise<number> 
 }
 
 declare module '@xenova/transformers' {
-    // The cos_sim function is declared in the @xenova/transformers module as only accepting
-    // number[], but it accepts Float32Array as well.
+    // These functions are declared in the @xenova/transformers module as only accepting
+    // number[], but they accept Float32Array as well.
     export function cos_sim(a: Float32Array, b: Float32Array): number
+    export function dot(a: Float32Array, b: Float32Array): number
+    export function magnitude(arr: Float32Array): number
 }

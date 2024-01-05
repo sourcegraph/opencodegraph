@@ -9,9 +9,13 @@ import { calculateTFIDF } from './tfidf'
 describe('keywordSearch', () => {
     test('finds matches', async () => {
         expect(
-            await keywordSearch(await indexCorpus(corpusData([doc(1, 'aaa'), doc(2, 'bbb')])), 'bbb', {
-                cache: noopCache,
-            })
+            await keywordSearch(
+                await indexCorpus(corpusData([doc(1, 'aaa'), doc(2, 'bbb')])),
+                { text: 'bbb' },
+                {
+                    cache: noopCache,
+                }
+            )
         ).toEqual<CorpusSearchResult[]>([
             {
                 doc: 2,

@@ -17,6 +17,20 @@ export interface Cache<T = unknown> {
     set(key: string, value: T): Promise<void>
 }
 
+/**
+ * Create a high-level {@link Cache} from an underlying {@link CacheStore} storage backend.
+ */
+export function createCache(store: CacheStore): Cache<unknown> {
+    return {
+        keyPrefix: '',
+        get: async key => store.get(key),
+        set: async (key, value) => store.set(key, value),
+    }
+}
+
+/**
+ * Wrap {@link cache} and get/set all entries with the given {@link scope} as a key prefix.
+ */
 export function scopedCache<T>(cache: Cache<unknown>, scope: string): Cache<T> {
     function scopedKey(key: string): string {
         return `${scope}:${key}`
@@ -28,6 +42,9 @@ export function scopedCache<T>(cache: Cache<unknown>, scope: string): Cache<T> {
     }
 }
 
+/**
+ * A no-op {@link Cache} that always misses and never stores.
+ */
 export const noopCache: Cache<unknown> = {
     keyPrefix: 'noop',
     get: async () => Promise.resolve(null),

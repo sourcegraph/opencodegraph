@@ -1,5 +1,4 @@
 import { type webcrypto } from 'crypto'
-import { type ContentID } from './contentID'
 
 /**
  * A unique identifier for a document's or chunk's content (based on a hash of the text).

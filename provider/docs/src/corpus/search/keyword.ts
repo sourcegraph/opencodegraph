@@ -1,5 +1,6 @@
-import { type CorpusIndex, type CorpusSearchResult, type IndexedDoc } from '..'
+import { type CorpusIndex, type CorpusSearchResult, type IndexedDoc, type Query } from '..'
 import { scopedCache } from '../cache/cache'
+import { contentID } from '../cache/contentID'
 import { memo } from '../cache/memo'
 import { type SearchOptions } from './multi'
 import { terms } from './terms'
@@ -7,10 +8,10 @@ import { computeTFIDF, createTFIDFIndex } from './tfidf'
 
 export async function keywordSearch(
     index: CorpusIndex,
-    query: string,
+    query: Query,
     { cache, logger }: SearchOptions
 ): Promise<CorpusSearchResult[]> {
-    const queryTerms = terms(query).filter(term => term.length >= 3)
+    const queryTerms = terms(query.text).filter(term => term.length >= 3)
     const tfidfIndex = await cachedCreateIndexForTFIDF(index.docs, { cache: scopedCache(cache, 'tfidfIndex'), logger })
 
     const results: CorpusSearchResult[] = []
@@ -30,5 +31,5 @@ async function cachedCreateIndexForTFIDF(
     { cache }: SearchOptions
 ): Promise<ReturnType<typeof createTFIDFIndex>> {
     const text = docs.map(doc => doc.chunks.map(chunk => chunk.text).join('\0')).join('\0\0')
-    return memo(cache, text, 'tfidxIndex', () => Promise.resolve(createTFIDFIndex(docs)))
+    return memo(cache, `tfidxIndex:${await contentID(text)}`, () => Promise.resolve(createTFIDFIndex(docs)))
 }

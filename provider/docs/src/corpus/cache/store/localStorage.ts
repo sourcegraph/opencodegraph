@@ -1,19 +1,18 @@
 /// <reference lib="dom" />
 
-import { type Cache } from '../cache'
-import { type ContentID } from '../contentID'
+import { type CacheStore } from '../cache'
 
 /**
- * Create a {@link Cache} that stores cache data in localStorage (using the Web Storage API).
+ * Create a {@link CacheStore} that stores cache data in localStorage (using the Web Storage API).
  */
-export function createWebStorageCorpusCache(storage: Storage, keyPrefix: string): Cache {
-    function storageKey(contentID: ContentID, key: string): string {
-        return `${keyPrefix}:${contentID}:${key}`
+export function createWebStorageCacheStore(storage: Storage, keyPrefix: string): CacheStore {
+    function storageKey(key: string): string {
+        return `${keyPrefix}:${key}`
     }
 
     return {
-        get(contentID, key) {
-            const k = storageKey(contentID, key)
+        get(key) {
+            const k = storageKey(key)
             const data = storage.getItem(k)
             try {
                 return Promise.resolve(data === null ? null : JSON.parse(data))
@@ -22,10 +21,10 @@ export function createWebStorageCorpusCache(storage: Storage, keyPrefix: string)
                 throw error
             }
         },
-        set(contentID, key, value) {
+        set(key, value) {
             const valueData = JSON.stringify(value)
             try {
-                storage.setItem(storageKey(contentID, key), valueData)
+                storage.setItem(storageKey(key), valueData)
             } catch {
                 // console.error(`failed to store data for ${contentID}:${key}`, error)
             }

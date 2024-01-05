@@ -7,7 +7,7 @@ import { type CacheStore } from '../cache'
  */
 export function createFileSystemCacheStore(basePath: string): CacheStore {
     function cacheFilePath(key: string): string {
-        return path.join(basePath, `${key.replaceAll('/', '_')}.json`)
+        return path.join(basePath, `${key.replaceAll('/', '_').replaceAll('\\', '_')}.json`)
     }
 
     return {

@@ -1,4 +1,4 @@
-import { type CorpusIndex, type CorpusSearchResult } from '..'
+import { type CorpusIndex, type CorpusSearchResult, type Query } from '..'
 import { type Logger } from '../../logger'
 import { scopedCache, type Cache } from '../cache/cache'
 import { type ChunkIndex } from '../doc/chunks'
@@ -16,7 +16,7 @@ export interface SearchOptions {
  */
 export async function multiSearch(
     index: CorpusIndex,
-    query: string,
+    query: Query,
     { cache, logger }: SearchOptions
 ): Promise<CorpusSearchResult[]> {
     const allResults = (
@@ -48,11 +48,15 @@ export async function multiSearch(
         docResults.set(result.chunk, { ...chunkResult, score: chunkResult.score + result.score })
     }
 
-    const results = Array.from(combinedResults.values()).flatMap(docResults => Array.from(docResults.values()))
+    const MIN_SCORE = 0.5
+
+    const results = Array.from(combinedResults.values())
+        .flatMap(docResults => Array.from(docResults.values()))
+        .filter(s => s.score >= MIN_SCORE)
     return results.toSorted((a, b) => b.score - a.score)
 }
 
 const SEARCH_METHODS: Record<
     string,
-    (index: CorpusIndex, query: string, options: SearchOptions) => CorpusSearchResult[] | Promise<CorpusSearchResult[]>
+    (index: CorpusIndex, query: Query, options: SearchOptions) => CorpusSearchResult[] | Promise<CorpusSearchResult[]>
 > = { keywordSearch, embeddingsSearch }

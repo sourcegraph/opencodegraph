@@ -1,5 +1,6 @@
 import { type Logger } from '../logger'
-import { noopCache, type Cache } from './cache/cache'
+import { createCache, noopCache, type Cache, type CacheStore } from './cache/cache'
+import { contentID } from './cache/contentID'
 import { memo } from './cache/memo'
 import { type CorpusData } from './data'
 import { chunk, type Chunk, type ChunkIndex } from './doc/chunks'
@@ -16,7 +17,7 @@ export interface CorpusIndex {
     docs: IndexedDoc[]
 
     doc(id: DocID): IndexedDoc
-    search(query: string): Promise<CorpusSearchResult[]>
+    search(query: Query): Promise<CorpusSearchResult[]>
 }
 
 /**
@@ -28,10 +29,17 @@ export interface IndexedDoc {
     chunks: Chunk[]
 }
 
+/** A search query. */
+export interface Query {
+    text: string
+    meta?: {
+        activeFilename?: string
+    }
+}
+
 /**
  * A search result from searching a corpus.
  */
-
 export interface CorpusSearchResult {
     doc: DocID
     chunk: ChunkIndex
@@ -43,7 +51,7 @@ export interface CorpusSearchResult {
  * Options for indexing a corpus.
  */
 export interface IndexOptions {
-    cache?: Cache
+    cacheStore?: CacheStore
     contentExtractor?: ContentExtractor
 
     /**
@@ -57,9 +65,11 @@ export interface IndexOptions {
  */
 export async function indexCorpus(
     data: CorpusData,
-    { cache = noopCache, contentExtractor, logger }: IndexOptions = { cache: noopCache }
+    { cacheStore, contentExtractor, logger }: IndexOptions = {}
 ): Promise<CorpusIndex> {
     const indexedDocs: IndexedDoc[] = []
+
+    const cache = cacheStore ? createCache(cacheStore) : noopCache
 
     for (const doc of data.docs) {
         const content = await cachedExtractContent(cache, contentExtractor, doc)
@@ -86,7 +96,7 @@ export async function indexCorpus(
     return index
 }
 
-function cachedExtractContent(
+async function cachedExtractContent(
     cache: Cache,
     extractor: ContentExtractor | undefined,
     doc: Doc
@@ -94,5 +104,6 @@ function cachedExtractContent(
     if (!extractor) {
         return Promise.resolve(null)
     }
-    return memo(cache, `${doc.url}:${doc.text}`, `extractContent:${extractor.id}`, () => extractor.extractContent(doc))
+    const key = `extractContent:${extractor.id}:${await contentID(`${doc.url}:${doc.text}`)}`
+    return memo(cache, key, () => extractor.extractContent(doc))
 }

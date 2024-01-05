@@ -6,8 +6,8 @@ import {
     type CapabilitiesResult,
 } from '@opencodegraph/provider'
 import { indexCorpus } from '../corpus'
-import { createIndexedDBCorpusCache } from '../corpus/cache/store/indexedDB'
-import { createWebStorageCorpusCache } from '../corpus/cache/store/localStorage'
+import { createIndexedDBCacheStore } from '../corpus/cache/store/indexedDB'
+import { createWebStorageCacheStore } from '../corpus/cache/store/localStorage'
 import { corpusData } from '../corpus/data'
 import { chunk } from '../corpus/doc/chunks'
 import { extractContentUsingMozillaReadability } from '../corpus/doc/contentExtractor'
@@ -30,8 +30,8 @@ const CORPUS_CACHE =
     typeof indexedDB === 'undefined'
         ? typeof localStorage === 'undefined'
             ? undefined
-            : createWebStorageCorpusCache(localStorage, 'ocg-provider-docs')
-        : createIndexedDBCorpusCache('ocg-provider-docs')
+            : createWebStorageCacheStore(localStorage, 'ocg-provider-docs')
+        : createIndexedDBCacheStore('ocg-provider-docs')
 
 /**
  * An [OpenCodeGraph](https://opencodegraph.org) provider that adds contextual documentation to your
@@ -48,7 +48,7 @@ export default multiplex<Settings>(async settings => {
                   logger: message => console.log(message),
               })
     const index = await indexCorpus(corpusData(await source.docs()), {
-        cache: CORPUS_CACHE,
+        cacheStore: CORPUS_CACHE,
         contentExtractor: extractContentUsingMozillaReadability,
         logger: console.debug,
     })
@@ -64,7 +64,10 @@ export default multiplex<Settings>(async settings => {
             const contentChunks = chunk(params.content, { isMarkdown: params.file.endsWith('.md'), isTargetDoc: true })
             await Promise.all(
                 contentChunks.map(async contentChunk => {
-                    const searchResults = await index.search(contentChunk.text)
+                    const searchResults = await index.search({
+                        text: contentChunk.text,
+                        meta: { activeFilename: params.file },
+                    })
                     for (const [i, sr] of searchResults.entries()) {
                         const MAX_RESULTS = 4
                         if (i >= MAX_RESULTS) {
