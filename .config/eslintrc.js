@@ -34,6 +34,7 @@ const config = {
         'unicorn/switch-case-braces': 'off',
         'unicorn/prefer-event-target': 'off',
         'unicorn/prefer-dom-node-remove': 'off',
+        'unicorn/filename-case': 'off',
         'ban/ban': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         'jsx-a11y/anchor-has-content': 'off',

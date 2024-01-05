@@ -1,11 +1,12 @@
 /// <reference lib="dom" />
 
-import { type ContentID, type CorpusCache } from './cache'
+import { type Cache } from '../cache'
+import { type ContentID } from '../contentID'
 
 /**
- * Create a {@link CorpusCache} that stores cache data in localStorage (using the Web Storage API).
+ * Create a {@link Cache} that stores cache data in localStorage (using the Web Storage API).
  */
-export function createWebStorageCorpusCache(storage: Storage, keyPrefix: string): CorpusCache {
+export function createWebStorageCorpusCache(storage: Storage, keyPrefix: string): Cache {
     function storageKey(contentID: ContentID, key: string): string {
         return `${keyPrefix}:${contentID}:${key}`
     }

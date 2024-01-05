@@ -6,8 +6,8 @@ import {
     type CapabilitiesResult,
 } from '@opencodegraph/provider'
 import { indexCorpus } from '../corpus'
-import { createIndexedDBCorpusCache } from '../corpus/cache/indexedDb'
-import { createWebStorageCorpusCache } from '../corpus/cache/localStorage'
+import { createIndexedDBCorpusCache } from '../corpus/cache/store/indexedDB'
+import { createWebStorageCorpusCache } from '../corpus/cache/store/localStorage'
 import { corpusData } from '../corpus/data'
 import { chunk } from '../corpus/doc/chunks'
 import { extractContentUsingMozillaReadability } from '../corpus/doc/contentExtractor'

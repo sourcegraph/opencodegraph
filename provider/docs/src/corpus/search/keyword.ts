@@ -1,5 +1,6 @@
 import { type CorpusIndex, type CorpusSearchResult, type IndexedDoc } from '..'
-import { memo, scopedCache } from '../cache/cache'
+import { scopedCache } from '../cache/cache'
+import { memo } from '../cache/memo'
 import { type SearchOptions } from './multi'
 import { terms } from './terms'
 import { computeTFIDF, createTFIDFIndex } from './tfidf'

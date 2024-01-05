@@ -4,7 +4,7 @@ import { type CorpusIndex, type CorpusSearchResult } from '..'
 import { useWebWorker } from '../../env'
 import { type Logger } from '../../logger'
 import { embedTextOnWorker } from '../../mlWorker/webWorkerClient'
-import { memo } from '../cache/cache'
+import { memo } from '../cache/memo'
 import { type SearchOptions } from './multi'
 
 // TODO(sqs): think we can remove this entirely...

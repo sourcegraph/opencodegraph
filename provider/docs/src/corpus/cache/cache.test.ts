@@ -1,5 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { contentID } from './cache'
+import { contentID } from './contentID'
+
+describe('Cache', () => {})
 
 describe('contentID', () => {
     test('returns the content ID', async () => {

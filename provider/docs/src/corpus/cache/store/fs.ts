@@ -1,19 +1,19 @@
 import { mkdir, readFile, writeFile } from 'fs/promises'
 import path from 'path'
-import { type ContentID, type CorpusCache } from './cache'
+import { type CacheStore } from '../cache'
 
 /**
- * Create a {@link CorpusCache} that stores cache data in the file system.
+ * Create a {@link CacheStore} that stores cache data in the file system.
  */
-export function createFileSystemCorpusCache(basePath: string): CorpusCache {
-    function cacheFilePath(contentID: ContentID, key: string): string {
-        return path.join(basePath, `${contentID}-${key.replaceAll('/', '_')}.json`)
+export function createFileSystemCacheStore(basePath: string): CacheStore {
+    function cacheFilePath(key: string): string {
+        return path.join(basePath, `${key.replaceAll('/', '_')}.json`)
     }
 
     return {
-        async get(contentID, key) {
+        async get(key) {
             try {
-                const data = await readFile(cacheFilePath(contentID, key), 'utf8')
+                const data = await readFile(cacheFilePath(key), 'utf8')
                 return JSON.parse(data)
             } catch (error: any) {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -23,8 +23,8 @@ export function createFileSystemCorpusCache(basePath: string): CorpusCache {
                 throw error
             }
         },
-        async set(contentID, key, value) {
-            const filePath = cacheFilePath(contentID, key)
+        async set(key, value) {
+            const filePath = cacheFilePath(key)
             await mkdir(path.dirname(filePath), { recursive: true, mode: 0o700 })
             await writeFile(filePath, JSON.stringify(value, null, 2))
         },

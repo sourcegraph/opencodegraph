@@ -1,5 +1,6 @@
 import { type Logger } from '../logger'
-import { memo, noopCache, type CorpusCache } from './cache/cache'
+import { noopCache, type Cache } from './cache/cache'
+import { memo } from './cache/memo'
 import { type CorpusData } from './data'
 import { chunk, type Chunk, type ChunkIndex } from './doc/chunks'
 import { type Content, type ContentExtractor } from './doc/contentExtractor'
@@ -42,7 +43,7 @@ export interface CorpusSearchResult {
  * Options for indexing a corpus.
  */
 export interface IndexOptions {
-    cache?: CorpusCache
+    cache?: Cache
     contentExtractor?: ContentExtractor
 
     /**
@@ -86,7 +87,7 @@ export async function indexCorpus(
 }
 
 function cachedExtractContent(
-    cache: CorpusCache,
+    cache: Cache,
     extractor: ContentExtractor | undefined,
     doc: Doc
 ): Promise<Content | null> {

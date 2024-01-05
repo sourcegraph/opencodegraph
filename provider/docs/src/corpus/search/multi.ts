@@ -1,13 +1,13 @@
 import { type CorpusIndex, type CorpusSearchResult } from '..'
 import { type Logger } from '../../logger'
-import { scopedCache, type CorpusCache } from '../cache/cache'
+import { scopedCache, type Cache } from '../cache/cache'
 import { type ChunkIndex } from '../doc/chunks'
 import { type DocID } from '../doc/doc'
 import { embeddingsSearch } from './embeddings'
 import { keywordSearch } from './keyword'
 
 export interface SearchOptions {
-    cache: CorpusCache
+    cache: Cache
     logger?: Logger
 }
 
