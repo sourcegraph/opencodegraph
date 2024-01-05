@@ -1,0 +1,28 @@
+{
+  "name": "@opencodegraph/provider-techstack",
+  "version": "0.0.1",
+  "description": "Add tech stack file annotations to your code.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sourcegraph/opencodegraph",
+    "directory": "provider/techstack"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "index.ts",
+    "!**/*.test.*",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc --build",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@opencodegraph/provider": "workspace:*"
+  }
+}
