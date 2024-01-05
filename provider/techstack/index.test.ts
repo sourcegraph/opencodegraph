@@ -22,11 +22,11 @@ describe('techstack', () => {
     test('annotations', () => {
         let params = {
             file: 'file:///a/b.ts',
-            content: `\n
-            import fs from 'fs'
+            content: `
+import fs from 'fs'
 
-            fs.readFileSync('example.txt', 'utf-8)
-            `
+fs.readFileSync('example.txt', 'utf-8)
+`
         }
         let result = techstack.annotations(params, SETTINGS)
         expect(result).toBeDefined()
@@ -39,21 +39,39 @@ describe('techstack', () => {
 
         params = {
             file: 'file:///c/d.ts',
-            content: `\n
-            var sass = require('node-sass');
-            sass.render({
-                file: scss_filename,
-                [, options..]
-            }, function(err, result) { /*...*/ });
-            // OR
-            var result = sass.renderSync({
-                data: scss_content
-                [, options..]
-            });
+            content: `
+var sass = require('node-sass');
+sass.render({
+    file: scss_filename,
+    [, options..]
+}, function(err, result) { /*...*/ });
+// OR
+var result = sass.renderSync({
+    data: scss_content
+    [, options..]
+});
             `
         }
         result = techstack.annotations(params, SETTINGS)
         expect(result).toBeDefined()
-        expect(Object.entries(result).length).toBeGreaterThan(0)
+        expect(result.items[0].id).toEqual('1')
+        expect(result.annotations[0].item.id).toEqual('1')
+        expect(result.items[0].title).includes('npm Packages')
+
+        params.content = `
+var sass = require('node-sass');
+sass.render({
+    file: scss_filename,
+    [, options..]
+}, function(err, result) { /*...*/ });
+// OR
+sass = require('node-sass')  // unexpected import
+        `
+        result = techstack.annotations(params, SETTINGS)
+        expect(result).toBeDefined()
+        expect(result.items[0].id).toEqual('1')
+        expect(result.annotations[0].item.id).toEqual('1')
+        expect(result.items[1].id).toEqual('7')
+        expect(result.annotations[1].item.id).toEqual('7')
     })
 })

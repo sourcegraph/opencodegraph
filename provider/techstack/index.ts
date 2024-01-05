@@ -36,18 +36,26 @@ const techstack: Provider<Settings> = {
 
     annotations(params: AnnotationsParams, settings: Settings): AnnotationsResult {
         const result: AnnotationsResult = { items: [], annotations: [] }
-        const importRegex = /\b(?:import\s*[\w{},\s]+|require\s*\([^)]+\))\s*/g
+        const regex = /\b(?:import\s*[\w{},\s]+|require\s*\([^)]+\))\s*/g
 
         if (settings.yaml !== null) {
             const spec = configuration(settings.yaml)
-            const imports = params.content.split(/\r?\n/).filter(line => line.match(importRegex))
+            const targets = params.content
+                .split(/\r?\n/)
+                .map((line, index) => line.match(regex) ? {[index]: line} : null)
+                .filter(line => line !== null)
             const pkgs = spec.tools?.filter(t => t.detection_source === 'package.json')
 
             if (pkgs.length > 0) {
-                imports.forEach((line, index) => {
-                    const heading = pkgs.find(p => line.includes(p.name))
+                targets.forEach((line, index) => {
+                    const heading = pkgs.find(p => Object.values(line).pop().includes(p.name))
                     if (typeof heading !== 'undefined') {
-                        const item: Item = { id: index.toString(), title: `📖 Techstack: ${heading}` }
+                        const item: Item = {
+                            id: Object.keys(line).pop().toString(),
+                            title: `📖 Techstack: ${heading.sub_category}`
+                        }
+
+                        // Populate results
                         result.items.push(item)
                         result.annotations.push({
                             item: { id: item.id },
