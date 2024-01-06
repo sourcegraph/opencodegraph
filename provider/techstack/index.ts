@@ -48,10 +48,13 @@ const techstack: Provider<Settings> = {
 
             if (pkgs.length > 0) {
                 targets.forEach((line, index) => {
-                    const heading = pkgs.find(p => Object.values(line).pop().includes(p.name))
+                    const target = Object.values(line as Object).pop()
+                    const linenum = Object.keys(line as Object).pop()
+                    const heading = pkgs.find(p => target.includes(p.name))
+
                     if (typeof heading !== 'undefined') {
                         const item: Item = {
-                            id: Object.keys(line).pop().toString(),
+                            id: linenum?.toString() || '-1',
                             title: `📖 Techstack: ${heading.sub_category}`
                         }
 
