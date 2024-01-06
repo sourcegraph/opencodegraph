@@ -42,7 +42,6 @@
 
 .popover-content {
     padding: 3px 5px;
-    margin-bottom: 3px;
     display: flex;
     flex-direction: column;
     gap: 5px;

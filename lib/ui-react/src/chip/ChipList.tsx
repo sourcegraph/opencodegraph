@@ -1,5 +1,5 @@
 import { type Annotation } from '@opencodegraph/schema'
-import { groupAnnotations } from '@opencodegraph/ui-standalone'
+import { groupAnnotations } from '@opencodegraph/ui-common'
 import clsx from 'clsx'
 import { type FunctionComponent } from 'react'
 import { Chip } from './Chip'

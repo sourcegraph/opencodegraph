@@ -1,0 +1,29 @@
+{
+  "name": "@opencodegraph/ui-common",
+  "version": "0.0.1",
+  "description": "OpenCodeGraph common UI library",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sourcegraph/opencodegraph",
+    "directory": "lib/ui-common"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "!**/*.test.*",
+    "dist/**/*.d.ts"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc --build",
+    "test": "vitest",
+    "prepublishOnly": "tsc --build --clean && pnpm run build"
+  },
+  "dependencies": {
+    "@opencodegraph/schema": "workspace:*"
+  }
+}

@@ -431,11 +431,20 @@ importers:
         specifier: ^13.1.1
         version: 13.1.1
 
+  lib/ui-common:
+    dependencies:
+      '@opencodegraph/schema':
+        specifier: workspace:*
+        version: link:../schema
+
   lib/ui-react:
     dependencies:
       '@opencodegraph/schema':
         specifier: workspace:*
         version: link:../schema
+      '@opencodegraph/ui-common':
+        specifier: workspace:*
+        version: link:../ui-common
       '@opencodegraph/ui-standalone':
         specifier: workspace:*
         version: link:../ui-standalone
@@ -461,6 +470,9 @@ importers:
       '@opencodegraph/schema':
         specifier: workspace:*
         version: link:../schema
+      '@opencodegraph/ui-common':
+        specifier: workspace:*
+        version: link:../ui-common
       clsx:
         specifier: ^2.0.0
         version: 2.0.0

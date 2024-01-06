@@ -66,9 +66,13 @@ export function createBaseChip({
         }
         const hidePopover = (): void => {
             refCount--
-            if (refCount === 0) {
-                popoverEl.hidePopover()
-            }
+
+            // Delay hiding in case the user is immediately mouseentering the popover.
+            setTimeout(() => {
+                if (refCount === 0) {
+                    popoverEl.hidePopover()
+                }
+            }, 100)
         }
         headerEl.addEventListener('mouseenter', showPopover)
         headerEl.addEventListener('mouseleave', hidePopover)

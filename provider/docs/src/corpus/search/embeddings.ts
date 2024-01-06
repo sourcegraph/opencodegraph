@@ -1,7 +1,7 @@
 import { cos_sim, dot, env, magnitude, pipeline } from '@xenova/transformers'
 import * as onnxWeb from 'onnxruntime-web'
 import { type CorpusIndex, type CorpusSearchResult, type Query } from '..'
-import { useWebWorker } from '../../env'
+import { isWebWindowRuntime, useWebWorker } from '../../env'
 import { type Logger } from '../../logger'
 import { embedTextOnWorker } from '../../mlWorker/webWorkerClient'
 import { contentID } from '../cache/contentID'
@@ -16,10 +16,16 @@ if (typeof process !== 'undefined' && process.env.FORCE_WASM) {
     //
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-
     env.onnx = onnxWeb.env
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     ;(env as any).onnx.wasm.numThreads = 1
+}
+
+if (isWebWindowRuntime) {
+    // Running on Web.
+    //
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    env.backends.onnx.wasm.wasmPaths = import.meta.resolve('../../../node_modules/@xenova/transformers/dist/')
 }
 
 env.allowLocalModels = false

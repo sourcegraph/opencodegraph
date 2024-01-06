@@ -30,6 +30,7 @@
   "dependencies": {
     "@opencodegraph/schema": "workspace:*",
     "@opencodegraph/ui-standalone": "workspace:*",
+    "@opencodegraph/ui-common": "workspace:*",
     "clsx": "^2.0.0"
   },
   "devDependencies": {

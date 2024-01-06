@@ -49,7 +49,7 @@ function computeDecorations(
     const annotationsByLine: { line: number; annotations: Annotation[] }[] = []
     for (const ann of annotations) {
         let cur = annotationsByLine.at(-1)
-        const startLine = ann.range?.start.line ?? 0
+        const startLine = ann.ui?.presentationHints?.includes('group-at-top-of-file') ? 0 : ann.range?.start.line ?? 0
         if (!cur || cur.line !== startLine) {
             cur = { line: startLine, annotations: [] }
             annotationsByLine.push(cur)

@@ -11,8 +11,13 @@ export const BaseChip: FunctionComponent<{
     popoverClassName?: string
 }> = ({ title, url, className, popover, popoverClassName }) => {
     const [popoverVisible, setPopoverVisible] = useState(0)
-    const showPopover = useCallback((): void => setPopoverVisible(prev => prev + 1), [])
-    const hidePopover = useCallback((): void => setPopoverVisible(prev => prev - 1), [])
+    const showPopover = useCallback((): void => {
+        setPopoverVisible(prev => prev + 1)
+    }, [])
+    const hidePopover = useCallback((): void => {
+        // Delay hiding in case the user is immediately mouseentering the popover.
+        setTimeout(() => setPopoverVisible(prev => prev - 1), 100)
+    }, [])
 
     const anchorRef = useRef<HTMLElement>(null)
 

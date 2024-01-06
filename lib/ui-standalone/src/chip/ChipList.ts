@@ -1,4 +1,5 @@
 import { type Annotation } from '@opencodegraph/schema'
+import { groupAnnotations } from '@opencodegraph/ui-common'
 import clsx from 'clsx'
 import { createChip } from './Chip'
 import { createChipGroup } from './ChipGroup'
@@ -32,30 +33,4 @@ export function createChipList({
     }
 
     return el
-}
-
-/**
- * Group annotations that have the same `ui.group` value.
- */
-export function groupAnnotations(annotations: Annotation[]): {
-    groups: { [group: string]: Annotation[] }
-    ungrouped: Annotation[]
-} {
-    const groups: { [group: string]: Annotation[] } = {}
-    for (const ann of annotations) {
-        if (ann.ui?.group) {
-            if (!groups[ann.ui.group]) {
-                groups[ann.ui.group] = []
-            }
-            groups[ann.ui.group].push(ann)
-        }
-    }
-    for (const [group, anns] of Object.entries(groups)) {
-        if (anns.length === 1) {
-            delete groups[group]
-        }
-    }
-    const ungrouped = annotations.filter(ann => !ann.ui?.group || !groups[ann.ui.group])
-
-    return { groups, ungrouped }
 }

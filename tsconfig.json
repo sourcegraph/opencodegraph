@@ -11,6 +11,7 @@
     { "path": "lib/provider" },
     { "path": "lib/schema" },
     { "path": "lib/schema/dev" },
+    { "path": "lib/ui-common" },
     { "path": "lib/ui-react" },
     { "path": "lib/ui-standalone" },
     { "path": "client/browser" },
