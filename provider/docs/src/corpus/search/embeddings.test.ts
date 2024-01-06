@@ -7,7 +7,7 @@ import { embeddingsSearch, embedTextInThisScope, similarity } from './embeddings
 describe('embeddingsSearch', () => {
     test('finds matches', async () => {
         expect(
-            await embeddingsSearch(await indexCorpus(await corpusData([doc(1, 'a'), doc(2, 'b')])), { text: 'b' })
+            await embeddingsSearch(await indexCorpus(await corpusData([doc(1, 'xxxxxx'), doc(2, 'b')])), { text: 'b' })
         ).toEqual<CorpusSearchResult[]>([{ doc: 2, chunk: 0, score: 1, excerpt: 'b' }])
     })
 })

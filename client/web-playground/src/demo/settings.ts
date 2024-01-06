@@ -9,7 +9,8 @@ async function getProviders(): Promise<Record<string, ProviderSettings | boolean
             corpus: USE_STORED_CORPUS
                 ? {
                       url: new URL(
-                          'tmp-ocg-provider-docs/sourcegraph-docs-old-web-corpus.json',
+                          // 'tmp-ocg-provider-docs/sourcegraph-docs-old-web-corpus.json',
+                          'tmp-ocg-provider-docs/vite-docs-web-corpus.json',
                           import.meta.url
                       ).toString(),
                   }

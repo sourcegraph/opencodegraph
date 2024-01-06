@@ -5,7 +5,7 @@ import { calculateTFIDF, computeTFIDF, createTFIDFIndex } from './tfidf'
 
 describe('createTFIDFIndex', async () => {
     const data = await corpusData([
-        { id: 1, text: 'a b c c c' },
+        { id: 1, text: 'aa b c c c' },
         { id: 2, text: 'b c d' },
         { id: 3, text: 'c d e' },
     ])
@@ -14,7 +14,7 @@ describe('createTFIDFIndex', async () => {
     const tfidfIndex = createTFIDFIndex(index.docs)
 
     test('term in 1 doc', () => {
-        expect(docIDs.map(docID => computeTFIDF('a', docID, 0, tfidfIndex))).toEqual([
+        expect(docIDs.map(docID => computeTFIDF('aa', docID, 0, tfidfIndex))).toEqual([
             calculateTFIDF({ termOccurrencesInChunk: 1, chunkTermLength: 5, totalChunks: 3, termChunkFrequency: 1 }),
             0,
             0,

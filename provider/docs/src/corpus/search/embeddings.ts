@@ -4,7 +4,7 @@ import { type CorpusIndex, type CorpusSearchResult, type Query } from '..'
 import { isWebWindowRuntime, useWebWorker } from '../../env'
 import { type Logger } from '../../logger'
 import { embedTextOnWorker } from '../../mlWorker/webWorkerClient'
-import { terms } from './terms'
+import { withoutCodeStopwords } from './terms'
 
 // TODO(sqs): think we can remove this entirely...
 //
@@ -32,7 +32,7 @@ export async function embeddingsSearch(index: CorpusIndex, query: Query): Promis
     const textToEmbed = [query.meta?.activeFilename && `// ${query.meta?.activeFilename}`, query.text]
         .filter((s): s is string => Boolean(s))
         .join('\n')
-    const queryVec = await embedText(terms(textToEmbed).join(' '))
+    const queryVec = await embedText(withoutCodeStopwords(textToEmbed))
     const cosSim = cosSimWith(queryVec)
 
     const MIN_SCORE = 0.25

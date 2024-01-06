@@ -99,7 +99,10 @@ export default multiplex<Settings>(async settings => {
                 const suffix = longestCommonSuffix(result.map(r => r.title))
                 if (suffix) {
                     for (const r of result) {
-                        r.title = r.title.slice(0, -1 * suffix.length)
+                        // Don't trim suffix if it would result in an empty or very short string.
+                        if (r.title.length >= suffix.length + 10) {
+                            r.title = r.title.slice(0, -1 * suffix.length)
+                        }
                     }
                 }
             }

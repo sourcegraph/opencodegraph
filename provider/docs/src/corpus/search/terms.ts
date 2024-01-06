@@ -1,26 +1,53 @@
 export type Term = string
 
 /**
- * All terms in the text, unordered, with normalization and stemming applied.
+ * All terms in the text, with normalization and stemming applied.
  */
 export function terms(text: string): Term[] {
-    const seen = new Set<string>()
     return (
-        text
-            .toLowerCase()
-            .split(/[^\w-]+/)
+        tokens(text.toLowerCase())
             .filter(term => !stopwords.has(term))
             // TODO(sqs): get a real stemmer
             .map(term => term.replace(/(.*)(?:es|ed|ing|s|er)$/, '$1'))
-            .filter(term => {
-                if (seen.has(term)) {
-                    return false
-                }
-                seen.add(term)
-                return true
-            })
     )
 }
+
+function tokens(text: string): string[] {
+    return text.split(/[^\w-]+/)
+}
+
+export function withoutCodeStopwords(text: string): string {
+    return tokens(text)
+        .filter(term => !CODE_STOPWORDS.includes(term))
+        .join(' ')
+}
+
+const CODE_STOPWORDS = [
+    'class',
+    'type',
+    'interface',
+    'extends',
+    'implements',
+    'props',
+    'package',
+    'function',
+    'export',
+    'import',
+    'const',
+    'let',
+    'var',
+    'for',
+    'while',
+    'if',
+    'else',
+    'then',
+    'func',
+    'declare',
+    'return',
+    'null',
+    'undefined',
+    'from',
+]
 
 const stopwords = new Set([
     'i',
@@ -150,30 +177,5 @@ const stopwords = new Set([
     'don',
     'should',
     'now',
-
-    // Code
-    'class',
-    'type',
-    'interface',
-    'extends',
-    'implements',
-    'props',
-    'package',
-    'function',
-    'export',
-    'import',
-    'const',
-    'let',
-    'var',
-    'for',
-    'while',
-    'if',
-    'else',
-    'then',
-    'func',
-    'declare',
-    'return',
-    'null',
-    'undefined',
-    'from',
+    ...CODE_STOPWORDS,
 ])

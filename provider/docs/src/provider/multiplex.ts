@@ -1,10 +1,11 @@
 import { type Provider } from '@opencodegraph/provider'
+import { LRUCache } from 'lru-cache'
 
 /**
  * @template S The settings type.
  */
 export function multiplex<S extends {}>(createProvider: (settings: S) => Promise<Provider<S>>): Provider<S> {
-    const providerCache = new Map<string, Promise<Provider<S>>>()
+    const providerCache = new LRUCache<string, Promise<Provider<S>>>({ max: 10 })
 
     function getProvider(settings: S): Promise<Provider<S>> {
         const key = JSON.stringify(settings)
@@ -12,14 +13,6 @@ export function multiplex<S extends {}>(createProvider: (settings: S) => Promise
         if (!provider) {
             provider = createProvider(settings)
             providerCache.set(key, provider)
-
-            // Prevent accidental memory leaks in case `settings` keeps changing.
-            //
-            // TODO(sqs): use an LRU cache or something
-            const MAX_SIZE = 10
-            if (providerCache.size > MAX_SIZE) {
-                throw new Error(`provider cache is too big (max size ${MAX_SIZE})`)
-            }
         }
         return provider
     }
