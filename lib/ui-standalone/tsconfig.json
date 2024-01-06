@@ -12,5 +12,8 @@
     {
       "path": "../schema",
     },
+    {
+      "path": "../ui-common",
+    },
   ],
 }

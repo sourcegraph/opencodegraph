@@ -1,6 +1,7 @@
 import { RangeSetBuilder, type EditorState, type Extension } from '@codemirror/state'
 import { Decoration, EditorView, WidgetType, type DecorationSet } from '@codemirror/view'
 import { type Annotation } from '@opencodegraph/client'
+import { prepareAnnotationsForPresentation } from '@opencodegraph/ui-common'
 import deepEqual from 'deep-equal'
 import { openCodeGraphDataFacet, type OpenCodeGraphDecorationsConfig } from './extension'
 
@@ -47,7 +48,7 @@ function computeDecorations(
     const builder = new RangeSetBuilder<Decoration>()
 
     const annotationsByLine: { line: number; annotations: Annotation[] }[] = []
-    for (const ann of annotations) {
+    for (const ann of prepareAnnotationsForPresentation(annotations)) {
         let cur = annotationsByLine.at(-1)
         const startLine = ann.ui?.presentationHints?.includes('group-at-top-of-file') ? 0 : ann.range?.start.line ?? 0
         if (!cur || cur.line !== startLine) {

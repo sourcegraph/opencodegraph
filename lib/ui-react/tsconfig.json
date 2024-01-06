@@ -16,5 +16,8 @@
     {
       "path": "../ui-standalone",
     },
+    {
+      "path": "../ui-common",
+    },
   ],
 }

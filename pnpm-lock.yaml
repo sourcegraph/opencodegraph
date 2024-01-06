@@ -182,6 +182,9 @@ importers:
       '@opencodegraph/client':
         specifier: workspace:*
         version: link:../../lib/client
+      '@opencodegraph/ui-common':
+        specifier: workspace:*
+        version: link:../../lib/ui-common
       '@opencodegraph/ui-react':
         specifier: workspace:*
         version: link:../../lib/ui-react

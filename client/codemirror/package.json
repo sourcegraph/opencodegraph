@@ -24,6 +24,7 @@
   "dependencies": {
     "@opencodegraph/client": "workspace:*",
     "@opencodegraph/ui-react": "workspace:*",
+    "@opencodegraph/ui-common": "workspace:*",
     "deep-equal": "^2.2.3"
   },
   "devDependencies": {

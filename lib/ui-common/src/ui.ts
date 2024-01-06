@@ -1,9 +1,11 @@
-import { type Annotation } from '@opencodegraph/schema'
+import { type Annotation, type Range } from '@opencodegraph/schema'
+
+// TODO(sqs)
 
 /**
  * Applies presentation hints to annotations.
  */
-export function prepareAnnotationsForPresentation(annotations: Annotation[]): Annotation[] {
+export function prepareAnnotationsForPresentation<R extends Range>(annotations: Annotation<R>[]): Annotation<R>[] {
     return annotations.map(ann => {
         if (ann.ui?.presentationHints?.includes('group-at-top-of-file')) {
             ann = { ...ann, range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } } }
