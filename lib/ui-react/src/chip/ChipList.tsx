@@ -1,4 +1,5 @@
 import { type Annotation } from '@opencodegraph/schema'
+import { groupAnnotations } from '@opencodegraph/ui-standalone'
 import clsx from 'clsx'
 import { type FunctionComponent } from 'react'
 import { Chip } from './Chip'
@@ -16,23 +17,7 @@ export const ChipList: FunctionComponent<{
     chipClassName?: string
     popoverClassName?: string
 }> = ({ annotations, className, chipClassName, popoverClassName }) => {
-    // Handle groups.
-    const groups: { [group: string]: Annotation[] } = {}
-    for (const ann of annotations) {
-        if (ann.ui?.group) {
-            if (!groups[ann.ui.group]) {
-                groups[ann.ui.group] = []
-            }
-            groups[ann.ui.group].push(ann)
-        }
-    }
-    for (const [group, anns] of Object.entries(groups)) {
-        if (anns.length === 1) {
-            delete groups[group]
-        }
-    }
-    const ungroupedAnns = annotations.filter(ann => !ann.ui?.group || !groups[ann.ui.group])
-
+    const { groups, ungrouped } = groupAnnotations(annotations)
     return (
         <div className={clsx(styles.list, className)}>
             {Object.entries(groups).map(([group, anns]) => (
@@ -44,7 +29,7 @@ export const ChipList: FunctionComponent<{
                     popoverClassName={popoverClassName}
                 />
             ))}
-            {ungroupedAnns.map((annotation, i) => (
+            {ungrouped.map((annotation, i) => (
                 <Chip
                     key={`u:${annotation.url ?? i}`}
                     annotation={annotation}

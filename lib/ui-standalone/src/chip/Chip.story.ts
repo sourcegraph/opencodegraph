@@ -1,4 +1,4 @@
-import { Annotation } from '@opencodegraph/schema'
+import { type Annotation } from '@opencodegraph/schema'
 import type { Meta, StoryObj } from '@storybook/html'
 import { createChip } from './Chip'
 
@@ -22,14 +22,14 @@ const FIXTURE_ANN: Annotation = {
     title: '📘 Docs: CSS in client/web',
 }
 
-export const Text: StoryObj = { render: () => createChip({ annotation: { ...FIXTURE_ANN } satisfies Annotation }) }
+export const Text: StoryObj = { render: () => createChip({ annotation: { ...FIXTURE_ANN } }) }
 
 export const Link: StoryObj = {
-    render: () => createChip({ annotation: { ...FIXTURE_ANN, url: 'https://example.com' } satisfies Annotation }),
+    render: () => createChip({ annotation: { ...FIXTURE_ANN, url: 'https://example.com' } }),
 }
 
 export const Detail: StoryObj = {
-    render: () => createChip({ annotation: { ...FIXTURE_ANN, ui: { detail: 'View doc page' } } satisfies Annotation }),
+    render: () => createChip({ annotation: { ...FIXTURE_ANN, ui: { detail: 'View doc page' } } }),
 }
 
 export const Image: StoryObj = {
@@ -41,6 +41,6 @@ export const Image: StoryObj = {
                     detail: '<img src="https://lh3.googleusercontent.com/d_S5gxu_S1P6NR1gXeMthZeBzkrQMHdI5uvXrpn3nfJuXpCjlqhLQKH_hbOxTHxFhp5WugVOEcl4WDrv9rmKBDOMExhKU5KmmLFQVg" width=512 height=300 />',
                     format: 'markdown',
                 },
-            } satisfies Annotation,
+            },
         }),
 }

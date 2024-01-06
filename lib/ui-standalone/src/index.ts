@@ -1,3 +1,4 @@
-export { createChip, createChipList } from './chip/Chip'
+export { createChip } from './chip/Chip'
+export { createChipList, groupAnnotations } from './chip/ChipList'
 export { getPopoverDimensions } from './chip/popover'
 export { createIndentationWrapper } from './indentationWrapper/IndentationWrapper'

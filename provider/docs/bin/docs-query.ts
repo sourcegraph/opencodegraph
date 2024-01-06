@@ -37,7 +37,7 @@ const corpus = await indexCorpus(corpusData, {
     cacheStore: fsCache,
     contentExtractor: extractContentUsingMozillaReadability,
 })
-const results = await corpus.search(query)
+const results = await corpus.search({ text: query })
 console.error(`# ${corpus.docs.length} docs in corpus`)
 console.error(`# Query: ${JSON.stringify(query)}`)
 const MAX_RESULTS = 5
