@@ -47,7 +47,7 @@ export default multiplex<Settings>(async settings => {
                   ignore: settings.corpus.ignore,
                   logger: message => console.log(message),
               })
-    const index = await indexCorpus(corpusData(await source.docs()), {
+    const index = await indexCorpus(await corpusData(await source.docs()), {
         cacheStore: CORPUS_CACHE,
         contentExtractor: extractContentUsingMozillaReadability,
         logger: console.debug,

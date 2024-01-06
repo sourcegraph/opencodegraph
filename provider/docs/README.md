@@ -53,5 +53,5 @@ export interface Settings {
 ```
 time p -C provider/docs run -s docs-query 'redirect' $(find ~/src/github.com/vikejs/vike/docs/pages -type f)
 time p -C provider/docs run -s docs-query 'making provider work in vscode' $(find ../../web/content/docs -type f)
-p -C provider/docs run create-web-corpus https://docs.sourcegraph.com https://docs.sourcegraph.com https://docs.sourcegraph.com/@ cli/references .json .svg > ~/tmp/ocg-provider-docs/sourcegraph-docs-old-web-corpus.json
+p -C provider/docs run -s create-web-corpus https://docs.sourcegraph.com https://docs.sourcegraph.com https://docs.sourcegraph.com/@ cli/references .json .svg CHANGELOG > ~/tmp/ocg-provider-docs/sourcegraph-docs-old-web-corpus.json
 ```

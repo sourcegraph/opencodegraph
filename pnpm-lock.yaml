@@ -503,6 +503,9 @@ importers:
       jsdom:
         specifier: ^23.0.1
         version: 23.0.1
+      lru-cache:
+        specifier: ^10.1.0
+        version: 10.1.0
       onnxruntime-web:
         specifier: '*'
         version: 1.14.0

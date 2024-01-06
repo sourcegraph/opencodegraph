@@ -9,7 +9,7 @@ describe('e2e', () => {
         const docFile = await fs.readFile(path.join(__dirname, 'testdata/corpus/urlParsing.md'), 'utf8')
         const codeFile = await fs.readFile(path.join(__dirname, 'testdata/code/urlParsing.ts'), 'utf8')
 
-        const corpus = await indexCorpus(corpusData([{ id: 1, text: docFile }]))
+        const corpus = await indexCorpus(await corpusData([{ id: 1, text: docFile }]))
         const results = await corpus.search({ text: codeFile })
         roundScores(results)
         expect(results).toEqual<CorpusSearchResult[]>([

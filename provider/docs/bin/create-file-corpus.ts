@@ -14,7 +14,7 @@ if (corpusFiles.length === 0) {
     process.exit(1)
 }
 
-const data = corpusData(
+const data = await corpusData(
     await Promise.all(
         corpusFiles.map(async (file, i) => {
             const data = await readFile(file, 'utf8')

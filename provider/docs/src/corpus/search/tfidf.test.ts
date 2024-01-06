@@ -4,7 +4,7 @@ import { corpusData } from '../data'
 import { calculateTFIDF, computeTFIDF, createTFIDFIndex } from './tfidf'
 
 describe('createTFIDFIndex', async () => {
-    const data = corpusData([
+    const data = await corpusData([
         { id: 1, text: 'a b c c c' },
         { id: 2, text: 'b c d' },
         { id: 3, text: 'c d e' },

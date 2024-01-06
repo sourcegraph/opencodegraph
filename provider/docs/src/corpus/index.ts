@@ -6,7 +6,9 @@ import { type CorpusData } from './data'
 import { chunk, type Chunk, type ChunkIndex } from './doc/chunks'
 import { type Content, type ContentExtractor } from './doc/contentExtractor'
 import { type Doc, type DocID } from './doc/doc'
+import { embedText } from './search/embeddings'
 import { multiSearch } from './search/multi'
+import { createTFIDFIndex, type TFIDFIndex } from './search/tfidf'
 
 /**
  * An index of a corpus.
@@ -14,7 +16,9 @@ import { multiSearch } from './search/multi'
 export interface CorpusIndex {
     data: CorpusData
 
+    // Index data
     docs: IndexedDoc[]
+    tfidf: TFIDFIndex
 
     doc(id: DocID): IndexedDoc
     search(query: Query): Promise<CorpusSearchResult[]>
@@ -24,9 +28,13 @@ export interface CorpusIndex {
  * An indexed document.
  */
 export interface IndexedDoc {
+    /** The SHA-256 hash of the content. */
+    contentID: string
+
     doc: Doc
     content: Content | null
-    chunks: Chunk[]
+
+    chunks: (Chunk & { embeddings: Float32Array })[]
 }
 
 /** A search query. */
@@ -64,24 +72,24 @@ export interface IndexOptions {
  * Index a corpus.
  */
 export async function indexCorpus(
-    data: CorpusData,
+    corpus: CorpusData,
     { cacheStore, contentExtractor, logger }: IndexOptions = {}
 ): Promise<CorpusIndex> {
-    const indexedDocs: IndexedDoc[] = []
-
     const cache = cacheStore ? createCache(cacheStore) : noopCache
 
-    for (const doc of data.docs) {
-        const content = await cachedExtractContent(cache, contentExtractor, doc)
+    // TODO(sqs): index takes ~235ms
+    console.time('index-docs')
+    const indexedDocs = await cachedIndexCorpusDocs(corpus, { contentExtractor }, cache)
+    console.timeEnd('index-docs')
 
-        const chunks = chunk(content?.content ?? doc.text, { isMarkdown: doc.text.includes('##') })
-
-        indexedDocs.push({ doc, content, chunks })
-    }
+    console.time('index-tfidf')
+    const tfidf = await cachedCreateTFIDFIndex(indexedDocs, cache)
+    console.timeEnd('index-tfidf')
 
     const index: CorpusIndex = {
-        data,
+        data: corpus,
         docs: indexedDocs,
+        tfidf,
         doc(id) {
             const doc = indexedDocs.find(d => d.doc.id === id)
             if (!doc) {
@@ -96,14 +104,40 @@ export async function indexCorpus(
     return index
 }
 
-async function cachedExtractContent(
-    cache: Cache,
-    extractor: ContentExtractor | undefined,
-    doc: Doc
-): Promise<Content | null> {
-    if (!extractor) {
-        return Promise.resolve(null)
-    }
-    const key = `extractContent:${extractor.id}:${await contentID(`${doc.url}:${doc.text}`)}`
-    return memo(cache, key, () => extractor.extractContent(doc))
+async function indexCorpusDocs(
+    corpus: CorpusData,
+    { contentExtractor }: Pick<IndexOptions, 'contentExtractor'>
+): Promise<IndexedDoc[]> {
+    return Promise.all(
+        corpus.docs.map(async doc => {
+            const content = contentExtractor ? await contentExtractor.extractContent(doc) : null
+            const chunks = chunk(content?.content ?? doc.text, { isMarkdown: doc.text.includes('##') })
+            return {
+                contentID: await contentID(JSON.stringify([doc, content, chunks])),
+                doc,
+                content,
+                chunks: await Promise.all(
+                    chunks.map(async chunk => ({
+                        ...chunk,
+                        embeddings: await embedText(chunk.text),
+                    }))
+                ),
+            } satisfies IndexedDoc
+        })
+    )
+}
+
+async function cachedIndexCorpusDocs(
+    corpus: CorpusData,
+    options: Pick<IndexOptions, 'contentExtractor'>,
+    cache: Cache
+): Promise<IndexedDoc[]> {
+    const key = `indexCorpusDocs:${corpus.contentID}:${options.contentExtractor?.id ?? 'noContentExtractor'}`
+    return memo(cache, key, () => indexCorpusDocs(corpus, options))
+}
+
+async function cachedCreateTFIDFIndex(docs: IndexedDoc[], cache: Cache): Promise<TFIDFIndex> {
+    return memo(cache, `tfidfIndex:${await contentID(docs.map(doc => doc.contentID).join('\0'))}`, () =>
+        Promise.resolve(createTFIDFIndex(docs))
+    )
 }

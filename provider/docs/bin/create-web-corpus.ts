@@ -22,7 +22,7 @@ const corpusSource = createWebCorpusSource({
     logger: message => console.error('# ' + message),
 })
 
-const data = corpusData(await corpusSource.docs())
+const data = await corpusData(await corpusSource.docs())
 
 console.error(`# ${data.docs.length} docs`)
 console.log(JSON.stringify(data, null, 2))

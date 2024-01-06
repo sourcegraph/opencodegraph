@@ -9,6 +9,6 @@ export function doc(id: DocID, text: string): Doc {
 
 describe('indexCorpus', () => {
     test('#docs', async () => {
-        expect((await indexCorpus(corpusData([doc(1, 'a'), doc(2, 'b')]))).docs.length).toBe(2)
+        expect((await indexCorpus(await corpusData([doc(1, 'a'), doc(2, 'b')]))).docs.length).toBe(2)
     })
 })

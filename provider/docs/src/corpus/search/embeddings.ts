@@ -4,9 +4,6 @@ import { type CorpusIndex, type CorpusSearchResult, type Query } from '..'
 import { isWebWindowRuntime, useWebWorker } from '../../env'
 import { type Logger } from '../../logger'
 import { embedTextOnWorker } from '../../mlWorker/webWorkerClient'
-import { contentID } from '../cache/contentID'
-import { memo } from '../cache/memo'
-import { type SearchOptions } from './multi'
 
 // TODO(sqs): think we can remove this entirely...
 //
@@ -30,11 +27,7 @@ if (isWebWindowRuntime) {
 
 env.allowLocalModels = false
 
-export async function embeddingsSearch(
-    index: CorpusIndex,
-    query: Query,
-    { cache, logger }: SearchOptions
-): Promise<CorpusSearchResult[]> {
+export async function embeddingsSearch(index: CorpusIndex, query: Query): Promise<CorpusSearchResult[]> {
     const textToEmbed = [query.meta?.activeFilename && `// ${query.meta?.activeFilename}`, query.text]
         .filter((s): s is string => Boolean(s))
         .join('\n')
@@ -44,33 +37,20 @@ export async function embeddingsSearch(
     const MIN_SCORE = 0.1
 
     // Compute embeddings in parallel.
-    const results: CorpusSearchResult[] = (
-        await Promise.all(
-            index.docs.flatMap(({ doc, chunks }) =>
-                chunks.map(async (chunk, i) => {
-                    const chunkVec = await cachedEmbedText(chunk.text, { cache, logger })
-                    const score = cosSim(chunkVec)
-                    return score >= MIN_SCORE
-                        ? ({ doc: doc.id, chunk: i, score, excerpt: chunk.text } satisfies CorpusSearchResult)
-                        : null
-                })
-            )
+    const results: CorpusSearchResult[] = index.docs
+        .flatMap(({ doc, chunks }) =>
+            chunks.map((chunk, i) => {
+                const score = cosSim(chunk.embeddings)
+                return score >= MIN_SCORE
+                    ? ({ doc: doc.id, chunk: i, score, excerpt: chunk.text } satisfies CorpusSearchResult)
+                    : null
+            })
         )
-    ).filter((r): r is CorpusSearchResult => r !== null)
+        .filter((r): r is CorpusSearchResult => r !== null)
 
     results.sort((a, b) => b.score - a.score)
 
     return results.slice(0, 1)
-}
-
-async function cachedEmbedText(text: string, { cache, logger }: SearchOptions): Promise<Float32Array> {
-    return memo(
-        cache,
-        `embedText:${await contentID(text)}`,
-        () => embedText(text, logger),
-        f32a => Array.from(f32a),
-        arr => new Float32Array(arr)
-    )
 }
 
 const pipe = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {})

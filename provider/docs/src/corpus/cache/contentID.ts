@@ -6,6 +6,7 @@ import { type webcrypto } from 'crypto'
 export type ContentID = string
 
 export async function contentID(text: string): Promise<ContentID> {
+    /// ///// console.count('contentID')
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     const crypto: webcrypto.Crypto = (globalThis as any).crypto || (await import('node:crypto')).default.webcrypto
 

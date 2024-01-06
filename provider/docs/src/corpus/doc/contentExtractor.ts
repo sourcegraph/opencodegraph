@@ -22,7 +22,12 @@ export interface Content {
 }
 
 export interface ContentExtractor {
+    /**
+     * The ID of the content extractor is used as a cache key for its output. Change the ID to
+     * invalidate previously cached data when the chunker implementation changes significantly.
+     */
     id: string
+
     extractContent(doc: Doc): Promise<Content | null>
 }
 
