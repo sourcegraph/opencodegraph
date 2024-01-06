@@ -1,0 +1,38 @@
+/* TODO(sqs): dedupe with ui-standalone */
+
+.chip {
+    position: relative;
+}
+
+.header {
+    height: 100%;
+}
+
+.title {
+    margin: 0;
+    padding: 2px 3px;
+    font-weight: unset;
+    font-size: unset;
+    line-height: unset;
+}
+
+.stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    /* Just in case `pointer-events: none` is set on a parent. */
+    pointer-events: auto;
+    content: '';
+}
+
+.popover-content {
+    padding: 3px 5px;
+    margin: 3px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: canvas;
+}

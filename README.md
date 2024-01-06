@@ -36,3 +36,8 @@ _Status: alpha_
 - [Source code](https://github.com/sourcegraph/opencodegraph)
 - [Docs](https://opencodegraph.org)
 - License: [Apache 2.0](LICENSE)
+
+# TODOs
+
+- Make the VS Code status bar toggle show/hide not enable/disable - and let it show/hide per-provider?
+- Add support for "group"

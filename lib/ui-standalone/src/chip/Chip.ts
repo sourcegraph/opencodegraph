@@ -97,6 +97,8 @@ function createPopoverContent({
 
 /**
  * A list of OpenCodeGraph chips.
+ *
+ * If multiple annotations share a `ui.group` value, then the annotations will be grouped.
  */
 export function createChipList({
     annotations,

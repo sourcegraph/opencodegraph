@@ -78,7 +78,11 @@ export default multiplex<Settings>(async settings => {
                         result.push({
                             title: doc.content?.title || doc.doc.url || 'Untitled',
                             url: doc.doc.url,
-                            ui: { detail: truncate(doc.content?.textContent || sr.excerpt, 200) },
+                            ui: {
+                                detail: truncate(doc.content?.textContent || sr.excerpt, 200),
+                                format: 'plaintext',
+                                group: 'Docs',
+                            },
                             range: {
                                 start: positionCalculator(contentChunk.range.start),
                                 end: positionCalculator(contentChunk.range.end),

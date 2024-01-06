@@ -1,4 +1,11 @@
 /**
+ * A hint about how to best present an annotation to the human in the client's user interface.
+ *
+ * - `group-at-top-of-file`: Group all annotations with the same `ui.group` value together and display them at the top of the file instead of at their given file range.
+ */
+export type PresentationHint = 'group-at-top-of-file'
+
+/**
  * Metadata about code
  */
 export interface Schema {
@@ -36,9 +43,13 @@ export interface UserInterface {
      * If set, this annotation is grouped together with all other annotations with the same `group` value.
      */
     group?: string
+    /**
+     * Hints about the best way to present this annotation. Different clients interpret hints differently because they have different user interfaces.
+     */
+    presentationHints?: PresentationHint[]
 }
 /**
- * Information from the annotation intended for consumption by AI, not humans.222
+ * Information from the annotation intended for consumption by AI, not humans.
  */
 export interface AssistantInfo {
     /**

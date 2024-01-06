@@ -8,8 +8,10 @@ import styles from './Popover.module.css'
 export const Popover: FunctionComponent<{
     anchor: HTMLElement
     visible: boolean
+    onMouseEnter?: () => void
+    onMouseLeave?: () => void
     children: ReactNode
-}> = ({ anchor, visible, children }) => {
+}> = ({ anchor, visible, onMouseEnter, onMouseLeave, children }) => {
     const popoverEl = useRef<HTMLDivElement>(null)
 
     const showPopover = useCallback((): void => {
@@ -41,8 +43,14 @@ export const Popover: FunctionComponent<{
     }, [hidePopover, showPopover, visible])
 
     return (
-        // eslint-disable-next-line react/no-unknown-property
-        <div popover="auto" ref={popoverEl} className={styles.popover}>
+        <div
+            // eslint-disable-next-line react/no-unknown-property
+            popover="auto"
+            ref={popoverEl}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            className={styles.popover}
+        >
             {children}
         </div>
     )
