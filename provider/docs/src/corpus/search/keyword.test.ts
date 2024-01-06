@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { indexCorpus, type CorpusSearchResult } from '..'
-import { corpusData } from '../data'
+import { createCorpusArchive } from '../archive/corpusArchive'
 import { doc } from '../index.test'
 import { keywordSearch } from './keyword'
 import { calculateTFIDF } from './tfidf'
@@ -8,7 +8,7 @@ import { calculateTFIDF } from './tfidf'
 describe('keywordSearch', () => {
     test('finds matches', async () => {
         expect(
-            keywordSearch(await indexCorpus(await corpusData([doc(1, 'aaa'), doc(2, 'bbb')])), { text: 'bbb' })
+            keywordSearch(await indexCorpus(await createCorpusArchive([doc(1, 'aaa'), doc(2, 'bbb')])), { text: 'bbb' })
         ).toEqual<CorpusSearchResult[]>([
             {
                 doc: 2,

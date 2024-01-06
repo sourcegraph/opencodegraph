@@ -6,13 +6,12 @@ import {
     type CapabilitiesResult,
 } from '@opencodegraph/provider'
 import { indexCorpus } from '../corpus'
+import { corpusDataURLSource, createCorpusArchive } from '../corpus/archive/corpusArchive'
+import { createWebCorpusArchive } from '../corpus/archive/web/webCorpusArchive'
 import { createIndexedDBCacheStore } from '../corpus/cache/store/indexedDB'
 import { createWebStorageCacheStore } from '../corpus/cache/store/localStorage'
-import { corpusData } from '../corpus/data'
 import { chunk } from '../corpus/doc/chunks'
 import { extractContentUsingMozillaReadability } from '../corpus/doc/contentExtractor'
-import { corpusDataURLSource } from '../corpus/source/source'
-import { createWebCorpusSource } from '../corpus/source/web/webCorpusSource'
 import { multiplex } from './multiplex'
 
 /** Settings for the docs OpenCodeGraph provider. */
@@ -41,13 +40,13 @@ export default multiplex<Settings>(async settings => {
     const source =
         'url' in settings.corpus
             ? corpusDataURLSource(settings.corpus.url)
-            : createWebCorpusSource({
+            : createWebCorpusArchive({
                   entryPage: new URL(settings.corpus.entryPage),
                   prefix: new URL(settings.corpus.prefix),
                   ignore: settings.corpus.ignore,
                   logger: message => console.log(message),
               })
-    const index = await indexCorpus(await corpusData(await source.docs()), {
+    const index = await indexCorpus(await createCorpusArchive(await source.docs()), {
         cacheStore: CORPUS_CACHE,
         contentExtractor: extractContentUsingMozillaReadability,
         logger: console.debug,

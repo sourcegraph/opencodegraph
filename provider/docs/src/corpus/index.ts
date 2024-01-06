@@ -1,8 +1,8 @@
 import { type Logger } from '../logger'
+import { type CorpusArchive } from './archive/corpusArchive'
 import { createCache, noopCache, type Cache, type CacheStore } from './cache/cache'
 import { contentID } from './cache/contentID'
 import { memo } from './cache/memo'
-import { type CorpusData } from './data'
 import { chunk, type Chunk, type ChunkIndex } from './doc/chunks'
 import { type Content, type ContentExtractor } from './doc/contentExtractor'
 import { type Doc, type DocID } from './doc/doc'
@@ -14,7 +14,7 @@ import { createTFIDFIndex, type TFIDFIndex } from './search/tfidf'
  * An index of a corpus.
  */
 export interface CorpusIndex {
-    data: CorpusData
+    data: CorpusArchive
 
     // Index data
     docs: IndexedDoc[]
@@ -68,16 +68,30 @@ export interface IndexOptions {
     logger?: Logger
 }
 
+export function corpusIndexFromURL(url: string): Promise<CorpusIndex> {
+    // TODO(sqs)
+    return corpusDataSource(
+        fetch(url).then(resp => {
+            if (!resp.ok) {
+                throw new Error(`failed to fetch corpus data from ${url}: ${resp.status} ${resp.statusText}`)
+            }
+            if (!resp.headers.get('Content-Type')?.includes('json')) {
+                throw new Error(`corpus data from ${url} is not JSON`)
+            }
+            return resp.json()
+        })
+    )
+}
+
 /**
  * Index a corpus.
  */
 export async function indexCorpus(
-    corpus: CorpusData,
+    corpus: CorpusArchive,
     { cacheStore, contentExtractor, logger }: IndexOptions = {}
 ): Promise<CorpusIndex> {
     const cache = cacheStore ? createCache(cacheStore) : noopCache
 
-    // TODO(sqs): index takes ~235ms
     const indexedDocs = await cachedIndexCorpusDocs(corpus, { contentExtractor }, cache)
 
     const tfidf = await cachedCreateTFIDFIndex(indexedDocs, cache)
@@ -101,7 +115,7 @@ export async function indexCorpus(
 }
 
 async function indexCorpusDocs(
-    corpus: CorpusData,
+    corpus: CorpusArchive,
     { contentExtractor }: Pick<IndexOptions, 'contentExtractor'>
 ): Promise<IndexedDoc[]> {
     return Promise.all(
@@ -127,7 +141,7 @@ async function indexCorpusDocs(
 }
 
 async function cachedIndexCorpusDocs(
-    corpus: CorpusData,
+    corpus: CorpusArchive,
     options: Pick<IndexOptions, 'contentExtractor'>,
     cache: Cache
 ): Promise<IndexedDoc[]> {

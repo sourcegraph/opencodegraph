@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest'
 import { indexCorpus } from '..'
-import { corpusData } from '../data'
+import { createCorpusArchive } from '../archive/corpusArchive'
 import { calculateTFIDF, computeTFIDF, createTFIDFIndex } from './tfidf'
 
 describe('createTFIDFIndex', async () => {
-    const data = await corpusData([
+    const data = await createCorpusArchive([
         { id: 1, text: 'aa b c c c' },
         { id: 2, text: 'b c d' },
         { id: 3, text: 'c d e' },

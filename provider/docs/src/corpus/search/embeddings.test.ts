@@ -1,13 +1,15 @@
 import { describe, expect, test } from 'vitest'
 import { indexCorpus, type CorpusSearchResult } from '..'
-import { corpusData } from '../data'
+import { createCorpusArchive } from '../archive/corpusArchive'
 import { doc } from '../index.test'
 import { embeddingsSearch, embedTextInThisScope, similarity } from './embeddings'
 
 describe('embeddingsSearch', () => {
     test('finds matches', async () => {
         expect(
-            await embeddingsSearch(await indexCorpus(await corpusData([doc(1, 'xxxxxx'), doc(2, 'b')])), { text: 'b' })
+            await embeddingsSearch(await indexCorpus(await createCorpusArchive([doc(1, 'xxxxxx'), doc(2, 'b')])), {
+                text: 'b',
+            })
         ).toEqual<CorpusSearchResult[]>([{ doc: 2, chunk: 0, score: 1, excerpt: 'b' }])
     })
 })

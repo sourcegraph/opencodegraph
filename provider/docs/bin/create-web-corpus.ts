@@ -1,6 +1,6 @@
 import path from 'path'
-import { corpusData } from '../src/corpus/data'
-import { createWebCorpusSource } from '../src/corpus/source/web/webCorpusSource'
+import { createCorpusArchive } from '../src/corpus/archive/corpusArchive'
+import { createWebCorpusArchive } from '../src/corpus/archive/web/webCorpusArchive'
 
 const args = process.argv.slice(2)
 
@@ -15,14 +15,14 @@ if (!entryPage || !prefix || args.length < 2) {
     process.exit(1)
 }
 
-const corpusSource = createWebCorpusSource({
+const corpusSource = createWebCorpusArchive({
     entryPage: new URL(entryPage),
     prefix: new URL(prefix),
     ignore,
     logger: message => console.error('# ' + message),
 })
 
-const data = await corpusData(await corpusSource.docs())
+const data = await createCorpusArchive(await corpusSource.docs())
 
 console.error(`# ${data.docs.length} docs`)
 console.log(JSON.stringify(data, null, 2))

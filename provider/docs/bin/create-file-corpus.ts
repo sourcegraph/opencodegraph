@@ -1,6 +1,6 @@
 import { readFile } from 'fs/promises'
 import path from 'path'
-import { corpusData } from '../src/corpus/data'
+import { createCorpusArchive } from '../src/corpus/archive/corpusArchive'
 import { type Doc } from '../src/corpus/doc/doc'
 
 const args = process.argv.slice(2)
@@ -14,7 +14,7 @@ if (corpusFiles.length === 0) {
     process.exit(1)
 }
 
-const data = await corpusData(
+const data = await createCorpusArchive(
     await Promise.all(
         corpusFiles.map(async (file, i) => {
             const data = await readFile(file, 'utf8')

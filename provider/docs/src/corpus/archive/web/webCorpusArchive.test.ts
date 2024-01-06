@@ -1,7 +1,7 @@
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest'
 import createFetchMock from 'vitest-fetch-mock'
 import { type Doc } from '../../doc/doc'
-import { createWebCorpusSource, urlHasPrefix } from './webCorpusSource'
+import { createWebCorpusArchive, urlHasPrefix } from './webCorpusArchive'
 
 describe('createWebCorpusSource', () => {
     const fetchMocker = createFetchMock(vi)
@@ -59,11 +59,11 @@ describe('createWebCorpusSource', () => {
             throw new Error(`not mocked: ${req.url}`)
         })
 
-        const source = createWebCorpusSource({
+        const archive = await createWebCorpusArchive({
             entryPage: new URL('https://example.com/docs/entry'),
             prefix: new URL('https://example.com/docs'),
         })
-        expect(await source.docs()).toEqual<Doc[]>([
+        expect(archive.docs).toEqual<Doc[]>([
             { id: 1, text: mockPages['/docs/entry'].body, url: 'https://example.com/docs/entry' },
             { id: 2, text: mockPages['/docs/foo'].body, url: 'https://example.com/docs/foo' },
             { id: 3, text: mockPages['/docs/bar'].body, url: 'https://example.com/docs/bar' },
@@ -86,11 +86,11 @@ describe('createWebCorpusSource', () => {
             </html>`,
             { url: 'https://example.com/a/' }
         )
-        const source = createWebCorpusSource({
+        const archive = await createWebCorpusArchive({
             entryPage: new URL('https://example.com/a/'),
             prefix: new URL('https://example.com'),
         })
-        expect(await source.docs()).toMatchObject<Omit<Doc, 'text'>[]>([{ id: 1, url: 'https://example.com/a' }])
+        expect(archive.docs).toMatchObject<Omit<Doc, 'text'>[]>([{ id: 1, url: 'https://example.com/a' }])
     })
 })
 

@@ -2,8 +2,8 @@ import { readFile } from 'fs/promises'
 import path from 'path'
 import envPaths from 'env-paths'
 import { indexCorpus } from '../src/corpus'
+import { type CorpusArchive } from '../src/corpus/archive/corpusArchive'
 import { createFileSystemCacheStore } from '../src/corpus/cache/store/fs'
-import { type CorpusData } from '../src/corpus/data'
 import { extractContentUsingMozillaReadability } from '../src/corpus/doc/contentExtractor'
 
 const args = process.argv.slice(2)
@@ -28,7 +28,7 @@ if (args.length !== 2) {
     process.exit(1)
 }
 
-const corpusData = JSON.parse(await readFile(corpusDataFile, 'utf8')) as CorpusData
+const corpusData = JSON.parse(await readFile(corpusDataFile, 'utf8')) as CorpusArchive
 
 const cacheDir = envPaths('opencodegraph-provider-docs').cache
 const fsCache = createFileSystemCacheStore(cacheDir)
