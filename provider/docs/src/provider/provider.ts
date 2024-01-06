@@ -81,7 +81,7 @@ export default multiplex<Settings>(async settings => {
                             ui: {
                                 detail: truncate(doc.content?.textContent || sr.excerpt, 200),
                                 format: 'plaintext',
-                                group: 'Docs',
+                                group: '📘 Docs',
                                 presentationHints: ['group-at-top-of-file'],
                             },
                             range: {

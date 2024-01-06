@@ -20,7 +20,7 @@ import { type ProviderClient } from './providerClient/createProviderClient'
  * An OpenCodeGraph annotation.
  */
 export interface Annotation<R extends Range = Range> extends Omit<AnnotationWithPlainRange, 'range'> {
-    range: R | undefined
+    range?: R | undefined
 }
 
 /**

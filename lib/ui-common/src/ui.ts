@@ -1,18 +1,33 @@
 import { type Annotation, type Range } from '@opencodegraph/schema'
 
-// TODO(sqs)
+interface AnnotationWithRichRange<R extends Range> extends Omit<Annotation, 'range'> {
+    range?: R
+}
 
 /**
  * Applies presentation hints to annotations.
  */
-export function prepareAnnotationsForPresentation<R extends Range>(annotations: Annotation<R>[]): Annotation<R>[] {
-    return annotations.map(ann => {
-        if (ann.ui?.presentationHints?.includes('group-at-top-of-file')) {
-            ann = { ...ann, range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } } }
-        }
-        return ann
-    })
+export function prepareAnnotationsForPresentation(annotations: Annotation[]): Annotation[]
+export function prepareAnnotationsForPresentation<R extends Range = Range>(
+    annotations: AnnotationWithRichRange<R>[],
+    makeRange: (range: Range) => R
+): AnnotationWithRichRange<R>[]
+export function prepareAnnotationsForPresentation<R extends Range = Range>(
+    annotations: AnnotationWithRichRange<R>[],
+    makeRange?: (range: Range) => R
+): AnnotationWithRichRange<R>[] {
+    return annotations
+        .map(ann => {
+            if (ann.ui?.presentationHints?.includes('group-at-top-of-file')) {
+                // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+                ann = { ...ann, range: makeRange ? makeRange(ZERO_RANGE) : ZERO_RANGE } as AnnotationWithRichRange<R>
+            }
+            return ann
+        })
+        .toSorted((a, b) => (a.range?.start.line ?? 0) - (b.range?.start.line ?? 0))
 }
+
+const ZERO_RANGE: Range = { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } }
 
 /**
  * Group annotations that have the same `ui.group` value.

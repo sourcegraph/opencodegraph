@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import { defineConfig, searchForWorkspaceRoot } from 'vite'
 
 // TODO(sqs): un-hardcode
-const docsProviderDataDir = resolve('/Users/sqs/tmp/ocg-provider-docs')
+const docsProviderDataDir = resolve('/home/sqs/tmp/ocg-provider-docs')
 
 export default defineConfig(({ mode }) => ({
     plugins: [react()],
