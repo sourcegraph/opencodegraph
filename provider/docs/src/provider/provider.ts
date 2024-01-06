@@ -76,8 +76,8 @@ export default multiplex<Settings>(async settings => {
 
                         const doc = index.doc(sr.doc)
                         result.push({
-                            title: doc.content?.title || doc.doc.url || 'Untitled',
-                            url: doc.doc.url,
+                            title: doc.content?.title || doc.url || 'Untitled',
+                            url: doc.url,
                             ui: {
                                 detail: truncate(doc.content?.textContent || sr.excerpt, 200),
                                 format: 'plaintext',

@@ -38,11 +38,11 @@ export async function embeddingsSearch(index: CorpusIndex, query: Query): Promis
 
     // Compute embeddings in parallel.
     const results: CorpusSearchResult[] = index.docs
-        .flatMap(({ doc, chunks }) =>
+        .flatMap(({ docID, chunks }) =>
             chunks.map((chunk, i) => {
                 const score = cosSim(chunk.embeddings)
                 return score >= MIN_SCORE
-                    ? ({ doc: doc.id, chunk: i, score, excerpt: chunk.text } satisfies CorpusSearchResult)
+                    ? ({ doc: docID, chunk: i, score, excerpt: chunk.text } satisfies CorpusSearchResult)
                     : null
             })
         )

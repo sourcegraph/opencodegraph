@@ -28,11 +28,13 @@ export interface CorpusIndex {
  * An indexed document.
  */
 export interface IndexedDoc {
-    /** The SHA-256 hash of the content. */
-    contentID: string
+    docID: Doc['id']
 
-    doc: Doc
-    content: Content | null
+    content: Pick<Content, 'title' | 'textContent'> | null
+    url: Doc['url']
+
+    /** The SHA-256 hash of the indexed content (including chunks). */
+    contentID: string
 
     chunks: (Chunk & { embeddings: Float32Array })[]
 }
@@ -91,7 +93,7 @@ export async function indexCorpus(
         docs: indexedDocs,
         tfidf,
         doc(id) {
-            const doc = indexedDocs.find(d => d.doc.id === id)
+            const doc = indexedDocs.find(d => d.docID === id)
             if (!doc) {
                 throw new Error(`no document with id ${id} in corpus`)
             }
@@ -113,9 +115,13 @@ async function indexCorpusDocs(
             const content = contentExtractor ? await contentExtractor.extractContent(doc) : null
             const chunks = chunk(content?.content ?? doc.text, { isMarkdown: doc.text.includes('##') })
             return {
+                docID: doc.id,
+                url: doc.url,
+                content:
+                    content?.title && content?.textContent
+                        ? { title: content.title, textContent: content.textContent }
+                        : null,
                 contentID: await contentID(JSON.stringify([doc, content, chunks])),
-                doc,
-                content,
                 chunks: await Promise.all(
                     chunks.map(async chunk => ({
                         ...chunk,

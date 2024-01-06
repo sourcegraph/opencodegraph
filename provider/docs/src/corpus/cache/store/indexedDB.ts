@@ -9,7 +9,7 @@ import { type CacheStore } from '../cache'
 export function createIndexedDBCacheStore(keyPrefix: string): CacheStore {
     // Use keyPrefix as the IndexedDB database name, which means we don't need to use it as the
     // actual entry key prefix in the DB.
-    const storage = new IndexedDBStorage(keyPrefix)
+    const storage = new IndexedDBStorage(keyPrefix, 'cache')
 
     return {
         async get(key) {

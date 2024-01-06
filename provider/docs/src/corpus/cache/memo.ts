@@ -56,7 +56,7 @@ export async function memo<T>(
     }
 }
 
-const VERBOSE_MEMO: string | boolean = 'indexCorpusDocs'
+const VERBOSE_MEMO: string | boolean = true
 
 function log(key: string, message: string): void {
     if (VERBOSE_MEMO === true || (typeof VERBOSE_MEMO === 'string' && key.includes(VERBOSE_MEMO))) {

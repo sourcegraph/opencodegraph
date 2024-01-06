@@ -8,11 +8,11 @@ export function keywordSearch(index: CorpusIndex, query: Query): CorpusSearchRes
     const queryTerms = terms(query.text).filter(term => term.length >= 3)
 
     const results: CorpusSearchResult[] = []
-    for (const { doc, chunks } of index.docs) {
+    for (const { docID, chunks } of index.docs) {
         for (const [i, chunk] of chunks.entries()) {
-            const score = queryTerms.reduce((score, term) => score + computeTFIDF(term, doc.id, i, index.tfidf), 0)
+            const score = queryTerms.reduce((score, term) => score + computeTFIDF(term, docID, i, index.tfidf), 0)
             if (score > 0) {
-                results.push({ doc: doc.id, chunk: i, score, excerpt: chunk.text })
+                results.push({ doc: docID, chunk: i, score, excerpt: chunk.text })
             }
         }
     }

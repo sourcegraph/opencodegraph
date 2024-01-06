@@ -35,12 +35,12 @@ export function createTFIDFIndex(docs: IndexedDoc[]): TFIDFIndex {
 
     let totalChunks = 0
 
-    for (const { doc, chunks } of docs) {
+    for (const { docID, chunks } of docs) {
         const docTermFrequency: Map<Term, number>[] = new Array<Map<Term, number>>(chunks.length)
-        termFrequency.set(doc.id, docTermFrequency)
+        termFrequency.set(docID, docTermFrequency)
 
         const docTermLength: number[] = new Array<number>(chunks.length)
-        termLength.set(doc.id, docTermLength)
+        termLength.set(docID, docTermLength)
 
         for (const [i, chunk] of chunks.entries()) {
             const chunkTerms = terms(chunk.text)
