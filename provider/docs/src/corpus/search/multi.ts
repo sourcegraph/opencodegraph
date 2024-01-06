@@ -48,12 +48,9 @@ export async function multiSearch(
         docResults.set(result.chunk, { ...chunkResult, score: chunkResult.score + result.score })
     }
 
-    const MIN_SCORE = 0.5
-
-    const results = Array.from(combinedResults.values())
-        .flatMap(docResults => Array.from(docResults.values()))
-        .filter(s => s.score >= MIN_SCORE)
-    return results.toSorted((a, b) => b.score - a.score)
+    const results = Array.from(combinedResults.values()).flatMap(docResults => Array.from(docResults.values()))
+    const MIN_SCORE = 0.3
+    return results.filter(s => s.score >= MIN_SCORE).toSorted((a, b) => b.score - a.score)
 }
 
 const SEARCH_METHODS: Record<

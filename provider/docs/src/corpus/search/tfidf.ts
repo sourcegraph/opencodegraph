@@ -35,7 +35,10 @@ export function createTFIDFIndex(docs: IndexedDoc[]): TFIDFIndex {
 
     let totalChunks = 0
 
-    for (const { docID, chunks } of docs) {
+    for (const {
+        doc: { id: docID },
+        chunks,
+    } of docs) {
         const docTermFrequency: Map<Term, number>[] = new Array<Map<Term, number>>(chunks.length)
         termFrequency.set(docID, docTermFrequency)
 
@@ -88,13 +91,7 @@ export interface TFIDFIndex {
  * Compute the TF-IDF for a term in a document chunk using an index created by
  * {@link createTFIDFIndex}.
  */
-export function computeTFIDF(termRaw: string, doc: DocID, chunk: ChunkIndex, index: TFIDFIndex): number {
-    const processedTerms = terms(termRaw)
-    if (processedTerms.length !== 1) {
-        throw new Error(`term ${JSON.stringify(termRaw)} is not a single term`)
-    }
-    const term = processedTerms[0]
-
+export function computeTFIDF(term: Term, doc: DocID, chunk: ChunkIndex, index: TFIDFIndex): number {
     const docTermLength = index.termLength.get(doc)
     if (!docTermLength) {
         throw new Error(`doc ${doc} not found in termLength`)

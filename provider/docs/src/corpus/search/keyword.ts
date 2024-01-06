@@ -3,12 +3,13 @@ import { terms } from './terms'
 import { computeTFIDF } from './tfidf'
 
 export function keywordSearch(index: CorpusIndex, query: Query): CorpusSearchResult[] {
-    console.time('kw' + query.text.length)
-
     const queryTerms = terms(query.text).filter(term => term.length >= 3)
 
     const results: CorpusSearchResult[] = []
-    for (const { docID, chunks } of index.docs) {
+    for (const {
+        doc: { id: docID },
+        chunks,
+    } of index.docs) {
         for (const [i, chunk] of chunks.entries()) {
             const score = queryTerms.reduce((score, term) => score + computeTFIDF(term, docID, i, index.tfidf), 0)
             if (score > 0) {
@@ -16,6 +17,5 @@ export function keywordSearch(index: CorpusIndex, query: Query): CorpusSearchRes
             }
         }
     }
-    console.timeEnd('kw' + query.text.length)
     return results
 }

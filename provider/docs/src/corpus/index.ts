@@ -28,10 +28,8 @@ export interface CorpusIndex {
  * An indexed document.
  */
 export interface IndexedDoc {
-    docID: Doc['id']
-
+    doc: Pick<Doc, 'id' | 'url'>
     content: Pick<Content, 'title' | 'textContent'> | null
-    url: Doc['url']
 
     /** The SHA-256 hash of the indexed content (including chunks). */
     contentID: string
@@ -80,20 +78,16 @@ export async function indexCorpus(
     const cache = cacheStore ? createCache(cacheStore) : noopCache
 
     // TODO(sqs): index takes ~235ms
-    console.time('index-docs')
     const indexedDocs = await cachedIndexCorpusDocs(corpus, { contentExtractor }, cache)
-    console.timeEnd('index-docs')
 
-    console.time('index-tfidf')
     const tfidf = await cachedCreateTFIDFIndex(indexedDocs, cache)
-    console.timeEnd('index-tfidf')
 
     const index: CorpusIndex = {
         data: corpus,
         docs: indexedDocs,
         tfidf,
         doc(id) {
-            const doc = indexedDocs.find(d => d.docID === id)
+            const doc = indexedDocs.find(d => d.doc.id === id)
             if (!doc) {
                 throw new Error(`no document with id ${id} in corpus`)
             }
@@ -115,8 +109,7 @@ async function indexCorpusDocs(
             const content = contentExtractor ? await contentExtractor.extractContent(doc) : null
             const chunks = chunk(content?.content ?? doc.text, { isMarkdown: doc.text.includes('##') })
             return {
-                docID: doc.id,
-                url: doc.url,
+                doc: { id: doc.id, url: doc.url },
                 content:
                     content?.title && content?.textContent
                         ? { title: content.title, textContent: content.textContent }

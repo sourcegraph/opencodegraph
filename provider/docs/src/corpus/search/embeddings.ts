@@ -4,6 +4,7 @@ import { type CorpusIndex, type CorpusSearchResult, type Query } from '..'
 import { isWebWindowRuntime, useWebWorker } from '../../env'
 import { type Logger } from '../../logger'
 import { embedTextOnWorker } from '../../mlWorker/webWorkerClient'
+import { terms } from './terms'
 
 // TODO(sqs): think we can remove this entirely...
 //
@@ -31,14 +32,14 @@ export async function embeddingsSearch(index: CorpusIndex, query: Query): Promis
     const textToEmbed = [query.meta?.activeFilename && `// ${query.meta?.activeFilename}`, query.text]
         .filter((s): s is string => Boolean(s))
         .join('\n')
-    const queryVec = await embedText(textToEmbed)
+    const queryVec = await embedText(terms(textToEmbed).join(' '))
     const cosSim = cosSimWith(queryVec)
 
-    const MIN_SCORE = 0.1
+    const MIN_SCORE = 0.25
 
     // Compute embeddings in parallel.
     const results: CorpusSearchResult[] = index.docs
-        .flatMap(({ docID, chunks }) =>
+        .flatMap(({ doc: { id: docID }, chunks }) =>
             chunks.map((chunk, i) => {
                 const score = cosSim(chunk.embeddings)
                 return score >= MIN_SCORE
@@ -50,7 +51,7 @@ export async function embeddingsSearch(index: CorpusIndex, query: Query): Promis
 
     results.sort((a, b) => b.score - a.score)
 
-    return results.slice(0, 1)
+    return results
 }
 
 const pipe = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {})
