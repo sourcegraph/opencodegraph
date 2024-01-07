@@ -53,7 +53,7 @@ export default multiplex<Settings>(async settings => {
                                 detail: truncate(doc.content?.textContent || sr.excerpt, 200),
                                 format: 'plaintext',
                                 group: '📘 Docs',
-                                presentationHints: ['group-at-top-of-file'],
+                                presentationHints: ['group-at-top-of-file', 'prefer-link-over-detail'],
                             },
                             range: {
                                 start: positionCalculator(contentChunk.range.start),

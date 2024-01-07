@@ -43,6 +43,7 @@ if (isWebWindowRuntime) {
 } else {
     // TODO(sqs): seems to be triggered when running in vscode
     env.backends.onnx.wasm.wasmPaths = __dirname + '/../node_modules/@xenova/transformers/dist/'
+    env.backends.onnx.wasm.numThreads = 1
 }
 
 env.allowLocalModels = false

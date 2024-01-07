@@ -1,7 +1,8 @@
-import { type Annotation } from '@opencodegraph/client'
+import { prepareAnnotationsForPresentation } from '@opencodegraph/ui-common'
+import { type AnnotationWithAdjustedRange } from '@opencodegraph/ui-common/src/ui'
 import { firstValueFrom, map } from 'rxjs'
 import * as vscode from 'vscode'
-import { type Controller } from '../../controller'
+import { makeRange, type Controller } from '../../controller'
 
 interface CodeLens extends vscode.CodeLens {}
 
@@ -20,9 +21,16 @@ export function createCodeLensProvider(controller: Controller): vscode.CodeLensP
         onDidChangeCodeLenses: changeCodeLenses.event,
         async provideCodeLenses(doc: vscode.TextDocument): Promise<CodeLens[]> {
             return firstValueFrom(
-                controller
-                    .observeAnnotations(doc)
-                    .pipe(map(anns => anns?.map(ann => createCodeLens(doc, ann, showHover)) ?? [])),
+                controller.observeAnnotations(doc).pipe(
+                    map(anns => {
+                        if (anns === null) {
+                            return []
+                        }
+                        return prepareAnnotationsForPresentation<vscode.Range>(anns, makeRange).map(ann =>
+                            createCodeLens(doc, ann, showHover)
+                        )
+                    })
+                ),
                 { defaultValue: [] }
             )
         },
@@ -36,16 +44,19 @@ export function createCodeLensProvider(controller: Controller): vscode.CodeLensP
 
 function createCodeLens(
     doc: vscode.TextDocument,
-    ann: Annotation<vscode.Range>,
+    ann: AnnotationWithAdjustedRange<vscode.Range>,
     showHover: ReturnType<typeof createShowHoverCommand>
 ): CodeLens {
-    const range = ann.range ?? new vscode.Range(0, 0, 0, 0)
+    // If the presentationHint `group-at-top-of-file` is used, show the code lens at the top of the
+    // file, but make it trigger the hover at its actual location.
+    const attachRange = ann.range ?? new vscode.Range(0, 0, 0, 0)
+    const hoverRange = ann.originalRange ?? attachRange
     return {
-        range,
+        range: attachRange,
         command: {
             title: ann.title,
-            ...(ann.ui?.detail
-                ? showHover.createCommandArgs(doc.uri, range.start)
+            ...(ann.ui?.detail && !ann.ui.presentationHints?.includes('prefer-link-over-detail')
+                ? showHover.createCommandArgs(doc.uri, hoverRange.start)
                 : ann.url
                 ? openWebBrowserCommandArgs(ann.url)
                 : { command: 'noop' }),

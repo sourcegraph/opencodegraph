@@ -2,8 +2,9 @@
  * A hint about how to best present an annotation to the human in the client's user interface.
  *
  * - `group-at-top-of-file`: Group all annotations with the same `ui.group` value together and display them at the top of the file instead of at their given file range.
+ * - `prefer-link-over-detail`: Prefer to show the annotation as a link over showing the detail text, if the client does not cleanly support doing both.
  */
-export type PresentationHint = 'group-at-top-of-file'
+export type PresentationHint = 'group-at-top-of-file' | 'prefer-link-over-detail'
 
 /**
  * Metadata about code

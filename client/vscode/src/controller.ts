@@ -142,7 +142,7 @@ function ignoreDoc(doc: vscode.TextDocument): boolean {
     return doc.uri.scheme === 'output' || doc.lineCount > 5000
 }
 
-function makeRange(range: Range): vscode.Range {
+export function makeRange(range: Range): vscode.Range {
     return new vscode.Range(range.start.line, range.start.character, range.end.line, range.end.character)
 }
 

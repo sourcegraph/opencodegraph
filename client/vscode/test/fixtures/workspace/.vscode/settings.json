@@ -5,7 +5,8 @@
   "opencodegraph.providers": {
     "../../../../../../provider/docs/dist/provider.cjs": {
       // "index": "http://localhost:5900/@fs/home/sqs/tmp/ocg-provider-docs/vite-docs-web.index.json",
-      "index": "file:///home/sqs/tmp/ocg-provider-docs/vite-docs-web.index.json",
+      // "index": "file:///home/sqs/tmp/ocg-provider-docs/vite-docs-web.index.json",
+      "index": "file:///home/sqs/tmp/ocg-provider-docs/sourcegraph-docs-old-web.index.json",
     },
   },
   "opencodegraph.providers2": {

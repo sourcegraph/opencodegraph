@@ -12,5 +12,8 @@
     {
       "path": "../../lib/client",
     },
+    {
+      "path": "../../lib/ui-common",
+    },
   ],
 }

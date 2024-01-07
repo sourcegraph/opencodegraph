@@ -187,6 +187,7 @@
   },
   "dependencies": {
     "@opencodegraph/client": "workspace:*",
+    "@opencodegraph/ui-common": "workspace:*",
     "esbuild-wasm": "^0.19.10",
     "path-browserify": "^1.0.1",
     "rxjs": "^7.8.1"

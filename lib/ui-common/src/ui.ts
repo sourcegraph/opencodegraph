@@ -1,7 +1,8 @@
 import { type Annotation, type Range } from '@opencodegraph/schema'
 
-interface AnnotationWithRichRange<R extends Range> extends Omit<Annotation, 'range'> {
+export interface AnnotationWithAdjustedRange<R extends Range> extends Omit<Annotation, 'range'> {
     range?: R
+    originalRange?: R
 }
 
 /**
@@ -9,18 +10,22 @@ interface AnnotationWithRichRange<R extends Range> extends Omit<Annotation, 'ran
  */
 export function prepareAnnotationsForPresentation(annotations: Annotation[]): Annotation[]
 export function prepareAnnotationsForPresentation<R extends Range = Range>(
-    annotations: AnnotationWithRichRange<R>[],
+    annotations: AnnotationWithAdjustedRange<R>[],
     makeRange: (range: Range) => R
-): AnnotationWithRichRange<R>[]
+): AnnotationWithAdjustedRange<R>[]
 export function prepareAnnotationsForPresentation<R extends Range = Range>(
-    annotations: AnnotationWithRichRange<R>[],
+    annotations: AnnotationWithAdjustedRange<R>[],
     makeRange?: (range: Range) => R
-): AnnotationWithRichRange<R>[] {
+): AnnotationWithAdjustedRange<R>[] {
     return annotations
         .map(ann => {
             if (ann.ui?.presentationHints?.includes('group-at-top-of-file')) {
                 // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-                ann = { ...ann, range: makeRange ? makeRange(ZERO_RANGE) : ZERO_RANGE } as AnnotationWithRichRange<R>
+                ann = {
+                    ...ann,
+                    originalRange: ann.range,
+                    range: makeRange ? makeRange(ZERO_RANGE) : ZERO_RANGE,
+                } as AnnotationWithAdjustedRange<R>
             }
             return ann
         })
