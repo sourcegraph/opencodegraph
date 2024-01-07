@@ -43,6 +43,14 @@ export interface Settings {
 }
 ```
 
+## Design
+
+### Concepts
+
+- Corpus: a set of documents, such as a documentation site for a library.
+- Archive: a raw dump of the contents of a corpus, such as the full HTML content of all web pages on a documentation site.
+- Index: a file containing pre-computed embeddings and full-text search indexes for all documents in an archive.
+
 ## Indexing a documentation corpus
 
 - Create the corpus archive
