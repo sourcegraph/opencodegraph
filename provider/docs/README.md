@@ -57,6 +57,10 @@ export interface Settings {
 - Index the corpus --> the index file is what's
 
 ```
+pnpm -C provider/docs run -s create-archive web '{"entryPage": "https://vitejs.dev/guide", "prefix": "https://vitejs.dev/guide", "ignore":[]}' > ~/tmp/ocg-provider-docs/vite-docs-web-corpus.json
+
+######### OLD below
+
 time p -C provider/docs run -s docs-query 'redirect' $(find ~/src/github.com/vikejs/vike/docs/pages -type f)
 time p -C provider/docs run -s docs-query 'making provider work in vscode' $(find ../../web/content/docs -type f)
 p -C provider/docs run -s create-web-corpus https://docs.sourcegraph.com https://docs.sourcegraph.com https://docs.sourcegraph.com/@ cli/references .json .svg CHANGELOG > ~/tmp/ocg-provider-docs/sourcegraph-docs-old-web-corpus.json

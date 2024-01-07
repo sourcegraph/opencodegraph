@@ -4,7 +4,7 @@ import { type Doc } from '../../doc/doc'
 import { createCorpusArchive, type CorpusArchive } from '../corpusArchive'
 import { createCrawlQueue } from './crawlQueue'
 
-interface WebCorpusArchiveOptions {
+export interface WebCorpusArchiveOptions {
     /**
      * Start crawling from this page.
      */
