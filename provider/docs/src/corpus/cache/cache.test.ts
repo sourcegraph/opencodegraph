@@ -36,13 +36,12 @@ describe('scopedCache', () => {
         expect(data.get('s:k1')).toBe('v1')
     })
 
-    test('fullKey', () => {
-        const { cache: cache0 } = createTestCache()
+    test('doubly nested', async () => {
+        const { data, cache: cache0 } = createTestCache()
 
         const cache1 = scopedCache(cache0, 's1')
-        expect(cache1.fullKey('k')).toBe('s1:k')
-
         const cache2 = scopedCache(cache1, 's2')
-        expect(cache2.fullKey('k')).toBe('s1:s2:k')
+        await cache2.set('k', 'v')
+        expect(Array.from(data.entries())).toEqual([['s1:s2:k', 'v']])
     })
 })
