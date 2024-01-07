@@ -1,12 +1,18 @@
-import { DocID } from '../corpus/doc/doc'
-import { IndexedDoc, type CorpusIndex } from '../corpus/index/corpusIndex'
-import { Logger } from '../logger'
-import { Query, SearchResult } from '../search/types'
+import { type DocID } from '../corpus/doc/doc'
+import { type CorpusIndex, type IndexedDoc } from '../corpus/index/corpusIndex'
+import { type Logger } from '../logger'
+import { type Query, type SearchResult } from '../search/types'
 import { search } from './search'
 
+/**
+ * A client for searching a {@link CorpusIndex}.
+ */
 export interface Client {
-    doc(id: DocID): IndexedDoc
+    /** Search the corpus. */
     search(query: Query): Promise<SearchResult[]>
+
+    /** Get a document by docID. An exception is thrown if no such document exists. */
+    doc(id: DocID): IndexedDoc
 }
 
 export interface ClientOptions {
@@ -16,6 +22,9 @@ export interface ClientOptions {
     logger?: Logger
 }
 
+/**
+ * Create a client for searching a {@link CorpusIndex}.
+ */
 export function createClient(index: CorpusIndex, options: ClientOptions = {}): Client {
     return {
         doc(id) {
@@ -29,19 +38,4 @@ export function createClient(index: CorpusIndex, options: ClientOptions = {}): C
             return search(index, query, { logger: options.logger })
         },
     }
-}
-
-export function corpusIndexFromURL(url: string): Promise<CorpusIndex> {
-    // TODO(sqs)
-    return corpusDataSource(
-        fetch(url).then(resp => {
-            if (!resp.ok) {
-                throw new Error(`failed to fetch corpus data from ${url}: ${resp.status} ${resp.statusText}`)
-            }
-            if (!resp.headers.get('Content-Type')?.includes('json')) {
-                throw new Error(`corpus data from ${url} is not JSON`)
-            }
-            return resp.json()
-        })
-    )
 }
