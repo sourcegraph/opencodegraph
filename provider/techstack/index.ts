@@ -31,7 +31,9 @@ function configuration(filename: string): TSF {
 
 const techstack: Provider<Settings> = {
     capabilities(params: CapabilitiesParams, settings: Settings): CapabilitiesResult {
-        return { selector: [{ path: '**/*.js' }, { path: '**/*.ts' }] } // TODO: support more languages
+        // TODO: support more languages
+        return { selector: [{ path: '**/*.js' }, { path: '**/*.jsx' },
+                            { path: '**/*.ts' }, { path: '**/*.tsx' }] }
     },
 
     annotations(params: AnnotationsParams, settings: Settings): AnnotationsResult {
