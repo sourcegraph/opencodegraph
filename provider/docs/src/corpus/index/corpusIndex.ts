@@ -37,10 +37,16 @@ export async function createCorpusIndex(
 ): Promise<CorpusIndex> {
     const docs = await indexCorpusDocs(archive, { contentExtractor })
     const tfidf = createTFIDFIndex(docs)
-    return {
+    const index: CorpusIndex = {
         docs,
         tfidf,
     }
+    const serializable = {
+        ...index,
+        /** Handles serializing the Float32Array values. */
+        toJSON: () => toJSON(index),
+    }
+    return serializable
 }
 
 async function indexCorpusDocs(
@@ -67,4 +73,36 @@ async function indexCorpusDocs(
             } satisfies IndexedDoc
         })
     )
+}
+
+function toJSON(index: CorpusIndex): any {
+    return {
+        ...index,
+        docs: index.docs.map(doc => ({
+            ...doc,
+            chunks: doc.chunks.map(chunk => ({
+                ...chunk,
+                embeddings: Array.from(chunk.embeddings),
+            })),
+        })),
+    }
+}
+
+/**
+ * Must be called on any {@link CorpusIndex} value that was deserialized using `JSON.parse`.
+ */
+export function fromJSON(indexData: any): CorpusIndex {
+    return {
+        ...indexData,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+        docs: indexData.docs.map((doc: any) => ({
+            ...doc,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+            chunks: doc.chunks.map((chunk: any) => ({
+                ...chunk,
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                embeddings: new Float32Array(chunk.embeddings),
+            })),
+        })),
+    }
 }

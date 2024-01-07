@@ -21,6 +21,10 @@ describe('e2e', () => {
                 chunk: 3,
                 excerpt: 'Audio URL parsing\n\nTo parse an audio URL, use the `parseAudioURL` function.',
                 score: 0.764,
+                scores: {
+                    embeddingsSearch: 0.662,
+                    keywordSearch: 0.102,
+                },
             },
         ])
     })
@@ -29,5 +33,8 @@ describe('e2e', () => {
 function roundScores(results: SearchResult[]) {
     for (const result of results) {
         result.score = Math.round(result.score * 1000) / 1000
+        for (const [searchMethod, score] of Object.entries(result.scores)) {
+            result.scores[searchMethod] = Math.round(score * 1000) / 1000
+        }
     }
 }
