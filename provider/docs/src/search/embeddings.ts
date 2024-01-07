@@ -1,10 +1,10 @@
 import { cos_sim, dot, env, magnitude, pipeline } from '@xenova/transformers'
 import * as onnxWeb from 'onnxruntime-web'
-import { isWebWindowRuntime, useWebWorker } from '../../env'
-import { type Logger } from '../../logger'
-import { embedTextOnWorker } from '../../mlWorker/webWorkerClient'
-import { type CorpusSearchResult, type Query } from '../client'
-import { type CorpusIndex } from '../index/corpusIndex'
+import { type CorpusSearchResult, type Query } from '../client/client'
+import { type CorpusIndex } from '../corpus/index/corpusIndex'
+import { isWebWindowRuntime, useWebWorker } from '../env'
+import { type Logger } from '../logger'
+import { embedTextOnWorker } from '../mlWorker/webWorkerClient'
 import { withoutCodeStopwords } from './terms'
 
 if (process.env.VITEST) {
@@ -32,7 +32,6 @@ if (typeof process !== 'undefined' && process.env.FORCE_WASM) {
     env.onnx = onnxWeb.env
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     ;(env as any).onnx.wasm.numThreads = 1
-    env.backends.onnx.wasm.numThreads = 1
 }
 
 if (isWebWindowRuntime) {
@@ -53,7 +52,6 @@ export async function embeddingsSearch(index: CorpusIndex, query: Query): Promis
 
     const MIN_SCORE = 0.25
 
-    // Compute embeddings in parallel.
     const results: CorpusSearchResult[] = index.docs
         .flatMap(({ doc: { id: docID }, chunks }) =>
             chunks.map((chunk, i) => {
@@ -64,8 +62,7 @@ export async function embeddingsSearch(index: CorpusIndex, query: Query): Promis
             })
         )
         .filter((r): r is CorpusSearchResult => r !== null)
-
-    results.sort((a, b) => b.score - a.score)
+        .toSorted((a, b) => b.score - a.score)
 
     return results
 }

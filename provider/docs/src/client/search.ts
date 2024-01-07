@@ -1,11 +1,11 @@
-import { type Logger } from '../../logger'
-import { scopedCache, type Cache } from '../cache/cache'
-import { type CorpusSearchResult, type Query } from '../client'
-import { type ChunkIndex } from '../doc/chunks'
-import { type DocID } from '../doc/doc'
-import { type CorpusIndex } from '../index/corpusIndex'
-import { embeddingsSearch } from './embeddings'
-import { keywordSearch } from './keyword'
+import { scopedCache, type Cache } from '../corpus/cache/cache'
+import { type ChunkIndex } from '../corpus/doc/chunks'
+import { type DocID } from '../corpus/doc/doc'
+import { type CorpusIndex } from '../corpus/index/corpusIndex'
+import { type Logger } from '../logger'
+import { embeddingsSearch } from '../search/embeddings'
+import { keywordSearch } from '../search/keyword'
+import { type CorpusSearchResult, type Query } from './client'
 
 export interface SearchOptions {
     cache: Cache

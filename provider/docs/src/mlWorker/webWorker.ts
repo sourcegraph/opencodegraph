@@ -1,6 +1,6 @@
 /// <reference lib="webworker" />
 
-import { embedTextInThisScope } from '../corpus/search/embeddings'
+import { embedTextInThisScope } from '../search/embeddings'
 import { type MLWorkerEmbedTextMessage, type MLWorkerMessagePair } from './api'
 
 declare let self: DedicatedWorkerGlobalScope

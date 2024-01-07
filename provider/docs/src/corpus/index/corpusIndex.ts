@@ -1,15 +1,15 @@
+import { type CorpusSearchResult, type Query } from '../../client/client'
+import { multiSearch } from '../../client/search'
 import { type Logger } from '../../logger'
+import { embedText } from '../../search/embeddings'
+import { createTFIDFIndex, type TFIDFIndex } from '../../search/tfidf'
 import { type CorpusArchive } from '../archive/corpusArchive'
 import { createCache, noopCache, type Cache, type CacheStore } from '../cache/cache'
 import { contentID } from '../cache/contentID'
 import { memo } from '../cache/memo'
-import { type CorpusSearchResult, type Query } from '../client'
 import { chunk, type Chunk } from '../doc/chunks'
 import { type Content, type ContentExtractor } from '../doc/contentExtractor'
 import { type Doc, type DocID } from '../doc/doc'
-import { embedText } from '../search/embeddings'
-import { multiSearch } from '../search/multi'
-import { createTFIDFIndex, type TFIDFIndex } from '../search/tfidf'
 
 /**
  * An index of a corpus.

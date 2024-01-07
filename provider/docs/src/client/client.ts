@@ -1,6 +1,6 @@
-import { type ChunkIndex } from './doc/chunks'
-import { type DocID } from './doc/doc'
-import { type CorpusIndex } from './index/corpusIndex'
+import { type ChunkIndex } from '../corpus/doc/chunks'
+import { type DocID } from '../corpus/doc/doc'
+import { type CorpusIndex } from '../corpus/index/corpusIndex'
 
 /** A search query. */
 export interface Query {

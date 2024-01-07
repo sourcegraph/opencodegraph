@@ -1,6 +1,6 @@
-import { type ChunkIndex } from '../doc/chunks'
-import { type DocID } from '../doc/doc'
-import { type IndexedDoc } from '../index/corpusIndex'
+import { type ChunkIndex } from '../corpus/doc/chunks'
+import { type DocID } from '../corpus/doc/doc'
+import { type IndexedDoc } from '../corpus/index/corpusIndex'
 import { terms, type Term } from './terms'
 
 /**

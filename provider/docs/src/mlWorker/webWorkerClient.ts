@@ -1,4 +1,4 @@
-import { type embedTextInThisScope } from '../corpus/search/embeddings'
+import { type embedTextInThisScope } from '../search/embeddings'
 import { type MLWorkerEmbedTextMessage, type MLWorkerMessagePair } from './api'
 
 export const embedTextOnWorker: typeof embedTextInThisScope = async (text: string): Promise<Float32Array> =>

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import { createCorpusArchive } from '../archive/corpusArchive'
-import { indexCorpus } from '../index/corpusIndex'
+import { createCorpusArchive } from '../corpus/archive/corpusArchive'
+import { indexCorpus } from '../corpus/index/corpusIndex'
 import { calculateTFIDF, computeTFIDF, createTFIDFIndex } from './tfidf'
 
 describe('createTFIDFIndex', async () => {

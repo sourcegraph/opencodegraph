@@ -1,5 +1,5 @@
-import { type CorpusSearchResult, type Query } from '../client'
-import { type CorpusIndex } from '../index/corpusIndex'
+import { type CorpusSearchResult, type Query } from '../client/client'
+import { type CorpusIndex } from '../corpus/index/corpusIndex'
 import { terms } from './terms'
 import { computeTFIDF } from './tfidf'
 
