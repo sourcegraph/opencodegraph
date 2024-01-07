@@ -18,9 +18,21 @@ if (args.length !== 0) {
 }
 
 const archive: CorpusArchive = await readJSONFromStdin()
-console.error(`# Indexing archive: ${archive.docs.length} docs, content ID ${archive.contentID}`)
+console.error(
+    `# Using archive: ${archive.docs.length} docs, content ID ${archive.contentID}, description ${JSON.stringify(
+        archive.description
+    )}`
+)
 
+const t0 = performance.now()
 const index = await createCorpusIndex(archive, { contentExtractor: extractContentUsingMozillaReadability })
+const data = JSON.stringify(index)
+console.error(
+    `# Index complete [${Math.round(performance.now() - t0)}ms]: ${index.docs.length} docs (${
+        data.length / 1024 / 1024
+    } MB)`
+)
+process.stdout.write(data)
 
 function readJSONFromStdin(): Promise<any> {
     return new Promise((resolve, reject) => {

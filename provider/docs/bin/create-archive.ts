@@ -69,12 +69,14 @@ if (!kind || !ARCHIVE_KINDS[kind]) {
 
 const archiveHandler = ARCHIVE_KINDS[kind]
 const options = archiveHandler.toOptions ? archiveHandler.toOptions(optionsRaw) : optionsRaw
+const t0 = performance.now()
 const archive = await archiveHandler.createFn(options)
-
-const data = JSON.stringify(archive, null, 2)
+const data = JSON.stringify(archive)
 console.error(
-    `# Archive complete: ${archive.docs.length} docs (${(data.length / 1024 / 1024).toFixed(1)} MB), content ID: ${
-        archive.contentID
-    }`
+    `# Archive complete [${Math.round(performance.now() - t0)}ms]: ${archive.docs.length} docs (${(
+        data.length /
+        1024 /
+        1024
+    ).toFixed(1)} MB), content ID: ${archive.contentID}, description ${JSON.stringify(archive.description)}`
 )
 process.stdout.write(data)
