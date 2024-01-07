@@ -18,7 +18,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "tsc --build && esbuild --platform browser --bundle --outfile dist/index.js",
+    "build": "tsc --build && esbuild --platform browser --bundle --outfile dist/index.js TODO!!!!!! TODO(sqs)",
     "test": "vitest",
     "create-archive": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm/transpile-only bin/create-archive.ts",
     "create-index": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm/transpile-only bin/create-index.ts",
