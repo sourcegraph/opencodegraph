@@ -3,6 +3,11 @@
   "opencodegraph.debug": true,
   "cody.autocomplete.experimental.graphContext": "opencodegraph",
   "opencodegraph.providers": {
+    "../../../../../../provider/docs/dist/src/provider/provider.js": {
+      "index": "http://localhost:5900/@fs/home/sqs/tmp/ocg-provider-docs/vite-docs-web.index.json",
+    },
+  },
+  "opencodegraph.providers2": {
     // "https://sourcegraph.test:3443/.api/opencodegraph": true,
     // "../../../../../../provider/hello-world/dist/index.js": true,
     "https://opencodegraph.org/npm/@opencodegraph/provider-hello-world": true,

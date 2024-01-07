@@ -74,6 +74,13 @@ export function observeAnnotations<R extends Range>(
                     }
                     return (a.range?.start.character ?? 0) - (b.range?.start.character ?? 0)
                 })
-        )
+        ),
+        tap(anns => {
+            if (LOG_ANNOTATIONS) {
+                logger?.(`got ${anns.length} annotations: ${JSON.stringify(anns)}`)
+            }
+        })
     )
 }
+
+const LOG_ANNOTATIONS = true
