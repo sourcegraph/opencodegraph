@@ -5,10 +5,10 @@ import {
     type AnnotationsResult,
     type CapabilitiesResult,
 } from '@opencodegraph/provider'
-import { createClient } from '../client/client'
-import { chunk } from '../corpus/doc/chunks'
-import { fromJSON, type CorpusIndex } from '../corpus/index/corpusIndex'
-import { multiplex } from './multiplex'
+import { createClient } from '../client/client.ts'
+import { chunk } from '../corpus/doc/chunks.ts'
+import { fromJSON, type CorpusIndex } from '../corpus/index/corpusIndex.ts'
+import { multiplex } from './multiplex.ts'
 
 /** Settings for the docs OpenCodeGraph provider. */
 export interface Settings {

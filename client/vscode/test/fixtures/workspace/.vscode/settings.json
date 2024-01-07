@@ -3,7 +3,7 @@
   "opencodegraph.debug": true,
   "cody.autocomplete.experimental.graphContext": "opencodegraph",
   "opencodegraph.providers": {
-    "../../../../../../provider/docs/dist/src/provider/provider.js": {
+    "../../../../../../provider/docs/dist/provider.js": {
       "index": "http://localhost:5900/@fs/home/sqs/tmp/ocg-provider-docs/vite-docs-web.index.json",
     },
   },

@@ -93,6 +93,12 @@ const config = {
       },
     },
     {
+      files: ['provider/docs/**/*.ts'],
+      rules: {
+        'import/extensions': ['error', 'ignorePackages'],
+      },
+    },
+    {
       files: ['**/*.mdx'],
       extends: ['plugin:mdx/recommended'],
     },
