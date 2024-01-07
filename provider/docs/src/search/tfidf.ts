@@ -15,23 +15,23 @@ import { terms, type Term } from './terms'
  */
 export function createTFIDFIndex(docs: IndexedDoc[]): TFIDFIndex {
     /**
-     * Document -> chunk index -> term -> number of occurrences of term in the chunk.
+     * DocID -> chunk index -> term -> number of occurrences of term in the chunk.
      *
      * "TF" in "TF-IDF" (with chunks instead of documents as the unit of analysis).
      */
-    const termFrequency = new Map<DocID, Map<Term, number>[]>()
+    const termFrequency: Record<Term, number>[][] = []
 
     /**
-     * Document -> chunk index -> number of (non-unique) terms in the chunk.
+     * DocID -> chunk index -> number of (non-unique) terms in the chunk.
      */
-    const termLength = new Map<DocID, number[]>()
+    const termLength: number[][] = []
 
     /**
      * Term -> number of chunks containing the term.
      *
      * "DF" in "IDF" in "TF-IDF" (with chunks instead of documents as the unit of analysis).
      */
-    const chunkFrequency = new Map<Term, number>()
+    const chunkFrequency: Record<Term, number> = {}
 
     let totalChunks = 0
 
@@ -39,25 +39,25 @@ export function createTFIDFIndex(docs: IndexedDoc[]): TFIDFIndex {
         doc: { id: docID },
         chunks,
     } of docs) {
-        const docTermFrequency: Map<Term, number>[] = new Array<Map<Term, number>>(chunks.length)
-        termFrequency.set(docID, docTermFrequency)
+        const docTermFrequency: Record<Term, number>[] = new Array<Record<Term, number>>(chunks.length)
+        termFrequency[docID] = docTermFrequency
 
         const docTermLength: number[] = new Array<number>(chunks.length)
-        termLength.set(docID, docTermLength)
+        termLength[docID] = docTermLength
 
         for (const [i, chunk] of chunks.entries()) {
             const chunkTerms = terms(chunk.text)
 
             // Set chunk frequencies.
             for (const uniqueTerm of new Set<Term>(chunkTerms).values()) {
-                chunkFrequency.set(uniqueTerm, (chunkFrequency.get(uniqueTerm) ?? 0) + 1)
+                chunkFrequency[uniqueTerm] = (chunkFrequency[uniqueTerm] ?? 0) + 1
             }
 
             // Set term frequencies.
-            const chunkTermFrequency = new Map<Term, number>()
+            const chunkTermFrequency: Record<Term, number> = {}
             docTermFrequency[i] = chunkTermFrequency
             for (const term of chunkTerms) {
-                chunkTermFrequency.set(term, (chunkTermFrequency.get(term) ?? 0) + 1)
+                chunkTermFrequency[term] = (chunkTermFrequency[term] ?? 0) + 1
             }
 
             // Set term cardinality.
@@ -81,10 +81,10 @@ export function createTFIDFIndex(docs: IndexedDoc[]): TFIDFIndex {
  * {@link createTFIDFIndex}.
  */
 export interface TFIDFIndex {
-    termFrequency: Map<DocID, Map<Term, number>[]>
-    termLength: Map<DocID, number[]>
+    termFrequency: Record<Term, number>[][]
+    termLength: number[][]
     totalChunks: number
-    chunkFrequency: Map<Term, number>
+    chunkFrequency: Record<Term, number>
 }
 
 /**
@@ -92,7 +92,7 @@ export interface TFIDFIndex {
  * {@link createTFIDFIndex}.
  */
 export function computeTFIDF(term: Term, doc: DocID, chunk: ChunkIndex, index: TFIDFIndex): number {
-    const docTermLength = index.termLength.get(doc)
+    const docTermLength = index.termLength[doc]
     if (!docTermLength) {
         throw new Error(`doc ${doc} not found in termLength`)
     }
@@ -100,19 +100,19 @@ export function computeTFIDF(term: Term, doc: DocID, chunk: ChunkIndex, index: T
         throw new TypeError(`chunk ${chunk} not found in termLength for doc ${doc}`)
     }
 
-    const docTermFrequency = index.termFrequency.get(doc)
+    const docTermFrequency = index.termFrequency[doc]
     if (!docTermFrequency) {
         throw new Error(`doc ${doc} not found in termFrequency`)
     }
-    if (!(docTermFrequency[chunk] instanceof Map)) {
+    if (typeof docTermFrequency[chunk] !== 'object') {
         throw new TypeError(`chunk ${chunk} not found in termFrequency for doc ${doc}`)
     }
 
     return calculateTFIDF({
-        termOccurrencesInChunk: docTermFrequency[chunk].get(term) ?? 0,
+        termOccurrencesInChunk: docTermFrequency[chunk][term] ?? 0,
         chunkTermLength: docTermLength[chunk],
         totalChunks: index.totalChunks,
-        termChunkFrequency: index.chunkFrequency.get(term) ?? 0,
+        termChunkFrequency: index.chunkFrequency[term] ?? 0,
     })
 }
 
