@@ -11,7 +11,7 @@ import { createIndexedDBCacheStore } from '../corpus/cache/store/indexedDB'
 import { createWebStorageCacheStore } from '../corpus/cache/store/localStorage'
 import { chunk } from '../corpus/doc/chunks'
 import { extractContentUsingMozillaReadability } from '../corpus/doc/contentExtractor'
-import { indexCorpus } from '../corpus/index/corpusIndex'
+import { createCorpusIndex } from '../corpus/index/corpusIndex'
 import { multiplex } from './multiplex'
 
 /** Settings for the docs OpenCodeGraph provider. */
@@ -46,7 +46,7 @@ export default multiplex<Settings>(async settings => {
                   ignore: settings.corpus.ignore,
                   logger: message => console.log(message),
               })
-    const index = await indexCorpus(await createCorpusArchive(await source.docs()), {
+    const index = await createCorpusIndex(await createCorpusArchive(await source.docs()), {
         cacheStore: CORPUS_CACHE,
         contentExtractor: extractContentUsingMozillaReadability,
         logger: console.debug,

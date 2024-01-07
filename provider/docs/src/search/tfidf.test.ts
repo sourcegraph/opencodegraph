@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { createCorpusArchive } from '../corpus/archive/corpusArchive'
-import { indexCorpus } from '../corpus/index/corpusIndex'
+import { createCorpusIndex } from '../corpus/index/corpusIndex'
 import { calculateTFIDF, computeTFIDF, createTFIDFIndex } from './tfidf'
 
 describe('createTFIDFIndex', async () => {
@@ -10,7 +10,7 @@ describe('createTFIDFIndex', async () => {
         { id: 3, text: 'c d e' },
     ])
     const docIDs = data.docs.map(({ id }) => id)
-    const index = await indexCorpus(data)
+    const index = await createCorpusIndex(data)
     const tfidfIndex = createTFIDFIndex(index.docs)
 
     test('term in 1 doc', () => {

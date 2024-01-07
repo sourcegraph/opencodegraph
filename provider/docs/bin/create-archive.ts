@@ -72,6 +72,9 @@ const options = archiveHandler.toOptions ? archiveHandler.toOptions(optionsRaw) 
 const archive = await archiveHandler.createFn(options)
 
 const data = JSON.stringify(archive, null, 2)
-console.error(`# ${archive.docs.length} docs, ${(data.length / 1024 / 1024).toFixed(1)} MB`)
-console.error(`# Content ID: ${archive.contentID}`)
-console.log(data)
+console.error(
+    `# Archive complete: ${archive.docs.length} docs (${(data.length / 1024 / 1024).toFixed(1)} MB), content ID: ${
+        archive.contentID
+    }`
+)
+process.stdout.write(data)

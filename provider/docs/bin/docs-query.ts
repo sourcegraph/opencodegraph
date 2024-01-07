@@ -4,7 +4,7 @@ import envPaths from 'env-paths'
 import { type CorpusArchive } from '../src/corpus/archive/corpusArchive'
 import { createFileSystemCacheStore } from '../src/corpus/cache/store/fs'
 import { extractContentUsingMozillaReadability } from '../src/corpus/doc/contentExtractor'
-import { indexCorpus } from '../src/corpus/index/corpusIndex'
+import { createCorpusIndex } from '../src/corpus/index/corpusIndex'
 
 const args = process.argv.slice(2)
 
@@ -33,7 +33,7 @@ const corpusData = JSON.parse(await readFile(corpusDataFile, 'utf8')) as CorpusA
 const cacheDir = envPaths('opencodegraph-provider-docs').cache
 const fsCache = createFileSystemCacheStore(cacheDir)
 
-const corpus = await indexCorpus(corpusData, {
+const corpus = await createCorpusIndex(corpusData, {
     cacheStore: fsCache,
     contentExtractor: extractContentUsingMozillaReadability,
 })
