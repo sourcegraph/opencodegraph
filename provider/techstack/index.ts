@@ -10,9 +10,8 @@ import {
     type Provider
 } from '@opencodegraph/provider'
 
-import TSF from './techstack.schema'
+import type TSF from './techstack.schema'
 export interface Settings { yaml: string }
-
 
 /**
  * Read the techstack file configuration for project
@@ -40,12 +39,12 @@ const techstack: Provider<Settings> = {
                             { path: '**/*.ts' }, { path: '**/*.tsx' }] }
     },
 
-    annotations(params: AnnotationsParams, settings: Settings): AnnotationsResult {
+    async annotations(params: AnnotationsParams, settings: Settings): Promise<AnnotationsResult> {
         const result: AnnotationsResult = { items: [], annotations: [] }
         const regex = /\b(?:import\s*[\w{},\s]+|require\s*\([^)]+\))\s*/g
 
         if (settings.yaml !== null) {
-            const spec = configuration(settings.yaml)
+            const spec = await configuration(settings.yaml)
             const targets = params.content
                 .split(/\r?\n/)
                 .map((line, index) => line.match(regex) ? {[index]: line} : null)
@@ -54,11 +53,11 @@ const techstack: Provider<Settings> = {
 
             if (pkgs.length > 0) {
                 targets.forEach((line, index) => {
-                    const target = Object.values(line as Object).pop()
-                    const linenum = Object.keys(line as Object).pop()
+                    const target = Object.values(line as object).pop()
+                    const linenum = Object.keys(line as object).pop()
                     const heading = pkgs.find(p => target.includes(p.name))
 
-                    if (typeof heading !== 'undefined') {
+                    if (heading !== undefined) {
                         const item: Item = {
                             id: linenum?.toString() || '-1',
                             title: `📖 Techstack: ${heading.sub_category}`
