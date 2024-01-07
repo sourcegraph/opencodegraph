@@ -1,4 +1,4 @@
-import fs from 'fs'
+
 import path from 'path'
 import YAML from 'yaml'
 import {
@@ -20,13 +20,17 @@ export interface Settings { yaml: string }
  * @param filename - techstack yml filename
  * @returns parsed yaml object
  */
-function configuration(filename: string): TSF {
-    const file = path.resolve(path.join(__dirname, filename))
-    if (!fs.existsSync(file)) {
+async function configuration(filename: string): Promise<TSF> {
+    const cpath: string = new URL(import.meta.url).pathname
+    const fileUrl: string = import.meta.resolve(
+        path.resolve(path.join(path.dirname(cpath), filename)))
+    const r: Response = await fetch(fileUrl)
+
+    if (r.status !== 200) {
+        console.error(`Techstack: failed to fetch settings from ${filename}`)
         return {} as TSF
     }
-    const tsf = fs.readFileSync(file, 'utf-8')
-    return YAML.parse(tsf)
+    return YAML.parse(await r.text())
 }
 
 const techstack: Provider<Settings> = {
