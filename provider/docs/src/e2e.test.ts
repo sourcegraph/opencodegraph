@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { describe, expect, test } from 'vitest'
+import { createClient } from './client/client'
 import { createCorpusArchive } from './corpus/archive/corpusArchive'
 import { indexCorpus } from './corpus/index/corpusIndex'
 import { type SearchResult } from './search/types'
@@ -10,8 +11,9 @@ describe('e2e', () => {
         const docFile = await fs.readFile(path.join(__dirname, 'testdata/corpus/urlParsing.md'), 'utf8')
         const codeFile = await fs.readFile(path.join(__dirname, 'testdata/code/urlParsing.ts'), 'utf8')
 
-        const corpus = await indexCorpus(await createCorpusArchive([{ id: 1, text: docFile }]))
-        const results = await corpus.search({ text: codeFile })
+        const index = await indexCorpus(await createCorpusArchive([{ id: 1, text: docFile }]))
+        const client = createClient(index)
+        const results = await client.search({ text: codeFile })
         roundScores(results)
         expect(results.slice(0, 1)).toEqual<SearchResult[]>([
             {

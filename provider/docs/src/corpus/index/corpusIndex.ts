@@ -1,15 +1,12 @@
-import { search } from '../../client/search'
-import { type Logger } from '../../logger'
 import { embedText } from '../../search/embeddings'
 import { createTFIDFIndex, type TFIDFIndex } from '../../search/tfidf'
-import { type Query, type SearchResult } from '../../search/types'
 import { type CorpusArchive } from '../archive/corpusArchive'
 import { createCache, noopCache, type Cache, type CacheStore } from '../cache/cache'
 import { contentID } from '../cache/contentID'
 import { memo } from '../cache/memo'
 import { chunk, type Chunk } from '../doc/chunks'
 import { type Content, type ContentExtractor } from '../doc/contentExtractor'
-import { type Doc, type DocID } from '../doc/doc'
+import { type Doc } from '../doc/doc'
 
 /**
  * An index of a corpus.
@@ -18,9 +15,6 @@ export interface CorpusIndex {
     // Index data
     docs: IndexedDoc[]
     tfidf: TFIDFIndex
-
-    doc(id: DocID): IndexedDoc
-    search(query: Query): Promise<SearchResult[]>
 }
 
 /**
@@ -42,11 +36,6 @@ export interface IndexedDoc {
 export interface IndexOptions {
     cacheStore?: CacheStore
     contentExtractor?: ContentExtractor
-
-    /**
-     * Called to print log messages.
-     */
-    logger?: Logger
 }
 
 /**
@@ -54,29 +43,20 @@ export interface IndexOptions {
  */
 export async function indexCorpus(
     corpus: CorpusArchive,
-    { cacheStore, contentExtractor, logger }: IndexOptions = {}
+    { cacheStore, contentExtractor }: IndexOptions = {}
 ): Promise<CorpusIndex> {
+    // TODO(sqs): remove cache, not needed, since this entire result is stored
+
     const cache = cacheStore ? createCache(cacheStore) : noopCache
 
     const indexedDocs = await cachedIndexCorpusDocs(corpus, { contentExtractor }, cache)
 
     const tfidf = await cachedCreateTFIDFIndex(indexedDocs, cache)
 
-    const index: CorpusIndex = {
+    return {
         docs: indexedDocs,
         tfidf,
-        doc(id) {
-            const doc = indexedDocs.find(d => d.doc.id === id)
-            if (!doc) {
-                throw new Error(`no document with id ${id} in corpus`)
-            }
-            return doc
-        },
-        search(query) {
-            return search(index, query, { cache, logger })
-        },
     }
-    return index
 }
 
 async function cachedIndexCorpusDocs(
