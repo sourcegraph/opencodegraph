@@ -1,8 +1,11 @@
+
+import path from 'path'
 import { type ProviderSettings } from '@opencodegraph/client'
 
 async function getProviders(): Promise<Record<string, ProviderSettings | boolean>> {
     const providerSettings: Record<string, ProviderSettings | boolean> = {
         '../../../../provider/hello-world/index.ts': true,
+        '../../../../provider/techstack/index.ts': { yaml: path.resolve('examples/stackshare.yml') },
         '../../../../provider/links/index.ts': {
             links: [
                 {
