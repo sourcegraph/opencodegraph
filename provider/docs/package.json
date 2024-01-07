@@ -21,7 +21,8 @@
     "build": "tsc --build",
     "test": "vitest",
     "docs-query": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm/transpile-only bin/docs-query.ts",
-    "create-archive": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm/transpile-only bin/create-archive.ts"
+    "create-archive": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm/transpile-only bin/create-archive.ts",
+    "create-index": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm/transpile-only bin/create-index.ts"
   },
   "dependencies": {
     "@mozilla/readability": "^0.5.0",
