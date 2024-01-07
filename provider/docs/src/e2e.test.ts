@@ -20,10 +20,10 @@ describe('e2e', () => {
                 doc: 1,
                 chunk: 3,
                 excerpt: 'Audio URL parsing\n\nTo parse an audio URL, use the `parseAudioURL` function.',
-                score: 0.764,
+                score: 1.069,
                 scores: {
                     embeddingsSearch: 0.662,
-                    keywordSearch: 0.102,
+                    keywordSearch: 0.407,
                 },
             },
         ])

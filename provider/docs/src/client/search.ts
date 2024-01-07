@@ -40,10 +40,15 @@ export async function search(index: CorpusIndex, query: Query, { logger }: Searc
                 scores: {},
                 excerpt: result.excerpt,
             }
+
+            // HACK: TF-IDF scores are lower than embeddings scores, so boost.
+            const scoreBoostFactor = searchMethod === 'keywordSearch' ? 4 : 1
+            const adjustedScore = result.score * scoreBoostFactor
+
             docResults.set(result.chunk, {
                 ...chunkResult,
-                score: chunkResult.score + result.score,
-                scores: { ...chunkResult.scores, [searchMethod]: result.score },
+                score: chunkResult.score + adjustedScore,
+                scores: { ...chunkResult.scores, [searchMethod]: adjustedScore },
             })
         }
     }

@@ -50,14 +50,14 @@ export async function embeddingsSearch(index: CorpusIndex, query: Query): Promis
     const queryVec = await embedText(withoutCodeStopwords(textToEmbed))
     const cosSim = cosSimWith(queryVec)
 
-    const MIN_SCORE = 0.25
+    const MIN_SCORE = 0.1
 
     const results: SearchResult[] = index.docs
         .flatMap(({ doc: { id: docID }, chunks }) =>
             chunks.map((chunk, i) => {
                 const score = cosSim(chunk.embeddings)
                 return score >= MIN_SCORE
-                    ? ({ doc: docID, chunk: i, score, excerpt: chunk.text } satisfies SearchResult)
+                    ? ({ doc: docID, chunk: i, score, scores: {}, excerpt: chunk.text } satisfies SearchResult)
                     : null
             })
         )

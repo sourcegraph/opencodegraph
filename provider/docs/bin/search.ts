@@ -31,6 +31,8 @@ const client = createClient(index, { logger: message => console.error('# ' + mes
 
 const results = await client.search({ text: query })
 const MAX_RESULTS = 5
+const SHOW_EXCERPT = false
+const SHOW_SCORES = true
 console.error(`# ${results.length} results${results.length > MAX_RESULTS ? ` (showing top ${MAX_RESULTS})` : ''}`)
 for (const [i, result] of results.slice(0, MAX_RESULTS).entries()) {
     const doc = client.doc(result.doc)
@@ -39,7 +41,12 @@ for (const [i, result] of results.slice(0, MAX_RESULTS).entries()) {
     }
     console.log(`#${i + 1} [${result.score.toFixed(3)}] ${doc.doc.url ?? ''} doc${doc.doc.id}#chunk${result.chunk}`)
     const chunk = doc.chunks[result.chunk]
-    console.log(`${indent(truncate(chunk.text.replaceAll('\n\n', '\n'), 500), '\t')}`)
+    if (SHOW_EXCERPT) {
+        console.log(`${indent(truncate(chunk.text.replaceAll('\n\n', '\n'), 500), '\t')}`)
+    }
+    if (SHOW_SCORES) {
+        console.log(`\tscores: ${JSON.stringify(result.scores)}`)
+    }
 }
 
 function truncate(text: string, maxLength: number): string {
