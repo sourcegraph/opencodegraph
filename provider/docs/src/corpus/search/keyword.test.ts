@@ -1,7 +1,8 @@
 import { describe, expect, test } from 'vitest'
-import { indexCorpus, type CorpusSearchResult } from '..'
+import { type CorpusSearchResult } from '..'
 import { createCorpusArchive } from '../archive/corpusArchive'
 import { doc } from '../index.test'
+import { indexCorpus } from '../index/corpusIndex'
 import { keywordSearch } from './keyword'
 import { calculateTFIDF } from './tfidf'
 

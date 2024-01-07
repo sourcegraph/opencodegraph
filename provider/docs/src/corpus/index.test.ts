@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { indexCorpus } from '.'
 import { createCorpusArchive } from './archive/corpusArchive'
 import { type Doc, type DocID } from './doc/doc'
+import { indexCorpus } from './index/corpusIndex'
 
 export function doc(id: DocID, text: string): Doc {
     return { id, text }

@@ -1,9 +1,10 @@
 import { cos_sim, dot, env, magnitude, pipeline } from '@xenova/transformers'
 import * as onnxWeb from 'onnxruntime-web'
-import { type CorpusIndex, type CorpusSearchResult, type Query } from '..'
+import { type CorpusSearchResult, type Query } from '..'
 import { isWebWindowRuntime, useWebWorker } from '../../env'
 import { type Logger } from '../../logger'
 import { embedTextOnWorker } from '../../mlWorker/webWorkerClient'
+import { type CorpusIndex } from '../index/corpusIndex'
 import { withoutCodeStopwords } from './terms'
 
 // TODO(sqs): think we can remove this entirely...

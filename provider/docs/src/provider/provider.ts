@@ -5,13 +5,13 @@ import {
     type AnnotationsResult,
     type CapabilitiesResult,
 } from '@opencodegraph/provider'
-import { indexCorpus } from '../corpus'
 import { corpusDataURLSource, createCorpusArchive } from '../corpus/archive/corpusArchive'
 import { createWebCorpusArchive } from '../corpus/archive/web/webCorpusArchive'
 import { createIndexedDBCacheStore } from '../corpus/cache/store/indexedDB'
 import { createWebStorageCacheStore } from '../corpus/cache/store/localStorage'
 import { chunk } from '../corpus/doc/chunks'
 import { extractContentUsingMozillaReadability } from '../corpus/doc/contentExtractor'
+import { indexCorpus } from '../corpus/index/corpusIndex'
 import { multiplex } from './multiplex'
 
 /** Settings for the docs OpenCodeGraph provider. */

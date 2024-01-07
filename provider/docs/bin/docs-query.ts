@@ -1,10 +1,10 @@
 import { readFile } from 'fs/promises'
 import path from 'path'
 import envPaths from 'env-paths'
-import { indexCorpus } from '../src/corpus'
 import { type CorpusArchive } from '../src/corpus/archive/corpusArchive'
 import { createFileSystemCacheStore } from '../src/corpus/cache/store/fs'
 import { extractContentUsingMozillaReadability } from '../src/corpus/doc/contentExtractor'
+import { indexCorpus } from '../src/corpus/index/corpusIndex'
 
 const args = process.argv.slice(2)
 
