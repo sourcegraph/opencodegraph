@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { extractContentUsingMozillaReadability, type Content } from './contentExtractor'
+import { extractContentUsingMozillaReadability, type Content } from './contentExtractor.ts'
 
 describe('extractContentUsingMozillaReadability', () => {
     test('extracts content', async () =>

@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest'
-import { createCorpusArchive } from '../corpus/archive/corpusArchive'
-import { createCorpusIndex } from '../corpus/index/corpusIndex'
-import { doc } from '../corpus/index/corpusIndex.test'
-import { keywordSearch } from './keyword'
-import { calculateTFIDF } from './tfidf'
-import { type SearchResult } from './types'
+import { createCorpusArchive } from '../corpus/archive/corpusArchive.ts'
+import { doc } from '../corpus/index/corpusIndex.test.ts'
+import { createCorpusIndex } from '../corpus/index/corpusIndex.ts'
+import { keywordSearch } from './keyword.ts'
+import { calculateTFIDF } from './tfidf.ts'
+import { type SearchResult } from './types.ts'
 
 describe('keywordSearch', () => {
     test('finds matches', async () => {

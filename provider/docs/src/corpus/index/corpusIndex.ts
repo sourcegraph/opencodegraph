@@ -1,10 +1,10 @@
-import { embedText } from '../../search/embeddings'
-import { createTFIDFIndex, type TFIDFIndex } from '../../search/tfidf'
-import { type CorpusArchive } from '../archive/corpusArchive'
-import { contentID } from '../cache/contentID'
-import { chunk, type Chunk } from '../doc/chunks'
-import { type Content, type ContentExtractor } from '../doc/contentExtractor'
-import { type Doc } from '../doc/doc'
+import { embedText } from '../../search/embeddings.ts'
+import { createTFIDFIndex, type TFIDFIndex } from '../../search/tfidf.ts'
+import { type CorpusArchive } from '../archive/corpusArchive.ts'
+import { contentID } from '../cache/contentID.ts'
+import { chunk, type Chunk } from '../doc/chunks.ts'
+import { type Content, type ContentExtractor } from '../doc/contentExtractor.ts'
+import { type Doc } from '../doc/doc.ts'
 
 /**
  * An index of a corpus.

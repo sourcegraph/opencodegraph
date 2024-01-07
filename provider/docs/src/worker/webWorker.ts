@@ -1,7 +1,7 @@
 /// <reference lib="webworker" />
 
-import { embedTextInThisScope } from '../search/embeddings'
-import { type WorkerEmbedTextMessage, type WorkerMessagePair } from './api'
+import { embedTextInThisScope } from '../search/embeddings.ts'
+import { type WorkerEmbedTextMessage, type WorkerMessagePair } from './api.ts'
 
 declare let self: DedicatedWorkerGlobalScope
 

@@ -1,8 +1,8 @@
-import { parseDOM } from '../../../dom'
-import { type Logger } from '../../../logger'
-import { type Doc } from '../../doc/doc'
-import { createCorpusArchive, type CorpusArchive } from '../corpusArchive'
-import { createCrawlQueue } from './crawlQueue'
+import { parseDOM } from '../../../dom.ts'
+import { type Logger } from '../../../logger.ts'
+import { type Doc } from '../../doc/doc.ts'
+import { createCorpusArchive, type CorpusArchive } from '../corpusArchive.ts'
+import { createCrawlQueue } from './crawlQueue.ts'
 
 export interface WebCorpusArchiveOptions {
     /**

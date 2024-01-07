@@ -1,8 +1,8 @@
-import { type DocID } from '../corpus/doc/doc'
-import { type CorpusIndex, type IndexedDoc } from '../corpus/index/corpusIndex'
-import { type Logger } from '../logger'
-import { type Query, type SearchResult } from '../search/types'
-import { search } from './search'
+import { type DocID } from '../corpus/doc/doc.ts'
+import { type CorpusIndex, type IndexedDoc } from '../corpus/index/corpusIndex.ts'
+import { type Logger } from '../logger.ts'
+import { type Query, type SearchResult } from '../search/types.ts'
+import { search } from './search.ts'
 
 /**
  * A client for searching a {@link CorpusIndex}.

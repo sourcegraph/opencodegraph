@@ -489,17 +489,11 @@ importers:
         specifier: workspace:*
         version: link:../../lib/provider
       '@xenova/transformers':
-        specifier: ^2.12.1
-        version: 2.12.1
-      better-localstorage:
-        specifier: ^1.0.5
-        version: 1.0.5
+        specifier: ^2.13.4
+        version: 2.13.4
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
-      env-paths:
-        specifier: ^3.0.0
-        version: 3.0.0
       jsdom:
         specifier: ^23.0.1
         version: 23.0.1
@@ -6319,8 +6313,8 @@ packages:
     resolution: {integrity: sha512-CqTpxOlUCPWRNUPZDxT5v2NnHXA4oox612iUGnmTUGQFhZ1Gkj8kirtl/2wcF6MqX7+PqqicZzOCBKKfIn0dww==}
     dev: true
 
-  /@xenova/transformers@2.12.1:
-    resolution: {integrity: sha512-b++KSLKezi9Vic9VPXBc/egE5dTw11fvqCcWRg+AQgS+hLGNc7E/sL6JRNhnZ4NmKW0Sx/2gKs33rYllTC1xKA==}
+  /@xenova/transformers@2.13.4:
+    resolution: {integrity: sha512-yk8yDvQaCTEZJsasoUj+FWEM9dVcNdDXlushzJ0KjFe2oUOJ3XqICAJz1Htz/vWtM20ErGt509EKogACGYlpxA==}
     dependencies:
       '@huggingface/jinja': 0.1.2
       onnxruntime-web: 1.14.0
@@ -6803,10 +6797,6 @@ packages:
       caseless: 0.12.0
       is-stream: 2.0.0
     dev: true
-
-  /better-localstorage@1.0.5:
-    resolution: {integrity: sha512-fRS8BjU/Fl2Aeq4HLY7QPN5qaasYpZ9B4GB3ljEoBuo46gj36gDw6Yfi33ZHEklI1n707c1JmdZI9BK9kAebPA==}
-    dev: false
 
   /better-opn@3.0.2:
     resolution: {integrity: sha512-aVNobHnJqLiUelTaHat9DZ1qM2w0C0Eym4LPI/3JxOnSokGVdsl1T1kN7TFvsEAD8G47A6VKQ0TVHqbBnYMJlQ==}
@@ -7947,11 +7937,6 @@ packages:
   /entities@4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
-
-  /env-paths@3.0.0:
-    resolution: {integrity: sha512-dtJUTepzMW3Lm/NPxRf3wP4642UWhjL2sQxc+ym2YMj1m/H2zDNQOlezafzkHwn6sMstjHTwG6iQQsctDW/b1A==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dev: false
 
   /envinfo@7.10.0:
     resolution: {integrity: sha512-ZtUjZO6l5mwTHvc1L9+1q5p/R3wTopcfqMW8r5t8SJSKqeVI/LtajORwRFEKpEFuekjD0VBjwu1HMxL4UalIRw==}

@@ -1,6 +1,6 @@
 import { Readability } from '@mozilla/readability'
-import { parseDOM } from '../../dom'
-import { type Doc } from './doc'
+import { parseDOM } from '../../dom.ts'
+import { type Doc } from './doc.ts'
 
 export interface Content {
     /**

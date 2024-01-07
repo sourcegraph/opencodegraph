@@ -1,5 +1,6 @@
-import { type embedTextInThisScope } from '../search/embeddings'
-import { type WorkerEmbedTextMessage, type WorkerMessagePair } from './api'
+import os from 'node:os'
+import { type embedTextInThisScope } from '../search/embeddings.ts'
+import { type WorkerEmbedTextMessage, type WorkerMessagePair } from './api.ts'
 
 export const embedTextOnWorker: typeof embedTextInThisScope = async (text: string): Promise<Float32Array> =>
     sendMessage<WorkerEmbedTextMessage>('embedText', text)
@@ -25,17 +26,16 @@ async function sendMessage<P extends WorkerMessagePair>(
 
 const NUM_WORKERS: number = Math.min(
     8,
-    (await (async (): Promise<number> => {
+    ((): number => {
         if (typeof navigator !== 'undefined') {
             return navigator.hardwareConcurrency
         }
         try {
-            const os = await import('node:os')
             return os.cpus().length
             // eslint-disable-next-line no-empty
         } catch {}
         return 1
-    })()) || 1
+    })() || 1
 )
 
 const workers: (Promise<Worker> | undefined)[] = []

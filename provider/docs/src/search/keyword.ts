@@ -1,7 +1,7 @@
-import { type CorpusIndex } from '../corpus/index/corpusIndex'
-import { terms } from './terms'
-import { computeTFIDF } from './tfidf'
-import { type Query, type SearchResult } from './types'
+import { type CorpusIndex } from '../corpus/index/corpusIndex.ts'
+import { terms } from './terms.ts'
+import { computeTFIDF } from './tfidf.ts'
+import { type Query, type SearchResult } from './types.ts'
 
 export function keywordSearch(index: CorpusIndex, query: Query): Omit<SearchResult, 'scores'>[] {
     const queryTerms = terms(query.text).filter(term => term.length >= 3)

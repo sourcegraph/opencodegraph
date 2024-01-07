@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { terms } from './terms'
+import { terms } from './terms.ts'
 
 describe('terms', () => {
     test('splits, stems, normalizes', () => {

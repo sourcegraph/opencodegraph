@@ -1,7 +1,7 @@
 import path from 'path'
-import { CorpusArchive } from '../src/corpus/archive/corpusArchive'
-import { extractContentUsingMozillaReadability } from '../src/corpus/doc/contentExtractor'
-import { createCorpusIndex } from '../src/corpus/index/corpusIndex'
+import { type CorpusArchive } from '../src/corpus/archive/corpusArchive.ts'
+import { extractContentUsingMozillaReadability } from '../src/corpus/doc/contentExtractor.ts'
+import { createCorpusIndex } from '../src/corpus/index/corpusIndex.ts'
 
 function usage(): void {
     console.error()

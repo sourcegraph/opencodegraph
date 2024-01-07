@@ -1,5 +1,5 @@
-import { type ChunkIndex } from '../corpus/doc/chunks'
-import { type DocID } from '../corpus/doc/doc'
+import { type ChunkIndex } from '../corpus/doc/chunks.ts'
+import { type DocID } from '../corpus/doc/doc.ts'
 
 /** A search query. */
 export interface Query {

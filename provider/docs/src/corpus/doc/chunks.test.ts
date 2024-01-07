@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { chunk, type Chunk } from './chunks'
+import { chunk, type Chunk } from './chunks.ts'
 
 describe('chunker', () => {
     test('empty', () => expect(chunk('', {})).toEqual<Chunk[]>([]))

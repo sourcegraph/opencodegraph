@@ -1,7 +1,7 @@
 import { readFile } from 'fs/promises'
 import path from 'path'
-import { createClient } from '../src/client/client'
-import { fromJSON } from '../src/corpus/index/corpusIndex'
+import { createClient } from '../src/client/client.ts'
+import { fromJSON } from '../src/corpus/index/corpusIndex.ts'
 
 const args = process.argv.slice(2)
 

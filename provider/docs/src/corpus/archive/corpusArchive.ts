@@ -1,5 +1,5 @@
-import { contentID } from '../cache/contentID'
-import { type Doc } from '../doc/doc'
+import { contentID } from '../cache/contentID.ts'
+import { type Doc } from '../doc/doc.ts'
 
 export interface CorpusArchive {
     /**

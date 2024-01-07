@@ -1,7 +1,7 @@
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest'
 import createFetchMock from 'vitest-fetch-mock'
-import { type Doc } from '../../doc/doc'
-import { createWebCorpusArchive, urlHasPrefix } from './webCorpusArchive'
+import { type Doc } from '../../doc/doc.ts'
+import { createWebCorpusArchive, urlHasPrefix } from './webCorpusArchive.ts'
 
 describe('createWebCorpusSource', () => {
     const fetchMocker = createFetchMock(vi)

@@ -1,7 +1,7 @@
-import { type ChunkIndex } from '../corpus/doc/chunks'
-import { type DocID } from '../corpus/doc/doc'
-import { type IndexedDoc } from '../corpus/index/corpusIndex'
-import { terms, type Term } from './terms'
+import { type ChunkIndex } from '../corpus/doc/chunks.ts'
+import { type DocID } from '../corpus/doc/doc.ts'
+import { type IndexedDoc } from '../corpus/index/corpusIndex.ts'
+import { terms, type Term } from './terms.ts'
 
 /**
  * Index the corpus for fast computation of TF-IDF.

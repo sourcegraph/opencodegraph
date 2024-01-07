@@ -1,4 +1,5 @@
 /* eslint-disable import/no-default-export */
+import { readFile } from 'node:fs/promises'
 import {
     createFilePositionCalculator,
     type AnnotationsParams,
@@ -88,10 +89,15 @@ export default multiplex<Settings>(async settings => {
     }
 })
 
-async function fetchIndex(url: string): Promise<CorpusIndex> {
-    const resp = await fetch(url)
+async function fetchIndex(urlStr: string): Promise<CorpusIndex> {
+    const url = new URL(urlStr)
+    if (url.protocol === 'file:') {
+        return fromJSON(JSON.parse(await readFile(url.pathname, 'utf-8')))
+    }
+
+    const resp = await fetch(urlStr)
     if (!resp.ok) {
-        throw new Error(`Failed to fetch corpus index from ${url} with HTTP status ${resp.status}`)
+        throw new Error(`Failed to fetch corpus index from ${urlStr} with HTTP status ${resp.status}`)
     }
     return fromJSON(await resp.json())
 }

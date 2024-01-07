@@ -1,8 +1,8 @@
 import { readFile } from 'fs/promises'
 import path from 'path'
-import { CorpusArchive, createCorpusArchive } from '../src/corpus/archive/corpusArchive'
-import { createWebCorpusArchive, WebCorpusArchiveOptions } from '../src/corpus/archive/web/webCorpusArchive'
-import { Doc } from '../src/corpus/doc/doc'
+import { createCorpusArchive, type CorpusArchive } from '../src/corpus/archive/corpusArchive.ts'
+import { createWebCorpusArchive, type WebCorpusArchiveOptions } from '../src/corpus/archive/web/webCorpusArchive.ts'
+import { type Doc } from '../src/corpus/doc/doc.ts'
 
 type ArchiveKind = 'web' | 'file'
 const ARCHIVE_KINDS: Record<

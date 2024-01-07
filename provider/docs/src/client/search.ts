@@ -1,10 +1,10 @@
-import { type ChunkIndex } from '../corpus/doc/chunks'
-import { type DocID } from '../corpus/doc/doc'
-import { type CorpusIndex } from '../corpus/index/corpusIndex'
-import { type Logger } from '../logger'
-import { embeddingsSearch } from '../search/embeddings'
-import { keywordSearch } from '../search/keyword'
-import { type Query, type SearchResult } from '../search/types'
+import { type ChunkIndex } from '../corpus/doc/chunks.ts'
+import { type DocID } from '../corpus/doc/doc.ts'
+import { type CorpusIndex } from '../corpus/index/corpusIndex.ts'
+import { type Logger } from '../logger.ts'
+import { embeddingsSearch } from '../search/embeddings.ts'
+import { keywordSearch } from '../search/keyword.ts'
+import { type Query, type SearchResult } from '../search/types.ts'
 
 export interface SearchOptions {
     logger?: Logger

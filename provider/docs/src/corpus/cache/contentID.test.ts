@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { contentID } from './contentID'
+import { contentID } from './contentID.ts'
 
 describe('contentID', () => {
     test('returns the content ID', async () => {

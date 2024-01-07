@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest'
-import { createCorpusArchive } from '../corpus/archive/corpusArchive'
-import { createCorpusIndex } from '../corpus/index/corpusIndex'
-import { doc } from '../corpus/index/corpusIndex.test'
-import { embeddingsSearch, embedTextInThisScope, similarity } from './embeddings'
+import { createCorpusArchive } from '../corpus/archive/corpusArchive.ts'
+import { doc } from '../corpus/index/corpusIndex.test.ts'
+import { createCorpusIndex } from '../corpus/index/corpusIndex.ts'
+import { embeddingsSearch, embedTextInThisScope, similarity } from './embeddings.ts'
 
 describe('embeddingsSearch', () => {
     test('finds matches', async () => {

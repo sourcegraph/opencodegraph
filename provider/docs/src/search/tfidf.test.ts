@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { createCorpusArchive } from '../corpus/archive/corpusArchive'
-import { createCorpusIndex } from '../corpus/index/corpusIndex'
-import { calculateTFIDF, computeTFIDF, createTFIDFIndex } from './tfidf'
+import { createCorpusArchive } from '../corpus/archive/corpusArchive.ts'
+import { createCorpusIndex } from '../corpus/index/corpusIndex.ts'
+import { calculateTFIDF, computeTFIDF, createTFIDFIndex } from './tfidf.ts'
 
 describe('createTFIDFIndex', async () => {
     const data = await createCorpusArchive([

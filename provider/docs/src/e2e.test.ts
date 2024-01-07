@@ -1,10 +1,10 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { describe, expect, test } from 'vitest'
-import { createClient } from './client/client'
-import { createCorpusArchive } from './corpus/archive/corpusArchive'
-import { createCorpusIndex } from './corpus/index/corpusIndex'
-import { type SearchResult } from './search/types'
+import { createClient } from './client/client.ts'
+import { createCorpusArchive } from './corpus/archive/corpusArchive.ts'
+import { createCorpusIndex } from './corpus/index/corpusIndex.ts'
+import { type SearchResult } from './search/types.ts'
 
 describe('e2e', () => {
     test('urlParsing', async () => {

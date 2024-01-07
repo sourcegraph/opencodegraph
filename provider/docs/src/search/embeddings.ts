@@ -1,11 +1,11 @@
 import { cos_sim, dot, env, magnitude, pipeline } from '@xenova/transformers'
 import * as onnxWeb from 'onnxruntime-web'
-import { type CorpusIndex } from '../corpus/index/corpusIndex'
-import { isWebWindowRuntime, useWebWorker } from '../env'
-import { type Logger } from '../logger'
-import { embedTextOnWorker } from '../worker/webWorkerClient'
-import { withoutCodeStopwords } from './terms'
-import { type Query, type SearchResult } from './types'
+import { type CorpusIndex } from '../corpus/index/corpusIndex.ts'
+import { isWebWindowRuntime, useWebWorker } from '../env.ts'
+import { type Logger } from '../logger.ts'
+import { embedTextOnWorker } from '../worker/webWorkerClient.ts'
+import { withoutCodeStopwords } from './terms.ts'
+import { type Query, type SearchResult } from './types.ts'
 
 // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
 if (typeof process !== 'undefined' && process.env.VITEST) {
@@ -40,6 +40,9 @@ if (isWebWindowRuntime) {
     //
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     env.backends.onnx.wasm.wasmPaths = import.meta.resolve('../../node_modules/@xenova/transformers/dist/')
+} else {
+    // TODO(sqs): seems to be triggered when running in vscode
+    env.backends.onnx.wasm.wasmPaths = __dirname + '/../node_modules/@xenova/transformers/dist/'
 }
 
 env.allowLocalModels = false
@@ -68,7 +71,7 @@ export async function embeddingsSearch(index: CorpusIndex, query: Query): Promis
     return results
 }
 
-const pipe = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {})
+const pipe = pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {})
 
 /**
  * Embed the text and return the vector. Run in a worker in some environments.
@@ -84,10 +87,10 @@ export async function embedTextInThisScope(text: string, logger?: Logger): Promi
     try {
         const t0 = performance.now()
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const out = await pipe(text, { pooling: 'mean', normalize: true })
+        const out = await (await pipe)(text, { pooling: 'mean', normalize: true })
         logger?.(`embedText (${text.length} chars) took ${Math.round(performance.now() - t0)}ms`)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return out.data
+        return out.data as Float32Array // TODO(sqs): cast
     } catch (error) {
         console.log(error)
         throw error
