@@ -1,10 +1,10 @@
 import { type embedTextInThisScope } from '../search/embeddings'
-import { type MLWorkerEmbedTextMessage, type MLWorkerMessagePair } from './api'
+import { type WorkerEmbedTextMessage, type WorkerMessagePair } from './api'
 
 export const embedTextOnWorker: typeof embedTextInThisScope = async (text: string): Promise<Float32Array> =>
-    sendMessage<MLWorkerEmbedTextMessage>('embedText', text)
+    sendMessage<WorkerEmbedTextMessage>('embedText', text)
 
-async function sendMessage<P extends MLWorkerMessagePair>(
+async function sendMessage<P extends WorkerMessagePair>(
     type: P['type'],
     args: P['request']['args']
 ): Promise<P['response']['result']> {

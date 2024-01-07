@@ -1,8 +1,8 @@
-import { type CorpusSearchResult, type Query } from '../../client/client'
-import { multiSearch } from '../../client/search'
+import { search } from '../../client/search'
 import { type Logger } from '../../logger'
 import { embedText } from '../../search/embeddings'
 import { createTFIDFIndex, type TFIDFIndex } from '../../search/tfidf'
+import { type Query, type SearchResult } from '../../search/types'
 import { type CorpusArchive } from '../archive/corpusArchive'
 import { createCache, noopCache, type Cache, type CacheStore } from '../cache/cache'
 import { contentID } from '../cache/contentID'
@@ -20,7 +20,7 @@ export interface CorpusIndex {
     tfidf: TFIDFIndex
 
     doc(id: DocID): IndexedDoc
-    search(query: Query): Promise<CorpusSearchResult[]>
+    search(query: Query): Promise<SearchResult[]>
 }
 
 /**
@@ -73,7 +73,7 @@ export async function indexCorpus(
             return doc
         },
         search(query) {
-            return multiSearch(index, query, { cache, logger })
+            return search(index, query, { cache, logger })
         },
     }
     return index

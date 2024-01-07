@@ -1,11 +1,11 @@
 /// <reference lib="webworker" />
 
 import { embedTextInThisScope } from '../search/embeddings'
-import { type MLWorkerEmbedTextMessage, type MLWorkerMessagePair } from './api'
+import { type WorkerEmbedTextMessage, type WorkerMessagePair } from './api'
 
 declare let self: DedicatedWorkerGlobalScope
 
-onRequest<MLWorkerEmbedTextMessage>(
+onRequest<WorkerEmbedTextMessage>(
     'embedText',
     async (text: string): Promise<Float32Array> => embedTextInThisScope(text, console.debug)
 )
@@ -13,7 +13,7 @@ onRequest<MLWorkerEmbedTextMessage>(
 // Tell our host we are ready.
 self.postMessage('ready')
 
-function onRequest<P extends MLWorkerMessagePair>(
+function onRequest<P extends WorkerMessagePair>(
     type: P['type'],
     handler: (args: P['request']['args']) => Promise<P['response']['result']>
 ): void {

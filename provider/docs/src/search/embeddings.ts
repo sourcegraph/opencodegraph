@@ -1,11 +1,11 @@
 import { cos_sim, dot, env, magnitude, pipeline } from '@xenova/transformers'
 import * as onnxWeb from 'onnxruntime-web'
-import { type CorpusSearchResult, type Query } from '../client/client'
 import { type CorpusIndex } from '../corpus/index/corpusIndex'
 import { isWebWindowRuntime, useWebWorker } from '../env'
 import { type Logger } from '../logger'
-import { embedTextOnWorker } from '../mlWorker/webWorkerClient'
+import { embedTextOnWorker } from '../worker/webWorkerClient'
 import { withoutCodeStopwords } from './terms'
+import { type Query, type SearchResult } from './types'
 
 if (process.env.VITEST) {
     // Workaround (from
@@ -43,7 +43,7 @@ if (isWebWindowRuntime) {
 
 env.allowLocalModels = false
 
-export async function embeddingsSearch(index: CorpusIndex, query: Query): Promise<CorpusSearchResult[]> {
+export async function embeddingsSearch(index: CorpusIndex, query: Query): Promise<SearchResult[]> {
     const textToEmbed = [query.meta?.activeFilename && `// ${query.meta?.activeFilename}`, query.text]
         .filter((s): s is string => Boolean(s))
         .join('\n')
@@ -52,16 +52,16 @@ export async function embeddingsSearch(index: CorpusIndex, query: Query): Promis
 
     const MIN_SCORE = 0.25
 
-    const results: CorpusSearchResult[] = index.docs
+    const results: SearchResult[] = index.docs
         .flatMap(({ doc: { id: docID }, chunks }) =>
             chunks.map((chunk, i) => {
                 const score = cosSim(chunk.embeddings)
                 return score >= MIN_SCORE
-                    ? ({ doc: docID, chunk: i, score, excerpt: chunk.text } satisfies CorpusSearchResult)
+                    ? ({ doc: docID, chunk: i, score, excerpt: chunk.text } satisfies SearchResult)
                     : null
             })
         )
-        .filter((r): r is CorpusSearchResult => r !== null)
+        .filter((r): r is SearchResult => r !== null)
         .toSorted((a, b) => b.score - a.score)
 
     return results

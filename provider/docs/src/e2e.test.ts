@@ -1,9 +1,9 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { describe, expect, test } from 'vitest'
-import { type CorpusSearchResult } from './client/client'
 import { createCorpusArchive } from './corpus/archive/corpusArchive'
 import { indexCorpus } from './corpus/index/corpusIndex'
+import { type SearchResult } from './search/types'
 
 describe('e2e', () => {
     test('urlParsing', async () => {
@@ -13,7 +13,7 @@ describe('e2e', () => {
         const corpus = await indexCorpus(await createCorpusArchive([{ id: 1, text: docFile }]))
         const results = await corpus.search({ text: codeFile })
         roundScores(results)
-        expect(results.slice(0, 1)).toEqual<CorpusSearchResult[]>([
+        expect(results.slice(0, 1)).toEqual<SearchResult[]>([
             {
                 doc: 1,
                 chunk: 3,
@@ -24,7 +24,7 @@ describe('e2e', () => {
     })
 })
 
-function roundScores(results: CorpusSearchResult[]) {
+function roundScores(results: SearchResult[]) {
     for (const result of results) {
         result.score = Math.round(result.score * 1000) / 1000
     }

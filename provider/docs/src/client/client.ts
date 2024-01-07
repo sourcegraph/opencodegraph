@@ -1,24 +1,4 @@
-import { type ChunkIndex } from '../corpus/doc/chunks'
-import { type DocID } from '../corpus/doc/doc'
 import { type CorpusIndex } from '../corpus/index/corpusIndex'
-
-/** A search query. */
-export interface Query {
-    text: string
-    meta?: {
-        activeFilename?: string
-    }
-}
-
-/**
- * A search result from searching a corpus.
- */
-export interface CorpusSearchResult {
-    doc: DocID
-    chunk: ChunkIndex
-    score: number
-    excerpt: string
-}
 
 export function corpusIndexFromURL(url: string): Promise<CorpusIndex> {
     // TODO(sqs)

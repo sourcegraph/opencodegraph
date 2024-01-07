@@ -27,19 +27,6 @@ export function createCache(store: CacheStore): Cache<unknown> {
 }
 
 /**
- * Wrap {@link cache} and get/set all entries with the given {@link scope} as a key prefix.
- */
-export function scopedCache<T>(cache: Cache<unknown>, scope: string): Cache<T> {
-    function scopedKey(key: string): string {
-        return `${scope}:${key}`
-    }
-    return {
-        get: async key => cache.get(scopedKey(key)) as Promise<T | null>,
-        set: async (key, value) => cache.set(scopedKey(key), value),
-    }
-}
-
-/**
  * A no-op {@link Cache} that always misses and never stores.
  */
 export const noopCache: Cache<unknown> = {

@@ -1,12 +1,12 @@
-import { type CorpusSearchResult, type Query } from '../client/client'
 import { type CorpusIndex } from '../corpus/index/corpusIndex'
 import { terms } from './terms'
 import { computeTFIDF } from './tfidf'
+import { type Query, type SearchResult } from './types'
 
-export function keywordSearch(index: CorpusIndex, query: Query): CorpusSearchResult[] {
+export function keywordSearch(index: CorpusIndex, query: Query): SearchResult[] {
     const queryTerms = terms(query.text).filter(term => term.length >= 3)
 
-    const results: CorpusSearchResult[] = []
+    const results: SearchResult[] = []
     for (const {
         doc: { id: docID },
         chunks,

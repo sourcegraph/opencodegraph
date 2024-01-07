@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest'
-import { type CorpusSearchResult } from '../client/client'
 import { createCorpusArchive } from '../corpus/archive/corpusArchive'
 import { indexCorpus } from '../corpus/index/corpusIndex'
 import { doc } from '../corpus/index/corpusIndex.test'
 import { embeddingsSearch, embedTextInThisScope, similarity } from './embeddings'
+import { type SearchResult } from './types'
 
 describe('embeddingsSearch', () => {
     test('finds matches', async () => {
@@ -11,7 +11,7 @@ describe('embeddingsSearch', () => {
             await embeddingsSearch(await indexCorpus(await createCorpusArchive([doc(1, 'xxxxxx'), doc(2, 'b')])), {
                 text: 'b',
             })
-        ).toEqual<CorpusSearchResult[]>([{ doc: 2, chunk: 0, score: 1, excerpt: 'b' }])
+        ).toEqual<SearchResult[]>([{ doc: 2, chunk: 0, score: 1, excerpt: 'b' }])
     })
 })
 

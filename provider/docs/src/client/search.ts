@@ -1,30 +1,24 @@
-import { scopedCache, type Cache } from '../corpus/cache/cache'
 import { type ChunkIndex } from '../corpus/doc/chunks'
 import { type DocID } from '../corpus/doc/doc'
 import { type CorpusIndex } from '../corpus/index/corpusIndex'
 import { type Logger } from '../logger'
 import { embeddingsSearch } from '../search/embeddings'
 import { keywordSearch } from '../search/keyword'
-import { type CorpusSearchResult, type Query } from './client'
+import { type Query, type SearchResult } from '../search/types'
 
 export interface SearchOptions {
-    cache: Cache
     logger?: Logger
 }
 
 /**
  * Search using multiple search methods.
  */
-export async function multiSearch(
-    index: CorpusIndex,
-    query: Query,
-    { cache, logger }: SearchOptions
-): Promise<CorpusSearchResult[]> {
+export async function search(index: CorpusIndex, query: Query, { logger }: SearchOptions): Promise<SearchResult[]> {
     const allResults = (
         await Promise.all(
             Object.entries(SEARCH_METHODS).map(async ([name, searchFn]) => {
                 const t0 = performance.now()
-                const results = await searchFn(index, query, { cache: scopedCache(cache, name), logger })
+                const results = await searchFn(index, query)
                 logger?.(`search[${name}] took ${Math.round(performance.now() - t0)}ms`)
                 return results
             })
@@ -32,11 +26,11 @@ export async function multiSearch(
     ).flat()
 
     // Sum scores for each chunk.
-    const combinedResults = new Map<DocID, Map<ChunkIndex, CorpusSearchResult>>()
+    const combinedResults = new Map<DocID, Map<ChunkIndex, SearchResult>>()
     for (const result of allResults) {
         let docResults = combinedResults.get(result.doc)
         if (!docResults) {
-            docResults = new Map<ChunkIndex, CorpusSearchResult>()
+            docResults = new Map<ChunkIndex, SearchResult>()
             combinedResults.set(result.doc, docResults)
         }
 
@@ -54,7 +48,7 @@ export async function multiSearch(
     return results.filter(s => s.score >= MIN_SCORE).toSorted((a, b) => b.score - a.score)
 }
 
-const SEARCH_METHODS: Record<
-    string,
-    (index: CorpusIndex, query: Query, options: SearchOptions) => CorpusSearchResult[] | Promise<CorpusSearchResult[]>
-> = { keywordSearch, embeddingsSearch }
+const SEARCH_METHODS: Record<string, (index: CorpusIndex, query: Query) => SearchResult[] | Promise<SearchResult[]>> = {
+    keywordSearch,
+    embeddingsSearch,
+}
