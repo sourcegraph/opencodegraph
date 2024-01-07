@@ -1,6 +1,6 @@
-import { type CorpusSearchResult, type Query } from '..'
 import { type Logger } from '../../logger'
 import { scopedCache, type Cache } from '../cache/cache'
+import { type CorpusSearchResult, type Query } from '../client'
 import { type ChunkIndex } from '../doc/chunks'
 import { type DocID } from '../doc/doc'
 import { type CorpusIndex } from '../index/corpusIndex'

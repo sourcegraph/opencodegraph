@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { describe, expect, test } from 'vitest'
-import { type CorpusSearchResult } from './corpus'
 import { createCorpusArchive } from './corpus/archive/corpusArchive'
+import { type CorpusSearchResult } from './corpus/client'
 import { indexCorpus } from './corpus/index/corpusIndex'
 
 describe('e2e', () => {

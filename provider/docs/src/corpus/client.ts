@@ -1,7 +1,4 @@
-import { type Logger } from '../logger'
-import { type CacheStore } from './cache/cache'
 import { type ChunkIndex } from './doc/chunks'
-import { type ContentExtractor } from './doc/contentExtractor'
 import { type DocID } from './doc/doc'
 import { type CorpusIndex } from './index/corpusIndex'
 
@@ -21,19 +18,6 @@ export interface CorpusSearchResult {
     chunk: ChunkIndex
     score: number
     excerpt: string
-}
-
-/**
- * Options for indexing a corpus.
- */
-export interface IndexOptions {
-    cacheStore?: CacheStore
-    contentExtractor?: ContentExtractor
-
-    /**
-     * Called to print log messages.
-     */
-    logger?: Logger
 }
 
 export function corpusIndexFromURL(url: string): Promise<CorpusIndex> {

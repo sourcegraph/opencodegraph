@@ -1,11 +1,25 @@
 import { cos_sim, dot, env, magnitude, pipeline } from '@xenova/transformers'
 import * as onnxWeb from 'onnxruntime-web'
-import { type CorpusSearchResult, type Query } from '..'
 import { isWebWindowRuntime, useWebWorker } from '../../env'
 import { type Logger } from '../../logger'
 import { embedTextOnWorker } from '../../mlWorker/webWorkerClient'
+import { type CorpusSearchResult, type Query } from '../client'
 import { type CorpusIndex } from '../index/corpusIndex'
 import { withoutCodeStopwords } from './terms'
+
+if (process.env.VITEST) {
+    // Workaround (from
+    // https://github.com/microsoft/onnxruntime/issues/16622#issuecomment-1626413333) for when
+    // Vitest is running tests using the vmThreads pool.
+    const origIsArray = Array.isArray
+    Array.isArray = (arg): arg is any[] => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (arg?.constructor?.name === 'Float32Array' || arg?.constructor?.name === 'BigInt64Array') {
+            return true
+        }
+        return origIsArray(arg)
+    }
+}
 
 // TODO(sqs): think we can remove this entirely...
 //
@@ -18,6 +32,7 @@ if (typeof process !== 'undefined' && process.env.FORCE_WASM) {
     env.onnx = onnxWeb.env
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     ;(env as any).onnx.wasm.numThreads = 1
+    env.backends.onnx.wasm.numThreads = 1
 }
 
 if (isWebWindowRuntime) {

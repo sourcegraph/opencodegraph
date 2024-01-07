@@ -1,10 +1,11 @@
-import { type CorpusSearchResult, type IndexOptions, type Query } from '..'
+import { type Logger } from '../../logger'
 import { type CorpusArchive } from '../archive/corpusArchive'
-import { createCache, noopCache, type Cache } from '../cache/cache'
+import { createCache, noopCache, type Cache, type CacheStore } from '../cache/cache'
 import { contentID } from '../cache/contentID'
 import { memo } from '../cache/memo'
+import { type CorpusSearchResult, type Query } from '../client'
 import { chunk, type Chunk } from '../doc/chunks'
-import { type Content } from '../doc/contentExtractor'
+import { type Content, type ContentExtractor } from '../doc/contentExtractor'
 import { type Doc, type DocID } from '../doc/doc'
 import { embedText } from '../search/embeddings'
 import { multiSearch } from '../search/multi'
@@ -14,8 +15,6 @@ import { createTFIDFIndex, type TFIDFIndex } from '../search/tfidf'
  * An index of a corpus.
  */
 export interface CorpusIndex {
-    data: CorpusArchive
-
     // Index data
     docs: IndexedDoc[]
     tfidf: TFIDFIndex
@@ -38,6 +37,19 @@ export interface IndexedDoc {
 }
 
 /**
+ * Options for indexing a corpus.
+ */
+export interface IndexOptions {
+    cacheStore?: CacheStore
+    contentExtractor?: ContentExtractor
+
+    /**
+     * Called to print log messages.
+     */
+    logger?: Logger
+}
+
+/**
  * Index a corpus.
  */
 export async function indexCorpus(
@@ -51,7 +63,6 @@ export async function indexCorpus(
     const tfidf = await cachedCreateTFIDFIndex(indexedDocs, cache)
 
     const index: CorpusIndex = {
-        data: corpus,
         docs: indexedDocs,
         tfidf,
         doc(id) {
