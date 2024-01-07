@@ -7,7 +7,8 @@ import { embedTextOnWorker } from '../worker/webWorkerClient'
 import { withoutCodeStopwords } from './terms'
 import { type Query, type SearchResult } from './types'
 
-if (process.env.VITEST) {
+// eslint-disable-next-line @typescript-eslint/prefer-optional-chain
+if (typeof process !== 'undefined' && process.env.VITEST) {
     // Workaround (from
     // https://github.com/microsoft/onnxruntime/issues/16622#issuecomment-1626413333) for when
     // Vitest is running tests using the vmThreads pool.
@@ -38,12 +39,12 @@ if (isWebWindowRuntime) {
     // Running on Web.
     //
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    env.backends.onnx.wasm.wasmPaths = import.meta.resolve('../../../node_modules/@xenova/transformers/dist/')
+    env.backends.onnx.wasm.wasmPaths = import.meta.resolve('../../node_modules/@xenova/transformers/dist/')
 }
 
 env.allowLocalModels = false
 
-export async function embeddingsSearch(index: CorpusIndex, query: Query): Promise<SearchResult[]> {
+export async function embeddingsSearch(index: CorpusIndex, query: Query): Promise<Omit<SearchResult, 'scores'>[]> {
     const textToEmbed = [query.meta?.activeFilename && `// ${query.meta?.activeFilename}`, query.text]
         .filter((s): s is string => Boolean(s))
         .join('\n')
@@ -57,7 +58,7 @@ export async function embeddingsSearch(index: CorpusIndex, query: Query): Promis
             chunks.map((chunk, i) => {
                 const score = cosSim(chunk.embeddings)
                 return score >= MIN_SCORE
-                    ? ({ doc: docID, chunk: i, score, scores: {}, excerpt: chunk.text } satisfies SearchResult)
+                    ? ({ doc: docID, chunk: i, score, excerpt: chunk.text } satisfies Omit<SearchResult, 'scores'>)
                     : null
             })
         )

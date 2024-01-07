@@ -1,23 +1,14 @@
 import { type ProviderSettings } from '@opencodegraph/client'
 
-const USE_STORED_CORPUS = true
-
 async function getProviders(): Promise<Record<string, ProviderSettings | boolean>> {
     const providerSettings: Record<string, ProviderSettings | boolean> = {
         '../../../../provider/hello-world/index.ts': false,
         '../../../../provider/docs/src/provider/provider.ts': {
-            corpus: USE_STORED_CORPUS
-                ? {
-                      url: new URL(
-                          // 'tmp-ocg-provider-docs/sourcegraph-docs-old-web-corpus.json',
-                          'tmp-ocg-provider-docs/vite-docs-web-corpus.json',
-                          import.meta.url
-                      ).toString(),
-                  }
-                : {
-                      entryPage: 'http://localhost:5800/docs/start',
-                      prefix: 'http://localhost:5800/docs',
-                  },
+            index: new URL(
+                'tmp-ocg-provider-docs/sourcegraph-docs-old-web.index.json',
+                // 'tmp-ocg-provider-docs/vite-docs-web.index.json',
+                import.meta.url
+            ).toString(),
         } satisfies import('@opencodegraph/provider-docs').Settings,
         '../../../../provider/links/index.ts': {
             links: [

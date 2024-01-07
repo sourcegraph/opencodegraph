@@ -58,7 +58,10 @@ export async function search(index: CorpusIndex, query: Query, { logger }: Searc
     return results.filter(s => s.score >= MIN_SCORE).toSorted((a, b) => b.score - a.score)
 }
 
-const SEARCH_METHODS: Record<string, (index: CorpusIndex, query: Query) => SearchResult[] | Promise<SearchResult[]>> = {
+const SEARCH_METHODS: Record<
+    string,
+    (index: CorpusIndex, query: Query) => Omit<SearchResult, 'scores'>[] | Promise<Omit<SearchResult, 'scores'>[]>
+> = {
     keywordSearch,
     embeddingsSearch,
 }

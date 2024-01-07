@@ -5,52 +5,23 @@ import {
     type AnnotationsResult,
     type CapabilitiesResult,
 } from '@opencodegraph/provider'
-import { corpusDataURLSource, createCorpusArchive } from '../corpus/archive/corpusArchive'
-import { createWebCorpusArchive } from '../corpus/archive/web/webCorpusArchive'
-import { createIndexedDBCacheStore } from '../corpus/cache/store/indexedDB'
-import { createWebStorageCacheStore } from '../corpus/cache/store/localStorage'
+import { createClient } from '../client/client'
 import { chunk } from '../corpus/doc/chunks'
-import { extractContentUsingMozillaReadability } from '../corpus/doc/contentExtractor'
-import { createCorpusIndex } from '../corpus/index/corpusIndex'
+import { fromJSON, type CorpusIndex } from '../corpus/index/corpusIndex'
 import { multiplex } from './multiplex'
 
 /** Settings for the docs OpenCodeGraph provider. */
 export interface Settings {
-    corpus:
-        | { url: string }
-        | {
-              entryPage: string
-              prefix: string
-              ignore?: string[]
-          }
+    index: string
 }
-
-const CORPUS_CACHE =
-    typeof indexedDB === 'undefined'
-        ? typeof localStorage === 'undefined'
-            ? undefined
-            : createWebStorageCacheStore(localStorage, 'ocg-provider-docs')
-        : createIndexedDBCacheStore('ocg-provider-docs')
 
 /**
  * An [OpenCodeGraph](https://opencodegraph.org) provider that adds contextual documentation to your
  * code from an existing documentation corpus.
  */
 export default multiplex<Settings>(async settings => {
-    const source =
-        'url' in settings.corpus
-            ? corpusDataURLSource(settings.corpus.url)
-            : createWebCorpusArchive({
-                  entryPage: new URL(settings.corpus.entryPage),
-                  prefix: new URL(settings.corpus.prefix),
-                  ignore: settings.corpus.ignore,
-                  logger: message => console.log(message),
-              })
-    const index = await createCorpusIndex(await createCorpusArchive(await source.docs()), {
-        cacheStore: CORPUS_CACHE,
-        contentExtractor: extractContentUsingMozillaReadability,
-        logger: console.debug,
-    })
+    const index = await fetchIndex(settings.index)
+    const client = createClient(index, { logger: console.debug })
 
     return {
         capabilities(): CapabilitiesResult {
@@ -63,7 +34,7 @@ export default multiplex<Settings>(async settings => {
             const contentChunks = chunk(params.content, { isMarkdown: params.file.endsWith('.md'), isTargetDoc: true })
             await Promise.all(
                 contentChunks.map(async contentChunk => {
-                    const searchResults = await index.search({
+                    const searchResults = await client.search({
                         text: contentChunk.text,
                         meta: { activeFilename: params.file },
                     })
@@ -73,7 +44,7 @@ export default multiplex<Settings>(async settings => {
                             break
                         }
 
-                        const doc = index.doc(sr.doc)
+                        const doc = client.doc(sr.doc)
                         result.push({
                             title: doc.content?.title || doc.doc?.url || 'Untitled',
                             url: doc.doc?.url,
@@ -116,6 +87,14 @@ export default multiplex<Settings>(async settings => {
         },
     }
 })
+
+async function fetchIndex(url: string): Promise<CorpusIndex> {
+    const resp = await fetch(url)
+    if (!resp.ok) {
+        throw new Error(`Failed to fetch corpus index from ${url} with HTTP status ${resp.status}`)
+    }
+    return fromJSON(await resp.json())
+}
 
 function longestCommonSuffix(texts: string[]): string {
     if (texts.length === 0) {

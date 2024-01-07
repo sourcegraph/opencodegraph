@@ -3,7 +3,6 @@ import { createCorpusArchive } from '../corpus/archive/corpusArchive'
 import { createCorpusIndex } from '../corpus/index/corpusIndex'
 import { doc } from '../corpus/index/corpusIndex.test'
 import { embeddingsSearch, embedTextInThisScope, similarity } from './embeddings'
-import { type SearchResult } from './types'
 
 describe('embeddingsSearch', () => {
     test('finds matches', async () => {
@@ -14,7 +13,10 @@ describe('embeddingsSearch', () => {
                     text: 'b',
                 }
             )
-        ).toEqual<SearchResult[]>([{ doc: 2, chunk: 0, score: 1, excerpt: 'b' }])
+        ).toEqual([
+            { doc: 2, chunk: 0, score: 1, excerpt: 'b' },
+            { doc: 1, chunk: 0, score: 0.23823869524750682, excerpt: 'xxxxxx' },
+        ])
     })
 })
 

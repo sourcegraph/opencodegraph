@@ -22,6 +22,7 @@ describe('keywordSearch', () => {
                     totalChunks: 2,
                     termChunkFrequency: 1,
                 }),
+                scores: {},
                 excerpt: 'bbb',
             },
         ])
