@@ -1,11 +1,11 @@
 {
-  "name": "@opencodegraph/ui-common",
+  "name": "@openctx/ui-common",
   "version": "0.0.1",
-  "description": "OpenCodeGraph common UI library",
+  "description": "OpenCtx common UI library",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "lib/ui-common"
   },
   "type": "module",
@@ -24,6 +24,6 @@
     "prepublishOnly": "tsc --build --clean && pnpm run build"
   },
   "dependencies": {
-    "@opencodegraph/schema": "workspace:*"
+    "@openctx/schema": "workspace:*"
   }
 }

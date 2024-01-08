@@ -5,8 +5,8 @@
 import matchGlob from 'picomatch/lib/picomatch.js'
 
 export type { Provider as Provider } from './provider'
-export type * from '@opencodegraph/schema'
-export type * from '@opencodegraph/protocol'
+export type * from '@openctx/schema'
+export type * from '@openctx/protocol'
 
 // For convenience, since many providers need globs.
 export { matchGlob }

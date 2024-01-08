@@ -1,4 +1,4 @@
-import { type AnnotationsParams } from '@opencodegraph/protocol'
+import { type AnnotationsParams } from '@openctx/protocol'
 import { describe, expect, test } from 'vitest'
 import { matchSelectors } from './selector'
 

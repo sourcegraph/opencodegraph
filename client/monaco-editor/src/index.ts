@@ -1,4 +1,4 @@
-import { type Annotation, type Client, type Range } from '@opencodegraph/client'
+import { type Annotation, type Client, type Range } from '@openctx/client'
 import * as monaco from 'monaco-editor'
 
 /**
@@ -38,13 +38,13 @@ class MonacoPosition extends monaco.Position {
  * Convert a {@link Range} to a range that can be used with the Monaco editor
  * ({@link monaco.Range}).
  *
- * Use it in {@link import('@opencodegraph/client').createClient}'s `makeRange` environment field.
+ * Use it in {@link import('@openctx/client').createClient}'s `makeRange` environment field.
  */
 export function makeRange(range: Range): MonacoRange {
     return new MonacoRange(range.start.line, range.start.character, range.end.line, range.end.character)
 }
 
-const OPEN_URL_COMMAND = 'opencodegraph.openUrl'
+const OPEN_URL_COMMAND = 'openctx.openUrl'
 
 /**
  * A Monaco extension is activated by calling it with the editor as an argument. Calling its

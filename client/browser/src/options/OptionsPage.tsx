@@ -35,7 +35,7 @@ export const OptionsPage: FunctionComponent = () => {
                     .set({ configuration: { jsonc: pendingConfig ?? configuration } })
                     .catch(error => {
                         console.error(error)
-                        alert('Failed to save OpenCodeGraph configuration.')
+                        alert('Failed to save OpenCtx configuration.')
                     })
                     .finally(() => {
                         setIsSaving(false)
@@ -72,9 +72,9 @@ export const OptionsPage: FunctionComponent = () => {
         <form className={styles.container} onSubmit={onSubmit}>
             <h1 className={styles.heading}>
                 <label className={styles.title} htmlFor={TEXTAREA_ID}>
-                    Configuration for OpenCodeGraph
+                    Configuration for OpenCtx
                 </label>
-                <a href="https://opencodegraph.org/docs" target="_blank" rel="noreferrer" className={styles.docsLink}>
+                <a href="https://openctx.org/docs" target="_blank" rel="noreferrer" className={styles.docsLink}>
                     Docs
                 </a>
             </h1>

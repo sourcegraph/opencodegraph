@@ -1,4 +1,4 @@
-import { type AnnotationsParams, type Selector } from '@opencodegraph/protocol'
+import { type AnnotationsParams, type Selector } from '@openctx/protocol'
 //
 // Import from a subpackage because the main module calls `os.platform()`, which doesn't work on
 // non-Node engines.

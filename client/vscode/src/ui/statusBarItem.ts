@@ -6,22 +6,22 @@ export function createStatusBarItem(): vscode.Disposable {
     const statusItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right)
     disposables.push(statusItem)
 
-    statusItem.command = 'opencodegraph.toggleEnable'
+    statusItem.command = 'openctx.toggleEnable'
 
     function update(): void {
-        const enable = vscode.workspace.getConfiguration('opencodegraph').get<boolean>('enable')
+        const enable = vscode.workspace.getConfiguration('openctx').get<boolean>('enable')
         if (enable) {
-            statusItem.text = '$(ocg-logo)'
-            statusItem.tooltip = 'Disable OpenCodeGraph'
+            statusItem.text = '$(octx-logo)'
+            statusItem.tooltip = 'Disable OpenCtx'
         } else {
-            statusItem.text = '$(ocg-logo-off)'
-            statusItem.tooltip = 'Enable OpenCodeGraph'
+            statusItem.text = '$(octx-logo-off)'
+            statusItem.tooltip = 'Enable OpenCtx'
         }
     }
 
     disposables.push(
         vscode.workspace.onDidChangeConfiguration(e => {
-            if (e.affectsConfiguration('opencodegraph.enable')) {
+            if (e.affectsConfiguration('openctx.enable')) {
                 update()
             }
         })

@@ -1,4 +1,4 @@
-import { createClient, type Annotation, type Range } from '@opencodegraph/client'
+import { createClient, type Annotation, type Range } from '@openctx/client'
 import { catchError, combineLatest, from, map, mergeMap, of, tap, type Observable } from 'rxjs'
 import * as vscode from 'vscode'
 import { createApi, type ExtensionApi } from './api'
@@ -26,7 +26,7 @@ export function createController(
 } {
     const disposables: vscode.Disposable[] = []
 
-    const globalConfigurationChanges = observeWorkspaceConfigurationChanges('opencodegraph')
+    const globalConfigurationChanges = observeWorkspaceConfigurationChanges('openctx')
 
     // Watch for changes that could possibly affect configuration. This is overbroad because it does
     // not specify a config scope.
@@ -35,9 +35,9 @@ export function createController(
     )
     disposables.push(configOrSecretsChanged)
 
-    const toggleEnableCommand = vscode.commands.registerCommand('opencodegraph.toggleEnable', async () => {
+    const toggleEnableCommand = vscode.commands.registerCommand('openctx.toggleEnable', async () => {
         const currentValue = getClientConfiguration().enable
-        await vscode.workspace.getConfiguration('opencodegraph').update('enable', !currentValue)
+        await vscode.workspace.getConfiguration('openctx').update('enable', !currentValue)
     })
     disposables.push(toggleEnableCommand)
 
@@ -51,9 +51,7 @@ export function createController(
     const client = createClient<vscode.Range>({
         configuration: file => {
             const scope = file ? vscode.Uri.parse(file) : undefined
-            return observeWorkspaceConfigurationChanges('opencodegraph', scope).pipe(
-                map(() => getClientConfiguration(scope))
-            )
+            return observeWorkspaceConfigurationChanges('openctx', scope).pipe(map(() => getClientConfiguration(scope)))
         },
         authInfo: provider => secrets.pipe(mergeMap(secrets => from(getAuthInfo(secrets, provider)))),
         makeRange,
@@ -115,7 +113,7 @@ export function createController(
     }
 
     // The UI feature providers (code lens and hover) should stay registered even if the global
-    // `opencodegraph.enable` value is `false` because it might be overridden to `true` at another
+    // `openctx.enable` value is `false` because it might be overridden to `true` at another
     // level of configuration. If the UI feature providers are invoked in a file where they're
     // disabled, the provider will quickly return no results.
     const codeLensProvider = createCodeLensProvider(controller)
@@ -150,7 +148,7 @@ function showErrorNotification(outputChannel: vscode.OutputChannel): void {
     const OPEN_LOG = 'Open Log'
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     vscode.window
-        .showErrorMessage('OpenCodeGraph annotations failed.', {
+        .showErrorMessage('OpenCtx annotations failed.', {
             title: OPEN_LOG,
         } satisfies vscode.MessageItem)
         .then(action => {

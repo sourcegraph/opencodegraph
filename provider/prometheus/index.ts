@@ -7,9 +7,9 @@ import {
     type Position,
     type Provider,
     type Range,
-} from '@opencodegraph/provider'
+} from '@openctx/provider'
 
-/** Settings for the Prometheus OpenCodeGraph provider. */
+/** Settings for the Prometheus OpenCtx provider. */
 export interface Settings {
     /**
      * Patterns that match metric registrations.
@@ -43,12 +43,12 @@ interface MetricRegistrationPattern {
 }
 
 /**
- * An [OpenCodeGraph](https://opencodegraph.org) provider that lets you hover over a Prometheus
+ * An [OpenCtx](https://openctx.org) provider that lets you hover over a Prometheus
  * metric in your code to see what it's doing in prod and to click through to the live metrics on
  * [Prometheus](https://prometheus.io), [Grafana](https://grafana.com/), or another metrics viewer.
  *
  * These links will be visible in every dev's editor, in code search, on the code host, and in code
- * review (assuming all of those tools have OpenCodeGraph support).
+ * review (assuming all of those tools have OpenCtx support).
  *
  * - TODO(sqs): Make this find dashboards containing the metric (like
  *   https://github.com/panodata/grafana-wtf).

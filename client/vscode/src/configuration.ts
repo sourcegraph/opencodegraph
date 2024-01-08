@@ -1,5 +1,5 @@
 import path from 'path'
-import { type ClientConfiguration } from '@opencodegraph/client'
+import { type ClientConfiguration } from '@openctx/client'
 import * as vscode from 'vscode'
 
 /**
@@ -10,7 +10,7 @@ export function getClientConfiguration(
     scope?: vscode.ConfigurationScope,
     __mock__getConfiguration?: typeof vscode.workspace.getConfiguration
 ): ClientConfiguration & { debug?: boolean } {
-    const config = (__mock__getConfiguration ?? vscode.workspace.getConfiguration)('opencodegraph', scope)
+    const config = (__mock__getConfiguration ?? vscode.workspace.getConfiguration)('openctx', scope)
     return {
         enable: config.get('enable'),
         providers: resolveProviderUrisInConfig(config, scope),
@@ -38,7 +38,7 @@ function resolveProviderUrisInConfig(
 
     /**
      * Allow the use of `../path/to/module.js` and `./path/to/module.js` in the
-     * `opencodegraph.providers` setting.
+     * `openctx.providers` setting.
      */
     function rewriteProviderRelativeFilePaths(
         providers: ClientConfiguration['providers'],

@@ -1,11 +1,11 @@
 {
-  "name": "@opencodegraph/codemirror-extension",
+  "name": "@openctx/codemirror-extension",
   "version": "0.0.4",
-  "description": "OpenCodeGraph extension for CodeMirror",
+  "description": "OpenCtx extension for CodeMirror",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "client/codemirror"
   },
   "main": "dist/index.js",
@@ -22,19 +22,19 @@
     "demo": "pnpm -C demo run -s dev"
   },
   "dependencies": {
-    "@opencodegraph/client": "workspace:*",
-    "@opencodegraph/ui-react": "workspace:*",
-    "@opencodegraph/ui-common": "workspace:*",
+    "@openctx/client": "workspace:*",
+    "@openctx/ui-common": "workspace:*",
+    "@openctx/ui-react": "workspace:*",
     "deep-equal": "^2.2.3"
   },
   "devDependencies": {
-    "@codemirror/state": "^6.3.1",
-    "@codemirror/view": "^6.22.0",
+    "@codemirror/state": "^6.4.0",
+    "@codemirror/view": "^6.23.0",
     "@types/deep-equal": "^1.0.4",
     "@types/react": "18.2.37",
     "@types/react-dom": "18.2.15",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "peerDependencies": {
     "@codemirror/state": "^6.2.0",

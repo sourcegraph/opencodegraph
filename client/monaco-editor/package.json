@@ -1,11 +1,11 @@
 {
-  "name": "@opencodegraph/monaco-editor-extension",
+  "name": "@openctx/monaco-editor-extension",
   "version": "0.0.3",
-  "description": "OpenCodeGraph extension for Monaco Editor",
+  "description": "OpenCtx extension for Monaco Editor",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "client/monaco-editor"
   },
   "main": "dist/index.js",
@@ -22,7 +22,7 @@
     "demo": "pnpm -C demo run -s dev"
   },
   "dependencies": {
-    "@opencodegraph/client": "workspace:*"
+    "@openctx/client": "workspace:*"
   },
   "devDependencies": {
     "monaco-editor": "^0.45.0"

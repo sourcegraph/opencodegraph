@@ -1,4 +1,4 @@
-import { type AnnotationsResult } from '@opencodegraph/provider'
+import { type AnnotationsResult } from '@openctx/provider'
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest'
 import createFetchMock from 'vitest-fetch-mock'
 import storybook, { __test__, type Settings } from './index'

@@ -30,7 +30,7 @@ export const DemoApp: FunctionComponent = () => {
     return settings && fileContent ? (
         <div className={styles.container}>
             <header className={styles.header}>
-                <h1>OpenCodeGraph playground</h1>
+                <h1>OpenCtx playground</h1>
                 <nav>
                     {SAMPLE_FILES.map(id => (
                         <a key={id} href={`/?${id}`}>

@@ -1,11 +1,11 @@
 {
-  "name": "@opencodegraph/provider",
+  "name": "@openctx/provider",
   "version": "0.0.3",
-  "description": "OpenCodeGraph provider library",
+  "description": "OpenCtx provider library",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "lib/provider"
   },
   "type": "module",
@@ -23,8 +23,8 @@
     "prepublishOnly": "tsc --build --clean && pnpm run build"
   },
   "dependencies": {
-    "@opencodegraph/protocol": "workspace:*",
-    "@opencodegraph/schema": "workspace:*",
+    "@openctx/protocol": "workspace:*",
+    "@openctx/schema": "workspace:*",
     "picomatch": "^3.0.1"
   },
   "devDependencies": {

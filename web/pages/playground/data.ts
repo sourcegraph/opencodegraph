@@ -1,6 +1,6 @@
-import providerLinksUrl from '@opencodegraph/provider-links?url'
-import providerPrometheusUrl from '@opencodegraph/provider-prometheus?url'
-import providerStorybookUrl from '@opencodegraph/provider-storybook?url'
+import providerLinksUrl from '@openctx/provider-links?url'
+import providerPrometheusUrl from '@openctx/provider-prometheus?url'
+import providerStorybookUrl from '@openctx/provider-storybook?url'
 
 export const INITIAL_FILE = {
     fileUri: 'file:///dir/SignInPage.story.tsx',
@@ -39,7 +39,7 @@ export const Dotcom: StoryFn = () => (
 function providerBundleUrl(packageName: string, importUrl: string): string {
     // Use clean URLs that refer to the published packages in the production build.
     if (import.meta.env.PROD) {
-        return `https://opencodegraph.org/npm/${packageName}`
+        return `https://openctx.org/npm/${packageName}`
     }
 
     const base = typeof window === 'undefined' ? import.meta.env.BASE_URL : window.origin
@@ -47,8 +47,8 @@ function providerBundleUrl(packageName: string, importUrl: string): string {
 }
 
 const settings = {
-    'opencodegraph.providers': {
-        [providerBundleUrl('@opencodegraph/provider-links@0.0.5', providerLinksUrl)]: {
+    'openctx.providers': {
+        [providerBundleUrl('@openctx/provider-links@0.0.5', providerLinksUrl)]: {
             links: [
                 {
                     title: 'Telemetry',
@@ -72,8 +72,8 @@ const settings = {
                     pattern: '(FROM|UPDATE|INSERT INTO|DELETE FROM|ALTER TABLE) (?<table>\\w+)',
                 },
             ],
-        } satisfies import('@opencodegraph/provider-links').Settings,
-        [providerBundleUrl('@opencodegraph/provider-prometheus@0.0.3', providerPrometheusUrl)]: {
+        } satisfies import('@openctx/provider-links').Settings,
+        [providerBundleUrl('@openctx/provider-prometheus@0.0.3', providerPrometheusUrl)]: {
             metricRegistrationPatterns: [
                 {
                     path: '**/*.ts?(x)',
@@ -81,10 +81,10 @@ const settings = {
                     urlTemplate: 'https://prometheus.demo.do.prometheus.io/graph?g0.expr=$1&g0.tab=0&g0.stacked=1',
                 },
             ],
-        } satisfies import('@opencodegraph/provider-prometheus').Settings,
-        [providerBundleUrl('@opencodegraph/provider-storybook@0.0.3', providerStorybookUrl)]: {
+        } satisfies import('@openctx/provider-prometheus').Settings,
+        [providerBundleUrl('@openctx/provider-storybook@0.0.3', providerStorybookUrl)]: {
             storybookUrl: 'https://daeeaa811098f52f15a110dbaf76b6c416191c3b--5f0f381c0e50750022dc6bf7.chromatic.com/', // this is a public URL because our storybooks are public
-        } satisfies import('@opencodegraph/provider-storybook').Settings,
+        } satisfies import('@openctx/provider-storybook').Settings,
     },
 }
 
@@ -106,5 +106,5 @@ export const PRELOAD_RESOURCES: { url: string; as: 'document' | 'image' | 'scrip
         url: 'https://snapshots.chromatic.com/snapshots/5f0f381c0e50750022dc6bf7-655e91581b8b7b747a849435/capture-e729239.png',
         as: 'image',
     },
-    ...Object.keys(settings['opencodegraph.providers']).map(url => ({ url, as: 'script' as const })),
+    ...Object.keys(settings['openctx.providers']).map(url => ({ url, as: 'script' as const })),
 ]

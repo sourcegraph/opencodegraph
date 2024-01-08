@@ -6,9 +6,9 @@ import {
     type CapabilitiesResult,
     type Provider,
     type Range,
-} from '@opencodegraph/provider'
+} from '@openctx/provider'
 
-/** Settings for the `links` OpenCodeGraph provider. */
+/** Settings for the `links` OpenCtx provider. */
 export interface Settings {
     links?: LinkPattern[]
 }
@@ -48,7 +48,7 @@ interface LinkPattern {
 }
 
 /**
- * An [OpenCodeGraph](https://opencodegraph.org) provider that annotates code files with links based
+ * An [OpenCtx](https://openctx.org) provider that annotates code files with links based
  * on a configurable list of patterns.
  *
  * For example, you can use this to display the following kinds of things:
@@ -59,7 +59,7 @@ interface LinkPattern {
  * - etc.
  *
  * These links will be visible in every dev's editor, in code search, on the code host, and in code
- * review (assuming all of those tools have OpenCodeGraph support).
+ * review (assuming all of those tools have OpenCtx support).
  */
 const links: Provider<Settings> = {
     capabilities(_params: CapabilitiesParams, settings: Settings): CapabilitiesResult {

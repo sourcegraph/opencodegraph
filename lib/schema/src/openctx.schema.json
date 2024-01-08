@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "opencodegraph.schema.json#",
+  "$id": "openctx.schema.json#",
   "title": "Schema",
   "description": "Metadata about code",
   "allowComments": true,

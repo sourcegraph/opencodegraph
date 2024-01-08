@@ -1,11 +1,11 @@
 {
-  "name": "@opencodegraph/provider-prometheus",
+  "name": "@openctx/provider-prometheus",
   "version": "0.0.3",
-  "description": "Hover over a Prometheus metric to see what it's doing in prod (OpenCodeGraph provider)",
+  "description": "Hover over a Prometheus metric to see what it's doing in prod (OpenCtx provider)",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "provider/prometheus"
   },
   "type": "module",
@@ -23,6 +23,6 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@opencodegraph/provider": "workspace:*"
+    "@openctx/provider": "workspace:*"
   }
 }

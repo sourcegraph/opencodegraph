@@ -1,4 +1,4 @@
-import type { AnnotationsResult, CapabilitiesResult } from '@opencodegraph/protocol'
+import type { AnnotationsResult, CapabilitiesResult } from '@openctx/protocol'
 import { LRUCache } from 'lru-cache'
 import type { ProviderTransport } from './createTransport'
 

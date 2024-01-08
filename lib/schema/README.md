@@ -1,3 +1,3 @@
-# OpenCodeGraph schema
+# OpenCtx schema
 
-The `@opencodegraph/schema` package contains the OpenCodeGraph schema definition (JSON Schema and generated TypeScript types.)
+The `@openctx/schema` package contains the OpenCtx schema definition (JSON Schema and generated TypeScript types.)

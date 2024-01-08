@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    if: github.repository == 'sourcegraph/opencodegraph'
+    if: github.repository == 'sourcegraph/openctx'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -41,7 +41,7 @@ jobs:
       - run: pnpm run test
       - run: xvfb-run -a pnpm -C client/vscode run test:integration
       - run: RELEASE_TYPE=stable pnpm -C client/vscode run release
-        if: github.repository == 'sourcegraph/opencodegraph'
+        if: github.repository == 'sourcegraph/openctx'
         env:
           VSCODE_MARKETPLACE_TOKEN: ${{ secrets.VSCODE_MARKETPLACE_TOKEN }}
           VSCODE_OPENVSX_TOKEN: ${{ secrets.VSCODE_OPENVSX_TOKEN }}
@@ -52,7 +52,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: OpenCodeGraph for VS Code ${{ env.EXT_VERSION }}
+          release_name: OpenCtx for VS Code ${{ env.EXT_VERSION }}
           draft: false
       - name: upload release asset
         uses: actions/upload-release-asset@v1
@@ -60,6 +60,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: client/vscode/dist/opencodegraph.vsix
-          asset_name: opencodegraph-vscode-${{ env.EXT_VERSION }}.vsix
+          asset_path: client/vscode/dist/openctx.vsix
+          asset_name: openctx-vscode-${{ env.EXT_VERSION }}.vsix
           asset_content_type: application/zip

@@ -1,11 +1,11 @@
 {
-  "name": "@opencodegraph/provider-links",
+  "name": "@openctx/provider-links",
   "version": "0.0.5",
-  "description": "Add links to your code based on configurable patterns (OpenCodeGraph provider)",
+  "description": "Add links to your code based on configurable patterns (OpenCtx provider)",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "provider/links"
   },
   "type": "module",
@@ -23,6 +23,6 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@opencodegraph/provider": "workspace:*"
+    "@openctx/provider": "workspace:*"
   }
 }

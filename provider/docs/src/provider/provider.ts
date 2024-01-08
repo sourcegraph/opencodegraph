@@ -5,19 +5,19 @@ import {
     type AnnotationsParams,
     type AnnotationsResult,
     type CapabilitiesResult,
-} from '@opencodegraph/provider'
+} from '@openctx/provider'
 import { createClient } from '../client/client.ts'
 import { chunk } from '../corpus/doc/chunks.ts'
 import { fromJSON, type CorpusIndex } from '../corpus/index/corpusIndex.ts'
 import { multiplex } from './multiplex.ts'
 
-/** Settings for the docs OpenCodeGraph provider. */
+/** Settings for the docs OpenCtx provider. */
 export interface Settings {
     index: string
 }
 
 /**
- * An [OpenCodeGraph](https://opencodegraph.org) provider that adds contextual documentation to your
+ * An [OpenCtx](https://openctx.org) provider that adds contextual documentation to your
  * code from an existing documentation corpus.
  */
 export default multiplex<Settings>(async settings => {

@@ -6,7 +6,7 @@ const { version } = packageJson
 // eslint-disable-next-line import/no-default-export
 export default defineManifest(env => ({
     manifest_version: 3,
-    name: env.mode === 'development' ? 'OpenCodeGraph [dev]' : 'OpenCodeGraph',
+    name: env.mode === 'development' ? 'OpenCtx [dev]' : 'OpenCtx',
     description: "Enhance your code host's UI with contextual info from your other dev tools.",
     version,
 
@@ -16,7 +16,7 @@ export default defineManifest(env => ({
         '128': 'icon-128.png',
     },
     action: {
-        default_title: 'OpenCodeGraph',
+        default_title: 'OpenCtx',
         default_icon: {
             '32': 'icon-32.png',
             '48': 'icon-48.png',

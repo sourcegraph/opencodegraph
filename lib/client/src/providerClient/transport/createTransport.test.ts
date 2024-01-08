@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { type CapabilitiesResult, type ResponseMessage } from '@opencodegraph/protocol'
+import { type CapabilitiesResult, type ResponseMessage } from '@openctx/protocol'
 import { afterEach } from 'node:test'
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 import createFetchMock from 'vitest-fetch-mock'
@@ -132,20 +132,20 @@ describe('createTransport', () => {
                     result: { selector: [{ path: 'foo' }] } satisfies CapabilitiesResult,
                 } satisfies ResponseMessage)
             )
-            const provider = createTransport('https://example.com/opencodegraph', {})
+            const provider = createTransport('https://example.com/openctx', {})
             await expectProviderTransport(provider)
         })
 
         describe('errors', () => {
             test('HTTP request error', async () => {
                 fetchMocker.mockRejectOnce(new Error('network error'))
-                const provider = createTransport('https://example.com/opencodegraph', {})
+                const provider = createTransport('https://example.com/openctx', {})
                 await expect(provider.capabilities({}, {})).rejects.toMatch(/network error/)
             })
 
             test('HTTP error 404', async () => {
                 fetchMocker.mockResponseOnce('', { status: 404 })
-                const provider = createTransport('https://example.com/opencodegraph', {})
+                const provider = createTransport('https://example.com/openctx', {})
                 await expect(provider.capabilities({}, {})).rejects.toMatch(/404/)
             })
         })

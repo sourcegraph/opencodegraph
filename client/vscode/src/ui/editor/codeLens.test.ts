@@ -1,4 +1,4 @@
-import { type Annotation } from '@opencodegraph/client'
+import { type Annotation } from '@openctx/client'
 import { TestScheduler } from 'rxjs/testing'
 import { describe, expect, test, vi, type MockedObject } from 'vitest'
 import type * as vscode from 'vscode'
@@ -81,7 +81,7 @@ describe('createCodeLensProvider', () => {
                         range: createRange(0, 0, 0, 0),
                         command: {
                             title: 'A',
-                            command: 'opencodegraph._showHover',
+                            command: 'openctx._showHover',
                             arguments: [doc.uri, createPosition(0, 0)],
                         },
                     },
@@ -143,7 +143,7 @@ describe('createCodeLensProvider', () => {
                         range: createRange(0, 0, 0, 0),
                         command: {
                             title: 'A',
-                            command: 'opencodegraph._showHover',
+                            command: 'openctx._showHover',
                             arguments: [doc.uri, createPosition(1, 2)],
                         },
                     },
@@ -171,7 +171,7 @@ describe('createCodeLensProvider', () => {
                     {
                         isResolved: true,
                         range: createRange(1, 0, 1, 0),
-                        command: { title: 'G', command: 'opencodegraph._showGroup', arguments: ['G', FIXTURE_ANNS] },
+                        command: { title: 'G', command: 'openctx._showGroup', arguments: ['G', FIXTURE_ANNS] },
                     },
                 ],
             } satisfies Record<string, vscode.CodeLens[] | null>)

@@ -1,4 +1,4 @@
-import { type ProviderSettings } from '@opencodegraph/protocol'
+import { type ProviderSettings } from '@openctx/protocol'
 
 /**
  * Raw configuration set by the user in the client application. Use
@@ -9,7 +9,7 @@ export interface ConfigurationUserInput {
     debug?: boolean
 
     /**
-     * The OpenCodeGraph providers to use.
+     * The OpenCtx providers to use.
      */
     providers?: { [providerUri: string]: boolean | ProviderSettings }
 }

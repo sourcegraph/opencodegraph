@@ -6,16 +6,16 @@ export const info = {
   order: 0,
 }
 
-# Get started with OpenCodeGraph
+# Get started with OpenCtx
 
-OpenCodeGraph shows you contextual info about code from your dev tools, in your editor, in code review, and anywhere else you read code ([announcement blog post](https://sourcegraph.com/blog/opencodegraph)).
+OpenCtx shows you contextual info about code from your dev tools, in your editor, in code review, and anywhere else you read code ([announcement blog post](https://sourcegraph.com/blog/openctx)).
 
-You can use OpenCodeGraph in:
+You can use OpenCtx in:
 
 - [VS Code](#vs-code)
 - [Google Chrome](#browser-extension) (for GitHub's PR and code pages)
 - [Sourcegraph](#sourcegraph)
-- [opencodegraph.org playground](/playground)
+- [openctx.org playground](/playground)
 
 ---
 
@@ -24,17 +24,17 @@ You can use OpenCodeGraph in:
 {/* Keep in sync with client/vscode/README.md */}
 
 {/* prettier-ignore */}
-1. Install [OpenCodeGraph for VS Code](https://marketplace.visualstudio.com/items?itemName=sourcegraph.opencodegraph) (`sourcegraph.opencodegraph`).
+1. Install [OpenCtx for VS Code](https://marketplace.visualstudio.com/items?itemName=sourcegraph.openctx) (`sourcegraph.openctx`).
 1. Add the following to your VS Code settings:
       ```json
-      "opencodegraph.providers": {
-          "https://opencodegraph.org/npm/@opencodegraph/provider-hello-world": true,
+      "openctx.providers": {
+          "https://openctx.org/npm/@openctx/provider-hello-world": true,
       },
       ```
-1. Open a code file and look for the "Hello World" annotations from OpenCodeGraph.
-1. Add other OpenCodeGraph providers (see the list in the docs navbar) to see more contextual info about your code:
+1. Open a code file and look for the "Hello World" annotations from OpenCtx.
+1. Add other OpenCtx providers (see the list in the docs navbar) to see more contextual info about your code:
 
-    <img src="https://storage.googleapis.com/sourcegraph-assets/blog/screencast-vscode-storybook-v0.gif" width="350" height="224" alt="Screenshot of OpenCodeGraph annotations in VS Code" className="border border-border" />
+    <img src="https://storage.googleapis.com/sourcegraph-assets/blog/screencast-vscode-storybook-v0.gif" width="350" height="224" alt="Screenshot of OpenCtx annotations in VS Code" className="border border-border" />
 
     _Hover a UI component in code to see what it looks like_
 
@@ -46,7 +46,7 @@ See "[VS Code](/docs/clients/vscode)" for more information.
 
 {/* Keep in sync with client/browser/README.md */}
 
-1. Install [OpenCodeGraph on the Chrome Web Store](https://chromewebstore.google.com/detail/indllinbfleghfhhaglfgohfceffendm).
+1. Install [OpenCtx on the Chrome Web Store](https://chromewebstore.google.com/detail/indllinbfleghfhhaglfgohfceffendm).
 1. After installing it in Chrome, visit the following pages to see it in action:
 
    - [Example code file on GitHub](https://github.com/sourcegraph/sourcegraph/blob/main/internal/repos/conf.go)
@@ -54,12 +54,12 @@ See "[VS Code](/docs/clients/vscode)" for more information.
 
 1. Configure it to use other providers or patterns. See "[Browser extension](/docs/clients/browser-extension)" for details.
 
-<img src="https://storage.googleapis.com/sourcegraph-assets/opencodegraph/screenshot-browser-github-pr-v0.png" alt="Screenshot of OpenCodeGraph annotations in a GitHub pull request" width="598" />
+<img src="https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-browser-github-pr-v0.png" alt="Screenshot of OpenCtx annotations in a GitHub pull request" width="598" />
 
 <br />
 <br />
 
-<img src="https://storage.googleapis.com/sourcegraph-assets/opencodegraph/screenshot-browser-github-codeview-v0.png" alt="Screenshot of OpenCodeGraph annotations in the GitHub code view" width="598" />
+<img src="https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-browser-github-codeview-v0.png" alt="Screenshot of OpenCtx annotations in the GitHub code view" width="598" />
 
 ---
 

@@ -3,7 +3,7 @@ import {
     type CapabilitiesResult,
     type RequestMessage,
     type ResponseMessage,
-} from '@opencodegraph/protocol'
+} from '@openctx/protocol'
 import { scopedLogger } from '../../logger'
 import type { ProviderTransport, ProviderTransportOptions } from './createTransport'
 
@@ -34,7 +34,7 @@ export function createHttpTransport(
             })
         } catch (error: any) {
             throw new Error(
-                `sending HTTP request to OpenCodeGraph provider: ${[
+                `sending HTTP request to OpenCtx provider: ${[
                     `providerUri=${providerUri}`,
                     `method=${req.method}`,
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -56,7 +56,7 @@ export function createHttpTransport(
             logger?.(`${req.method} response: result=${JSON.stringify(result)} error=${JSON.stringify(error)}`)
             if (error) {
                 throw new Error(
-                    `OpenCodeGraph response error: ${[
+                    `OpenCtx response error: ${[
                         `providerUri=${providerUri}`,
                         `method=${req.method}`,
                         `error.code=${error.code}`,
@@ -66,12 +66,12 @@ export function createHttpTransport(
                 )
             }
             if (!result) {
-                throw new Error('invalid OpenCodeGraph response: missing "result" field')
+                throw new Error('invalid OpenCtx response: missing "result" field')
             }
             return result as R
         } catch (error: any) {
             throw new Error(
-                `reading JSON HTTP request body from OpenCodeGraph provider: ${[
+                `reading JSON HTTP request body from OpenCtx provider: ${[
                     `providerUri=${providerUri}`,
                     `method=${req.method}`,
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

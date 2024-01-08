@@ -1,4 +1,4 @@
-import { Position } from '@opencodegraph/schema'
+import { Position } from '@openctx/schema'
 
 export type PositionCalculator = (offset: number) => Position
 

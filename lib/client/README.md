@@ -1,3 +1,3 @@
-# OpenCodeGraph client library
+# OpenCtx client library
 
-The `@opencodegraph/client` package is used to implement OpenCodeGraph clients.
+The `@openctx/client` package is used to implement OpenCtx clients.

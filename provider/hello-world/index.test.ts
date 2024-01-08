@@ -1,4 +1,4 @@
-import { type AnnotationsResult, type CapabilitiesResult } from '@opencodegraph/provider'
+import { type AnnotationsResult, type CapabilitiesResult } from '@openctx/provider'
 import { describe, expect, test } from 'vitest'
 import helloWorld from './index'
 
@@ -17,9 +17,9 @@ describe('helloWorld', () => {
         ).toStrictEqual<AnnotationsResult>([
             {
                 title: '✨ Hello, world!',
-                url: 'https://opencodegraph.org',
+                url: 'https://openctx.org',
                 ui: {
-                    detail: 'From OpenCodeGraph',
+                    detail: 'From OpenCtx',
                 },
                 range: {
                     start: { line: 0, character: 0 },
@@ -28,9 +28,9 @@ describe('helloWorld', () => {
             },
             {
                 title: '✨ Hello, world!',
-                url: 'https://opencodegraph.org',
+                url: 'https://openctx.org',
                 ui: {
-                    detail: 'From OpenCodeGraph',
+                    detail: 'From OpenCtx',
                 },
                 range: {
                     start: { line: 10, character: 0 },

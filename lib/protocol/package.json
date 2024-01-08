@@ -1,11 +1,11 @@
 {
-  "name": "@opencodegraph/protocol",
+  "name": "@openctx/protocol",
   "version": "0.0.2",
-  "description": "OpenCodeGraph client/provider protocol",
+  "description": "OpenCtx client/provider protocol",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "lib/schema"
   },
   "type": "module",
@@ -17,13 +17,13 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "generate": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only ../schema/dev/generateJsonSchemaTypes.ts src/opencodegraph-protocol.schema.json \"import { Annotation } from '@opencodegraph/schema'\" > src/opencodegraph-protocol.schema.ts && pnpm -w run format \"$PNPM_SCRIPT_SRC_DIR/src/opencodegraph-protocol.schema.ts\"",
+    "generate": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only ../schema/dev/generateJsonSchemaTypes.ts src/openctx-protocol.schema.json \"import { Annotation } from '@openctx/schema'\" > src/openctx-protocol.schema.ts && pnpm -w run format \"$PNPM_SCRIPT_SRC_DIR/src/openctx-protocol.schema.ts\"",
     "build": "pnpm run --silent generate && tsc --build",
     "test": "vitest",
     "prepublishOnly": "tsc --build --clean && pnpm run build"
   },
   "dependencies": {
-    "@opencodegraph/schema": "workspace:*"
+    "@openctx/schema": "workspace:*"
   },
   "devDependencies": {
     "json-schema-to-typescript": "^13.1.1"

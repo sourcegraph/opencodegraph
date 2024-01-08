@@ -1,15 +1,15 @@
-import { type ProviderSettings } from '@opencodegraph/client'
+import { type ProviderSettings } from '@openctx/client'
 
 async function getProviders(): Promise<Record<string, ProviderSettings | boolean>> {
     const providerSettings: Record<string, ProviderSettings | boolean> = {
         '../../../../provider/hello-world/index.ts': false,
         '../../../../provider/docs/src/provider/provider.ts': {
             index: new URL(
-                // 'tmp-ocg-provider-docs/sourcegraph-docs-old-web.index.json',
-                'tmp-ocg-provider-docs/vite-docs-web.index.json',
+                // 'tmp-octx-provider-docs/sourcegraph-docs-old-web.index.json',
+                'tmp-octx-provider-docs/vite-docs-web.index.json',
                 import.meta.url
             ).toString(),
-        } satisfies import('@opencodegraph/provider-docs').Settings,
+        } satisfies import('@openctx/provider-docs').Settings,
         '../../../../provider/links/index.ts': {
             links: [
                 {
@@ -39,10 +39,10 @@ async function getProviders(): Promise<Record<string, ProviderSettings | boolean
                     path: '**/{*.{stories,story}.ts?(x),.storybook/**}',
                 },
             ],
-        } satisfies import('@opencodegraph/provider-links').Settings,
+        } satisfies import('@openctx/provider-links').Settings,
         '../../../../provider/storybook/index.ts': {
             storybookUrl: 'https://<branch>--5f0f381c0e50750022dc6bf7.chromatic.com/',
-        } satisfies import('@opencodegraph/provider-storybook').Settings,
+        } satisfies import('@openctx/provider-storybook').Settings,
     }
 
     const providerModules = import.meta.glob('../../../../provider/{*/index.ts,docs/src/provider/provider.ts}', {
@@ -60,5 +60,5 @@ async function getProviders(): Promise<Record<string, ProviderSettings | boolean
 
 export async function getDefaultSettings(): Promise<string> {
     const providers = await getProviders()
-    return JSON.stringify({ 'opencodegraph.providers': providers }, null, 2)
+    return JSON.stringify({ 'openctx.providers': providers }, null, 2)
 }

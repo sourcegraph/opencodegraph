@@ -1,1 +1,1 @@
-export type * from './opencodegraph.schema'
+export type * from './openctx.schema'

@@ -1,11 +1,11 @@
 {
-  "name": "@opencodegraph/provider-hello-world",
+  "name": "@openctx/provider-hello-world",
   "version": "0.0.2",
-  "description": "Hello World (OpenCodeGraph provider)",
+  "description": "Hello World (OpenCtx provider)",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "provider/hello-world"
   },
   "type": "module",
@@ -23,6 +23,6 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@opencodegraph/provider": "workspace:*"
+    "@openctx/provider": "workspace:*"
   }
 }

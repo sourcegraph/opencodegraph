@@ -1,23 +1,23 @@
-# Prometheus context provider for OpenCodeGraph
+# Prometheus context provider for OpenCtx
 
-This is a context provider for [OpenCodeGraph](https://opencodegraph.org) that lets you hover over a Prometheus metric's registration in your code to see what it's doing in prod and to click through to the live metrics on [Prometheus](https://prometheus.io/), [Grafana](https://grafana.com/), or another metrics viewer.
+This is a context provider for [OpenCtx](https://openctx.org) that lets you hover over a Prometheus metric's registration in your code to see what it's doing in prod and to click through to the live metrics on [Prometheus](https://prometheus.io/), [Grafana](https://grafana.com/), or another metrics viewer.
 
 ## Screenshot
 
-![Screenshot of OpenCodeGraph Prometheus annotations in a GitHub PR](https://storage.googleapis.com/sourcegraph-assets/opencodegraph/screenshot-github-pr-prometheus-browser-v1.png)
+![Screenshot of OpenCtx Prometheus annotations in a GitHub PR](https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-github-pr-prometheus-browser-v1.png)
 
 _Hover over a Prometheus metric registration in a GitHub PR to see what it's doing in prod_
 
-Visit the [OpenCodeGraph playground](https://opencodegraph.org/playground) for a live example.
+Visit the [OpenCtx playground](https://openctx.org/playground) for a live example.
 
 ## Usage
 
-Add the following to your settings in any OpenCodeGraph client:
+Add the following to your settings in any OpenCtx client:
 
 ```json
-"opencodegraph.providers": {
+"openctx.providers": {
     // ...other providers...
-    "https://opencodegraph.org/npm/@opencodegraph/provider-prometheus": {
+    "https://openctx.org/npm/@openctx/provider-prometheus": {
         "metricRegistrationPatterns": [
             {
                 "path": "**/*.go",
@@ -41,14 +41,14 @@ See "[Configuration](#configuration)" for more.
 Tips:
 
 - If you're using VS Code, you can put the snippet above in `.vscode/settings.json` in the repository or workspace root to configure per-repository links.
-- Play around with the Prometheus provider in realtime on the [OpenCodeGraph playground](https://opencodegraph.org/playground).
+- Play around with the Prometheus provider in realtime on the [OpenCtx playground](https://openctx.org/playground).
 
 ## Configuration
 
 <!-- Keep in sync with index.ts -->
 
 ```typescript
-/** Settings for the Prometheus OpenCodeGraph provider. */
+/** Settings for the Prometheus OpenCtx provider. */
 export interface Settings {
   /**
    * Patterns that match metric registrations.
@@ -83,6 +83,6 @@ interface MetricRegistrationPattern {
 
 ## Development
 
-- [Source code](https://sourcegraph.com/github.com/sourcegraph/opencodegraph/-/tree/provider/prometheus)
-- [Docs](https://opencodegraph.org/docs/providers/prometheus)
+- [Source code](https://sourcegraph.com/github.com/sourcegraph/openctx/-/tree/provider/prometheus)
+- [Docs](https://openctx.org/docs/providers/prometheus)
 - License: Apache 2.0

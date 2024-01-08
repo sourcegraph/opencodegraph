@@ -1,5 +1,5 @@
 // VS Code does not support dynamically import()ing ES modules (see
-// https://github.com/microsoft/vscode/issues/130367). But we always want OpenCodeGraph providers to
+// https://github.com/microsoft/vscode/issues/130367). But we always want OpenCtx providers to
 // be ES modules for consistency. So, we need to rewrite the ESM bundle to CommonJS to import it
 // here.
 //
@@ -10,7 +10,7 @@
 // When VS Code supports dynamic import()s for extensions, we can remove this.
 
 import { readFile } from 'fs/promises'
-import { type Provider } from '@opencodegraph/client'
+import { type Provider } from '@openctx/client'
 import * as esbuild from 'esbuild-wasm/esm/browser'
 import * as vscode from 'vscode'
 

@@ -1,4 +1,4 @@
-import { type Annotation } from '@opencodegraph/schema'
+import { type Annotation } from '@openctx/schema'
 import { type FunctionComponent } from 'react'
 import { BaseChip } from './BaseChip'
 import styles from './ChipGroup.module.css'

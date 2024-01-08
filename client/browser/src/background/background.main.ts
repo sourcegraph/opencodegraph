@@ -1,20 +1,20 @@
 import '../shared/polyfills'
 // ^^ import polyfills first
-import { createClient } from '@opencodegraph/client'
-import { type Provider } from '@opencodegraph/provider'
-import helloWorldProvider from '@opencodegraph/provider-hello-world'
-import linksProvider from '@opencodegraph/provider-links'
-import prometheusProvider from '@opencodegraph/provider-prometheus'
-import storybookProvider from '@opencodegraph/provider-storybook'
+import { createClient } from '@openctx/client'
+import { type Provider } from '@openctx/provider'
+import helloWorldProvider from '@openctx/provider-hello-world'
+import linksProvider from '@openctx/provider-links'
+import prometheusProvider from '@openctx/provider-prometheus'
+import storybookProvider from '@openctx/provider-storybook'
 import { Subscription } from 'rxjs'
 import { addMessageListenersForBackgroundApi } from '../browser-extension/web-extension-api/rpc'
 import { configurationChanges } from '../configuration'
 
 const BUILTIN_PROVIDER_MODULES: Record<string, Provider<any>> = {
-    ['https://opencodegraph.org/npm/@opencodegraph/provider-hello-world']: helloWorldProvider,
-    ['https://opencodegraph.org/npm/@opencodegraph/provider-links']: linksProvider,
-    ['https://opencodegraph.org/npm/@opencodegraph/provider-storybook']: storybookProvider,
-    ['https://opencodegraph.org/npm/@opencodegraph/provider-prometheus']: prometheusProvider,
+    ['https://openctx.org/npm/@openctx/provider-hello-world']: helloWorldProvider,
+    ['https://openctx.org/npm/@openctx/provider-links']: linksProvider,
+    ['https://openctx.org/npm/@openctx/provider-storybook']: storybookProvider,
+    ['https://openctx.org/npm/@openctx/provider-prometheus']: prometheusProvider,
 }
 
 function getBuiltinProvider(uri: string): Provider {
@@ -23,7 +23,7 @@ function getBuiltinProvider(uri: string): Provider {
         throw new Error(
             `Only HTTP endpoint providers and the following built-in providers are supported: ${Object.keys(
                 BUILTIN_PROVIDER_MODULES
-            ).join(', ')}. See https://opencodegraph.org/docs/clients/browser-extension#known-issues.`
+            ).join(', ')}. See https://openctx.org/docs/clients/browser-extension#known-issues.`
         )
     }
     return mod

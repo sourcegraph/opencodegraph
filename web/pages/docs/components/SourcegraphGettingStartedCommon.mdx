@@ -1,22 +1,22 @@
 import { Globe } from 'lucide-react'
 
-1.  Join our [Discord](/docs/community) and ask an admin to enable the `opencodegraph` feature flag for your user account on [Sourcegraph.com](https://sourcegraph.com/search).
-1.  Visit a file on Sourcegraph that has OpenCodeGraph annotations. Examples:
+1.  Join our [Discord](/docs/community) and ask an admin to enable the `openctx` feature flag for your user account on [Sourcegraph.com](https://sourcegraph.com/search).
+1.  Visit a file on Sourcegraph that has OpenCtx annotations. Examples:
 
         -   [SignInPage.tsx](https://sourcegraph.com/github.com/sourcegraph/sourcegraph@6cdadefe437e0c7a1afe28da424982ebe72b3654/-/blob/client/web/src/auth/SignInPage.tsx)
         -   [SignInPage.story.tsx](https://sourcegraph.com/github.com/sourcegraph/sourcegraph@6cdadefe437e0c7a1afe28da424982ebe72b3654/-/blob/client/web/src/auth/SignInPage.story.tsx)
         -   [conf.go](https://sourcegraph.com/github.com/sourcegraph/sourcegraph@6cdadefe437e0c7a1afe28da424982ebe72b3654/-/blob/internal/conf/conf.go?L131:18)
 
 1.  Toggle on the <Globe className="inline" size={18} /> button in the file header.
-1.  Look for and hover OpenCodeGraph annotations, such as this one for a Prometheus metric:
+1.  Look for and hover OpenCtx annotations, such as this one for a Prometheus metric:
 
-    <img src="https://storage.googleapis.com/sourcegraph-assets/opencodegraph/screenshot-codesearch-grafana-v0.png" width="363" height="183" alt="Screenshot of OpenCodeGraph annotations in VS Code" className="border border-border" />
+    <img src="https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-codesearch-grafana-v0.png" width="363" height="183" alt="Screenshot of OpenCtx annotations in VS Code" className="border border-border" />
 
-1.  _(Optional)_ If you're using VS Code, you can add Sourcegraph as an OpenCodeGraph provider to get the same context in your editor. Install the [VS Code extension](/docs/clients/vscode) and add the following provider in your VS Code settings:
+1.  _(Optional)_ If you're using VS Code, you can add Sourcegraph as an OpenCtx provider to get the same context in your editor. Install the [VS Code extension](/docs/clients/vscode) and add the following provider in your VS Code settings:
 
     ```json
-    "opencodegraph.providers": {
+    "openctx.providers": {
         // ...other providers...
-        "https://sourcegraph.com/.api/opencodegraph": true,
+        "https://sourcegraph.com/.api/openctx": true,
     },
     ```

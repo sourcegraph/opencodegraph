@@ -31,8 +31,8 @@
   "[mdx][markdown]": {
     "editor.insertSpaces": true
   },
-  "opencodegraph.providers": {
-    // "https://sourcegraph.test:3443/.api/opencodegraph": true
+  "openctx.providers": {
+    // "https://sourcegraph.test:3443/.api/openctx": true
   },
-  "opencodegraph.enable": true
+  "openctx.enable": true
 }

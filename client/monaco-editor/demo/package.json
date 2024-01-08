@@ -1,16 +1,16 @@
 {
   "private": true,
-  "name": "@opencodegraph/monaco-editor-extension-demo",
+  "name": "@openctx/monaco-editor-extension-demo",
   "type": "module",
   "sideEffects": false,
   "scripts": {
     "dev": "vite"
   },
   "dependencies": {
-    "@opencodegraph/client": "workspace:*",
-    "@opencodegraph/monaco-editor-extension": "workspace:*",
+    "@openctx/client": "workspace:*",
+    "@openctx/monaco-editor-extension": "workspace:*",
     "monaco-editor": "^0.45.0",
-    "@opencodegraph/provider-hello-world": "workspace:*"
+    "@openctx/provider-hello-world": "workspace:*"
   },
   "devDependencies": {
     "vite-plugin-monaco-editor": "^1.1.0"

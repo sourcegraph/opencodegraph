@@ -1,4 +1,4 @@
-import { type ClientConfiguration } from '@opencodegraph/client'
+import { type ClientConfiguration } from '@openctx/client'
 import { describe, expect, test, vi } from 'vitest'
 import type * as vscode from 'vscode'
 import { URI as vscodeUri } from 'vscode-uri'
@@ -12,7 +12,7 @@ vi.mock('vscode', () => ({
 }))
 
 describe('getClientConfiguration', () => {
-    describe('opencodegraph.providers', () => {
+    describe('openctx.providers', () => {
         test('rewrites relative file paths', () => {
             const mockGetConfiguration: typeof vscode.workspace.getConfiguration = () => ({
                 get: () => null,
@@ -23,7 +23,7 @@ describe('getClientConfiguration', () => {
                     throw new Error('not implemented')
                 },
                 inspect: () => ({
-                    key: 'opencodegraph.providers',
+                    key: 'openctx.providers',
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                     globalValue: { './globalValue.js': true, 'https://example.com/globalValue': true } as any,
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

@@ -1,3 +1,3 @@
-# OpenCodeGraph provider library
+# OpenCtx provider library
 
-The `@opencodegraph/provider` package is used to implement OpenCodeGraph providers.
+The `@openctx/provider` package is used to implement OpenCtx providers.

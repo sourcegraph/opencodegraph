@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "opencodegraph-protocol.schema.json#",
+  "$id": "openctx-protocol.schema.json#",
   "title": "Protocol",
-  "description": "OpenCodeGraph client/provider protocol",
+  "description": "OpenCtx client/provider protocol",
   "allowComments": true,
   "oneOf": [
     { "$ref": "#/definitions/RequestMessage" },
@@ -98,7 +98,7 @@
     "AnnotationsResult": {
       "type": "array",
       "items": {
-        "$ref": "../../schema/src/opencodegraph.schema.json#/definitions/Annotation"
+        "$ref": "../../schema/src/openctx.schema.json#/definitions/Annotation"
       },
       "tsType": "Annotation[]"
     }

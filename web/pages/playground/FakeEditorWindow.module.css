@@ -1,8 +1,8 @@
-.container :global(.ocg-chip) {
+.container :global(.octx-chip) {
     outline: solid 1px transparent;
 }
 
-.container:not(:hover) :global(.ocg-chip) {
+.container:not(:hover) :global(.octx-chip) {
     /* Repeating yellow outline when visible (except when hovering). */
     animation-name: flash-border-slow;
     animation-duration: 5000ms;
@@ -21,7 +21,7 @@
     }
 }
 
-.container:hover :global(.ocg-chip) {
+.container:hover :global(.octx-chip) {
     /* Yellow outline on hover. */
     animation-name: flash-border;
     animation-duration: 1200ms;

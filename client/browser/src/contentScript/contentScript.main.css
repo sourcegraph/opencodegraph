@@ -1,15 +1,15 @@
-.ocg-line-chips {
+.octx-line-chips {
     margin-left: 7px;
 }
 
-.ocg-chip {
+.octx-chip {
     font-size: 83%;
     line-height: normal;
     font-family: system-ui, sans-serif;
 }
 
 html[data-color-mode='light'] {
-    & .ocg-chip {
+    & .octx-chip {
         background: #00000011;
         border: solid 1px #00000019;
         color: black;
@@ -19,13 +19,13 @@ html[data-color-mode='light'] {
         }
     }
 
-    & .ocg-chip-popover {
+    & .octx-chip-popover {
         border: solid 1px #00000019;
     }
 }
 
 html[data-color-mode='dark'] {
-    & .ocg-chip {
+    & .octx-chip {
         background: #ffffff3a;
         border: solid 1px #ffffff55;
         color: white;
@@ -35,7 +35,7 @@ html[data-color-mode='dark'] {
         }
     }
 
-    & .ocg-chip-popover {
+    & .octx-chip-popover {
         border: solid 1px #ffffff55;
     }
 }

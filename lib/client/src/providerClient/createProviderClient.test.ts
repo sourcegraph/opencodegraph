@@ -1,4 +1,4 @@
-import { type AnnotationsResult, type ProviderSettings } from '@opencodegraph/protocol'
+import { type AnnotationsResult, type ProviderSettings } from '@openctx/protocol'
 import { describe, expect, test, vi } from 'vitest'
 import { type Logger } from '../logger'
 import { createProviderClient } from './createProviderClient'

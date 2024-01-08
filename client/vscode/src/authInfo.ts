@@ -1,11 +1,11 @@
-import { type AuthInfo } from '@opencodegraph/client'
+import { type AuthInfo } from '@openctx/client'
 import { BehaviorSubject, type Observable } from 'rxjs'
 import * as vscode from 'vscode'
 
 // TODO(sqs): un-hardcode
 const HOSTNAMES_NEEDING_ACCESS_TOKENS = ['sourcegraph.com', 'sourcegraph.test', 'sourcegraph.sourcegraph.com']
 
-const SECRET_STORAGE_KEY_PREFIX = 'opencodegraph:access-token:'
+const SECRET_STORAGE_KEY_PREFIX = 'openctx:access-token:'
 
 function secretStorageKey(hostname: string): string {
     return `${SECRET_STORAGE_KEY_PREFIX}${hostname}`
@@ -27,11 +27,11 @@ export function secretsChanges(secrets: vscode.SecretStorage): {
     )
 
     disposables.push(
-        vscode.commands.registerCommand('opencodegraph.clearAuthentication', async () => {
+        vscode.commands.registerCommand('openctx.clearAuthentication', async () => {
             for (const hostname of HOSTNAMES_NEEDING_ACCESS_TOKENS) {
                 await secrets.delete(secretStorageKey(hostname))
             }
-            await vscode.window.showInformationMessage('Cleared OpenCodeGraph authentication.')
+            await vscode.window.showInformationMessage('Cleared OpenCtx authentication.')
             promptedForAuthInfo.clear() // reset prompts
         })
     )
@@ -67,7 +67,7 @@ async function promptForAuthInfo(secrets: vscode.SecretStorage, hostname: string
 
     const value = await vscode.window.showInputBox({
         ignoreFocusOut: true,
-        title: `OpenCodeGraph: Enter access token for ${hostname}:`,
+        title: `OpenCtx: Enter access token for ${hostname}:`,
     })
     if (value) {
         await secrets.store(secretStorageKey(hostname), value)

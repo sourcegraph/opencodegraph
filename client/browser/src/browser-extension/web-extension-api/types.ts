@@ -1,4 +1,4 @@
-import { type Client, type Range } from '@opencodegraph/client'
+import { type Client, type Range } from '@openctx/client'
 
 /**
  * Wrapper type for a string of JSONC (JSON with comments and trailing commas).

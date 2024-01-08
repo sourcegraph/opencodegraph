@@ -1,4 +1,4 @@
-import { type Annotation } from '@opencodegraph/schema'
+import { type Annotation } from '@openctx/schema'
 import type { Meta, StoryObj } from '@storybook/html'
 import { createChip } from './Chip'
 

@@ -5,12 +5,12 @@ export const info = {
 
 # Creating a provider
 
-An OpenCodeGraph provider is just an HTTP server that implements the [provider API](protocol.mdx#provider-api) and is available at any URL.
+An OpenCtx provider is just an HTTP server that implements the [provider API](protocol.mdx#provider-api) and is available at any URL.
 
-For convenience, you can also just bundle and publish a `.js` file that implements the simple `@opencodegraph/provider` TypeScript API (as a default export):
+For convenience, you can also just bundle and publish a `.js` file that implements the simple `@openctx/provider` TypeScript API (as a default export):
 
 ```typescript
-import type { AnnotationsParams, AnnotationsResult, CapabilitiesParams, CapabilitiesResult, Provider } from '@opencodegraph/provider'
+import type { AnnotationsParams, AnnotationsResult, CapabilitiesParams, CapabilitiesResult, Provider } from '@openctx/provider'
 
 export default {
   capabilities(params: CapabilitiesParams): Promise<CapabilitiesResult> { /* ... */ }

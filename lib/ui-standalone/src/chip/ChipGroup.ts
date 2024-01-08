@@ -1,4 +1,4 @@
-import { type Annotation } from '@opencodegraph/schema'
+import { type Annotation } from '@openctx/schema'
 import { createBaseChip } from './BaseChip'
 import styles from './ChipGroup.module.css'
 

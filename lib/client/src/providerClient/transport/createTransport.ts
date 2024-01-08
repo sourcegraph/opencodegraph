@@ -1,4 +1,4 @@
-import { type Provider } from '@opencodegraph/provider/src/provider'
+import { type Provider } from '@openctx/provider/src/provider'
 import { type AuthInfo, type ClientEnv } from '../../client/client'
 import { type Logger } from '../../logger'
 import { cachedTransport } from './cache'
@@ -49,7 +49,7 @@ export function createTransport(providerUri: string, options: ProviderTransportO
         if (isHttpOrHttps(url)) {
             return createHttpTransport(providerUri, options)
         }
-        throw new Error(`Unsupported OpenCodeGraph provider URI: ${providerUri}`)
+        throw new Error(`Unsupported OpenCtx provider URI: ${providerUri}`)
     }
 
     let provider = doResolveProvider(providerUri)
@@ -80,10 +80,10 @@ function removePlusJs(url: URL): URL {
 }
 
 /**
- * Matches the https://opencodegraph.org/npm/* service.
+ * Matches the https://openctx.org/npm/* service.
  */
 function isWellKnownNpmUrl(url: URL): boolean {
-    return url.protocol === 'https:' && url.host === 'opencodegraph.org' && url.pathname.startsWith('/npm/')
+    return url.protocol === 'https:' && url.host === 'openctx.org' && url.pathname.startsWith('/npm/')
 }
 
 function runtimeSupportsImportFromUrl(): boolean {

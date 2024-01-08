@@ -4,20 +4,20 @@ export const info = {
   order: 11,
 }
 
-# OpenCodeGraph annotations on GitHub
+# OpenCtx annotations on GitHub
 
-The [OpenCodeGraph browser extension](/docs/clients/browser-extension) enhances GitHub's web UI with contextual info about code from your other dev tools.
+The [OpenCtx browser extension](/docs/clients/browser-extension) enhances GitHub's web UI with contextual info about code from your other dev tools.
 
 ## Features
 
 - Annotations on files in the GitHub code view
 - Annotations on diffs in GitHub pull requests
 
-![Screenshot of OpenCodeGraph annotations in a GitHub pull request](https://storage.googleapis.com/sourcegraph-assets/opencodegraph/screenshot-github-pr-prometheus-browser-v1.png)
+![Screenshot of OpenCtx annotations in a GitHub pull request](https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-github-pr-prometheus-browser-v1.png)
 
 _Hover over a Prometheus metric registration in a GitHub PR to see what it's doing in prod_
 
-![Screenshot of OpenCodeGraph annotations in the GitHub code view](https://storage.googleapis.com/sourcegraph-assets/opencodegraph/screenshot-browser-github-codeview-v0.png)
+![Screenshot of OpenCtx annotations in the GitHub code view](https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-browser-github-codeview-v0.png)
 
 _And when viewing files on GitHub._
 
@@ -28,10 +28,10 @@ After installing the browser extension, visit the following pages to see it in a
 - [Example code file on GitHub](https://github.com/sourcegraph/sourcegraph/blob/main/internal/repos/conf.go)
 - [Example pull request on GitHub](https://github.com/sourcegraph/sourcegraph/pull/58878/files)
 
-Initially, the [`Hello World` provider](/docs/providers/hello-world) is enabled. Once you've confirmed that the browser extension is working, disable that provider by clicking on the OpenCodeGraph extension icon in the Chrome toolbar and then changing the following line from `true` to `false`:
+Initially, the [`Hello World` provider](/docs/providers/hello-world) is enabled. Once you've confirmed that the browser extension is working, disable that provider by clicking on the OpenCtx extension icon in the Chrome toolbar and then changing the following line from `true` to `false`:
 
 ```json
-    "https://opencodegraph.org/npm/@opencodegraph/provider-hello-world": false,
+    "https://openctx.org/npm/@openctx/provider-hello-world": false,
 ```
 
 Press **Save** and reload the page, and the `Hello World` annotations will be gone.

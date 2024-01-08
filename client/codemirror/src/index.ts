@@ -1,2 +1,2 @@
-export { openCodeGraphData, showOpenCodeGraphDecorations } from './extension'
-export { useOpenCodeGraphExtension } from './useOpenCodeGraphExtension'
+export { openCtxData, showOpenCtxDecorations } from './extension'
+export { useOpenCtxExtension } from './useOpenCtxExtension'

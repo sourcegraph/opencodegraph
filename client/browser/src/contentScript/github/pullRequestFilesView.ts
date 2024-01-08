@@ -1,12 +1,12 @@
-import { type Annotation, type AnnotationsParams } from '@opencodegraph/client'
-import { createChipList } from '@opencodegraph/ui-standalone'
+import { type Annotation, type AnnotationsParams } from '@openctx/client'
+import { createChipList } from '@openctx/ui-standalone'
 import { combineLatest, EMPTY, filter, fromEvent, map, mergeMap, startWith, tap, type Observable } from 'rxjs'
 import { DEBUG, debugTap } from '../debug'
 import { withDOMElements } from '../detectElements'
-import { annotationsByLine, LINE_CHIPS_CLASSNAME, styledChipListParams } from '../ocgUtil'
+import { annotationsByLine, LINE_CHIPS_CLASSNAME, styledChipListParams } from '../octxUtil'
 
 /**
- * Inject OpenCodeGraph features into the GitHub pull request files view.
+ * Inject OpenCtx features into the GitHub pull request files view.
  *
  * Good URLs to test on:
  *
@@ -110,10 +110,10 @@ const clicksThatInvalidateDiffViewData: Observable<void> = fromEvent(document.bo
     // Wait for it to show up. Mark .blob-expanded elements that we've seen so that this works for
     // multiple expansions.
     mergeMap(() =>
-        withDOMElements('tr.blob-expanded:not(.ocg-seen)').pipe(
+        withDOMElements('tr.blob-expanded:not(.octx-seen)').pipe(
             tap(els => {
                 for (const el of els) {
-                    el.classList.add('ocg-seen')
+                    el.classList.add('octx-seen')
                 }
             })
         )
@@ -189,7 +189,7 @@ function fileContentFromDiffViewSelector(fileDiffTableEl: HTMLTableElement, sele
 
     return els
         .map(el => {
-            // Ignore innerText from the OCG chip.
+            // Ignore innerText from the OpenCtx chip.
             const chipListEls = getChipListElementsAtEndOfLine(el)
             for (const chipListEl of chipListEls) {
                 chipListEl.hidden = true

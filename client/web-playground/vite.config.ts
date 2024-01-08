@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import { defineConfig, searchForWorkspaceRoot } from 'vite'
 
 // TODO(sqs): un-hardcode
-const docsProviderDataDir = resolve('/home/sqs/tmp/ocg-provider-docs')
+const docsProviderDataDir = resolve('/home/sqs/tmp/octx-provider-docs')
 
 export default defineConfig(({ mode }) => ({
     plugins: [react()],
@@ -16,13 +16,13 @@ export default defineConfig(({ mode }) => ({
                       //
                       // TODO(sqs): dedupe with other places in this repo that do this
                       {
-                          find: /^(@opencodegraph\/[\w-]+)$/,
+                          find: /^(@openctx\/[\w-]+)$/,
                           replacement: '$1/src/index',
                       },
                   ]
                 : []),
             {
-                find: 'tmp-ocg-provider-docs',
+                find: 'tmp-octx-provider-docs',
                 replacement: docsProviderDataDir,
             },
         ],

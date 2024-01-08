@@ -1,13 +1,13 @@
-import { type Annotation, type AnnotationsParams } from '@opencodegraph/client'
-import { createChipList } from '@opencodegraph/ui-standalone'
+import { type Annotation, type AnnotationsParams } from '@openctx/client'
+import { createChipList } from '@openctx/ui-standalone'
 import { combineLatest, debounceTime, EMPTY, map, mergeMap, Observable, startWith, tap } from 'rxjs'
 import { toLineRangeStrings } from '../../shared/util/toLineRangeStrings'
 import { DEBUG, debugTap } from '../debug'
 import { withDOMElement } from '../detectElements'
-import { annotationsByLine, LINE_CHIPS_CLASSNAME, styledChipListParams } from '../ocgUtil'
+import { annotationsByLine, LINE_CHIPS_CLASSNAME, styledChipListParams } from '../octxUtil'
 
 /**
- * Inject OpenCodeGraph features into the GitHub code view.
+ * Inject OpenCtx features into the GitHub code view.
  *
  * Good URLs to test on:
  *

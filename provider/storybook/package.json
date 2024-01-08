@@ -1,11 +1,11 @@
 {
-  "name": "@opencodegraph/provider-storybook",
+  "name": "@openctx/provider-storybook",
   "version": "0.0.3",
-  "description": "Add Storybook links and image previews to your code (OpenCodeGraph provider)",
+  "description": "Add Storybook links and image previews to your code (OpenCtx provider)",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "provider/storybook"
   },
   "type": "module",
@@ -23,7 +23,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@opencodegraph/provider": "workspace:*"
+    "@openctx/provider": "workspace:*"
   },
   "devDependencies": {
     "vitest-fetch-mock": "^0.2.2"

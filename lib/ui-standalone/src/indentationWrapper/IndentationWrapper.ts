@@ -1,5 +1,5 @@
 /**
- * Indents its content by the specified whitespace. This is used to align OpenCodeGraph chips with
+ * Indents its content by the specified whitespace. This is used to align OpenCtx chips with
  * the non-whitespace characters on the line they're attached to.
  */
 export function createIndentationWrapper({

@@ -5,10 +5,10 @@ import {
     type CapabilitiesResult,
     type Provider,
     type Range,
-} from '@opencodegraph/provider'
+} from '@openctx/provider'
 
 // Keep in sync with README.md
-/** Settings for the `storybook` OpenCodeGraph provider. */
+/** Settings for the `storybook` OpenCtx provider. */
 export interface Settings {
     /**
      * The URL to a published Storybook for your project.
@@ -25,7 +25,7 @@ export interface Settings {
 }
 
 /**
- * An [OpenCodeGraph](https://opencodegraph.org) provider that annotates code files with links and
+ * An [OpenCtx](https://openctx.org) provider that annotates code files with links and
  * image previews from [Storybook](https://storybook.js.org/), so you can see what your UI
  * components look like.
  */

@@ -1,9 +1,9 @@
 import { Facet, type Extension } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
-import { type Annotation } from '@opencodegraph/client'
-import { openCodeGraphWidgets } from './blockWidget'
+import { type Annotation } from '@openctx/client'
+import { openCtxWidgets } from './blockWidget'
 
-export interface OpenCodeGraphDecorationsConfig {
+export interface OpenCtxDecorationsConfig {
     createDecoration: (
         container: HTMLElement,
         spec: {
@@ -20,37 +20,37 @@ export interface OpenCodeGraphDecorationsConfig {
 }
 
 /**
- * Show OpenCodeGraph decorations.
+ * Show OpenCtx decorations.
  */
-export function showOpenCodeGraphDecorations(config: OpenCodeGraphDecorationsConfig): Extension {
-    return [openCodeGraphWidgets(config), baseTheme]
+export function showOpenCtxDecorations(config: OpenCtxDecorationsConfig): Extension {
+    return [openCtxWidgets(config), baseTheme]
 }
 
 /**
- * Provide OpenCodeGraph data.
+ * Provide OpenCtx data.
  */
-export function openCodeGraphData(data: Annotation[] | undefined): Extension {
-    return data ? openCodeGraphDataFacet.of(data) : []
+export function openCtxData(data: Annotation[] | undefined): Extension {
+    return data ? openCtxDataFacet.of(data) : []
 }
 
 /**
- * Facet for OpenCodeGraph data.
+ * Facet for OpenCtx data.
  */
-export const openCodeGraphDataFacet = Facet.define<Annotation[], Annotation[]>({
+export const openCtxDataFacet = Facet.define<Annotation[], Annotation[]>({
     combine(values) {
         return values.flat()
     },
 })
 
 /**
- * Theme for OpenCodeGraph decorations.
+ * Theme for OpenCtx decorations.
  */
 export const baseTheme = EditorView.baseTheme({
-    '.ocg-chip': {
+    '.octx-chip': {
         fontSize: '88%',
         fontFamily: 'system-ui, sans-serif',
     },
-    '&dark .ocg-chip': {
+    '&dark .octx-chip': {
         background: '#00000066',
         border: 'solid 1px #ffffff22',
         color: 'white',
@@ -58,7 +58,7 @@ export const baseTheme = EditorView.baseTheme({
             backgroundColor: '#000000',
         },
     },
-    '&light .ocg-chip': {
+    '&light .octx-chip': {
         background: '#00000011',
         border: 'solid 1px #00000011',
         color: 'black',
@@ -66,7 +66,7 @@ export const baseTheme = EditorView.baseTheme({
             backgroundColor: '#00000022',
         },
     },
-    '.ocg-chip-popover': {
+    '.octx-chip-popover': {
         backgroundColor: '#000000',
         color: 'white',
         border: 'solid 1px #ffffff22',

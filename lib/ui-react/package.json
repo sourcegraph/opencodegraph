@@ -1,11 +1,11 @@
 {
-  "name": "@opencodegraph/ui-react",
+  "name": "@openctx/ui-react",
   "version": "0.0.2",
-  "description": "OpenCodeGraph React UI library",
+  "description": "OpenCtx React UI library",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "lib/ui-react"
   },
   "type": "module",
@@ -28,16 +28,16 @@
     "prepublishOnly": "tsc --build --clean && pnpm run build"
   },
   "dependencies": {
-    "@opencodegraph/schema": "workspace:*",
-    "@opencodegraph/ui-standalone": "workspace:*",
-    "@opencodegraph/ui-common": "workspace:*",
-    "clsx": "^2.0.0"
+    "@openctx/schema": "workspace:*",
+    "@openctx/ui-common": "workspace:*",
+    "@openctx/ui-standalone": "workspace:*",
+    "clsx": "^2.1.0"
   },
   "devDependencies": {
     "@types/react": "18.2.37",
     "@types/react-dom": "18.2.15",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 ^17 ^18",

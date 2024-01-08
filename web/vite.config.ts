@@ -26,7 +26,7 @@ export default defineConfig(({ mode }) => ({
                       //
                       // TODO(sqs): dedupe with other places in this repo that do this
                       {
-                          find: /^(@opencodegraph\/[\w-]+)$/,
+                          find: /^(@openctx\/[\w-]+)$/,
                           replacement: '$1/src/index',
                       },
                   ]

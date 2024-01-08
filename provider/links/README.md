@@ -1,27 +1,27 @@
-# Configurable links context provider for OpenCodeGraph
+# Configurable links context provider for OpenCtx
 
-This is a context provider for [OpenCodeGraph](https://opencodegraph.org) that annotates your code with links based on configurable patterns.
+This is a context provider for [OpenCtx](https://openctx.org) that annotates your code with links based on configurable patterns.
 
 ## Example
 
-![Screenshot of OpenCodeGraph docs link annotations in a GitHub PR](https://storage.googleapis.com/sourcegraph-assets/opencodegraph/screenshot-github-links-browser-v0-0.5x.png)
+![Screenshot of OpenCtx docs link annotations in a GitHub PR](https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-github-links-browser-v0-0.5x.png)
 
 _Show relevant internal docs in GitHub PRs_
 
-![Screenshot of OpenCodeGraph docs link annotations in a code file](https://storage.googleapis.com/sourcegraph-assets/opencodegraph/screenshot-vscode-links-v1.png)
+![Screenshot of OpenCtx docs link annotations in a code file](https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-vscode-links-v1.png)
 
 _Add links (in VS Code) to internal CSS guidelines to files using CSS_
 
-Visit the [OpenCodeGraph playground](https://opencodegraph.org/playground) for live examples.
+Visit the [OpenCtx playground](https://openctx.org/playground) for live examples.
 
 ## Usage
 
-Add the following to your settings in any OpenCodeGraph client:
+Add the following to your settings in any OpenCtx client:
 
 ```json
-"opencodegraph.providers": {
+"openctx.providers": {
     // ...other providers...
-    "https://opencodegraph.org/npm/@opencodegraph/provider-links": {
+    "https://openctx.org/npm/@openctx/provider-links": {
         "links": [
             // Link to docs next to every literal match of `eventLogger.log` in *.ts files.
             {
@@ -59,14 +59,14 @@ See "[Configuration](#configuration)" for documentation on configuring link patt
 Tips:
 
 - If you're using VS Code, you can put the snippet above in `.vscode/settings.json` in the repository or workspace root to configure per-repository links.
-- Play around with the links provider in realtime on the [OpenCodeGraph playground](https://opencodegraph.org/playground).
+- Play around with the links provider in realtime on the [OpenCtx playground](https://openctx.org/playground).
 
 ## Configuration
 
 <!-- Keep in sync with index.ts -->
 
 ```typescript
-/** Settings for the links OpenCodeGraph provider. */
+/** Settings for the links OpenCtx provider. */
 interface Settings {
   links?: LinkPattern[]
 }
@@ -108,6 +108,6 @@ interface LinkPattern {
 
 ## Development
 
-- [Source code](https://sourcegraph.com/github.com/sourcegraph/opencodegraph/-/tree/provider/links)
-- [Docs](https://opencodegraph.org/docs/providers/links)
+- [Source code](https://sourcegraph.com/github.com/sourcegraph/openctx/-/tree/provider/links)
+- [Docs](https://openctx.org/docs/providers/links)
 - License: Apache 2.0

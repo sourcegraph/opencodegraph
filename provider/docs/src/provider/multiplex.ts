@@ -1,4 +1,4 @@
-import { type Provider } from '@opencodegraph/provider'
+import { type Provider } from '@openctx/provider'
 import { LRUCache } from 'lru-cache'
 
 /**

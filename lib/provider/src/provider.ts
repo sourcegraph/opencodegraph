@@ -4,10 +4,10 @@ import {
     type CapabilitiesParams,
     type CapabilitiesResult,
     type ProviderSettings,
-} from '@opencodegraph/protocol'
+} from '@openctx/protocol'
 
 /**
- * An OpenCodeGraph provider implemented in TypeScript/JavaScript.
+ * An OpenCtx provider implemented in TypeScript/JavaScript.
  *
  * @template S The type of provider settings.
  */
@@ -22,7 +22,7 @@ export interface Provider<S extends {} = ProviderSettings> {
     capabilities(params: CapabilitiesParams, settings: S): CapabilitiesResult | Promise<CapabilitiesResult>
 
     /**
-     * Returns OpenCodeGraph annotations for the given file.
+     * Returns OpenCtx annotations for the given file.
      */
     annotations(params: AnnotationsParams, settings: S): AnnotationsResult | Promise<AnnotationsResult>
 

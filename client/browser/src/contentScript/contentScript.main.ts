@@ -1,7 +1,7 @@
 import '../shared/polyfills'
 // ^^ import polyfills first
-import { type Annotation } from '@opencodegraph/client'
-import { type AnnotationsParams } from '@opencodegraph/provider'
+import { type Annotation } from '@openctx/client'
+import { type AnnotationsParams } from '@openctx/provider'
 import deepEqual from 'deep-equal'
 import { combineLatest, distinctUntilChanged, mergeMap, throttleTime, type Observable } from 'rxjs'
 import { background } from '../browser-extension/web-extension-api/runtime'
@@ -12,7 +12,7 @@ import { injectOnGitHubPullRequestFilesView } from './github/pullRequestFilesVie
 import { locationChanges } from './locationChanges'
 
 /**
- * A function called to inject OpenCodeGraph features on a page. They should just return an empty
+ * A function called to inject OpenCtx features on a page. They should just return an empty
  * Observable if they are not intended for the current page.
  */
 type Injector = (location: URL, annotationsChanges_: typeof annotationsChanges) => Observable<void>

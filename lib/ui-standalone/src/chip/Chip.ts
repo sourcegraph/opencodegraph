@@ -1,9 +1,9 @@
-import { type Annotation } from '@opencodegraph/schema'
+import { type Annotation } from '@openctx/schema'
 import { createBaseChip } from './BaseChip'
 import styles from './Chip.module.css'
 
 /**
- * A single OpenCodeGraph annotation, displayed as a "chip".
+ * A single OpenCtx annotation, displayed as a "chip".
  */
 export function createChip({
     annotation,

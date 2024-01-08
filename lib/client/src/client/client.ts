@@ -1,6 +1,6 @@
-import { type AnnotationsParams, type ProviderSettings } from '@opencodegraph/protocol'
-import { type Provider } from '@opencodegraph/provider'
-import { type Range } from '@opencodegraph/schema'
+import { type AnnotationsParams, type ProviderSettings } from '@openctx/protocol'
+import { type Provider } from '@openctx/provider'
+import { type Range } from '@openctx/schema'
 import { LRUCache } from 'lru-cache'
 import {
     catchError,
@@ -22,7 +22,7 @@ import { type Logger } from '../logger'
 import { createProviderClient, type ProviderClient } from '../providerClient/createProviderClient'
 
 /**
- * Hooks for the OpenCodeGraph {@link Client} to access information about the environment, such as
+ * Hooks for the OpenCtx {@link Client} to access information about the environment, such as
  * the user's configuration and authentication info.
  *
  * @template R The type to use for ranges (such as `vscode.Range` for VS Code extensions).
@@ -30,7 +30,7 @@ import { createProviderClient, type ProviderClient } from '../providerClient/cre
 export interface ClientEnv<R extends Range> {
     /**
      * The configuration (set by the user in the client application) that applies to a file,
-     * typically the file that is being annotated with OpenCodeGraph information.
+     * typically the file that is being annotated with OpenCtx information.
      *
      * The configuration depends on the current file because some editors support per-file
      * configuration, such as VS Code: global user settings, workspace settings, workspace folder
@@ -61,13 +61,13 @@ export interface ClientEnv<R extends Range> {
     makeRange: (range: Range) => R
 
     /**
-     * Called (if set) to dynamically import an OpenCodeGraph provider from a URI. This can be used
+     * Called (if set) to dynamically import an OpenCtx provider from a URI. This can be used
      * by runtimes that need to pre-bundle providers.
      */
     dynamicImportFromUri?: (uri: string) => Promise<{ default: Provider }>
 
     /**
-     * Called (if set) to dynamically import an OpenCodeGraph provider from its ES module source
+     * Called (if set) to dynamically import an OpenCtx provider from its ES module source
      * code. This can be used by runtimes that only support `require()` and CommonJS (such as VS
      * Code).
      */
@@ -90,8 +90,8 @@ export interface AuthInfo {
 }
 
 /**
- * An OpenCodeGraph client, used by client applications (such as editors, code browsers, etc.) to
- * manage OpenCodeGraph providers and annotations.
+ * An OpenCtx client, used by client applications (such as editors, code browsers, etc.) to
+ * manage OpenCtx providers and annotations.
  *
  * @template R The type to use for ranges (such as `vscode.Range` for VS Code extensions).
  */
@@ -108,7 +108,7 @@ export interface Client<R extends Range> {
     annotations(params: AnnotationsParams): Promise<Annotation<R>[]>
 
     /**
-     * Observe OpenCodeGraph annotations from the configured providers for the given file.
+     * Observe OpenCtx annotations from the configured providers for the given file.
      *
      * The returned observable streams annotations as they are received from the providers and
      * continues passing along any updates until unsubscribed.
@@ -134,7 +134,7 @@ export interface Client<R extends Range> {
 }
 
 /**
- * Create a new OpenCodeGraph client.
+ * Create a new OpenCtx client.
  *
  * @template R The type to use for ranges (such as `vscode.Range` for VS Code extensions).
  */

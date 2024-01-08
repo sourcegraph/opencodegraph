@@ -1,12 +1,12 @@
-import { type Annotation } from '@opencodegraph/schema'
-import { groupAnnotations } from '@opencodegraph/ui-common'
+import { type Annotation } from '@openctx/schema'
+import { groupAnnotations } from '@openctx/ui-common'
 import clsx from 'clsx'
 import { createChip } from './Chip'
 import { createChipGroup } from './ChipGroup'
 import styles from './ChipList.module.css'
 
 /**
- * A list of OpenCodeGraph chips.
+ * A list of OpenCtx chips.
  *
  * If multiple annotations share a `ui.group` value, then the annotations will be grouped.
  */

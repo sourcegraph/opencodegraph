@@ -1,20 +1,20 @@
 {
-  "opencodegraph.enable": true,
-  "opencodegraph.debug": true,
-  "cody.autocomplete.experimental.graphContext": "opencodegraph",
-  "opencodegraph.providers": {
+  "octx.enable": true,
+  "octx.debug": true,
+  "cody.autocomplete.experimental.graphContext": "openctx",
+  "octx.providers": {
     "../../../../../../provider/docs/dist/provider.cjs": {
-      // "index": "http://localhost:5900/@fs/home/sqs/tmp/ocg-provider-docs/vite-docs-web.index.json",
-      // "index": "file:///home/sqs/tmp/ocg-provider-docs/vite-docs-web.index.json",
-      "index": "file:///home/sqs/tmp/ocg-provider-docs/sourcegraph-docs-old-web.index.json",
+      // "index": "http://localhost:5900/@fs/home/sqs/tmp/octx-provider-docs/vite-docs-web.index.json",
+      // "index": "file:///home/sqs/tmp/octx-provider-docs/vite-docs-web.index.json",
+      "index": "file:///home/sqs/tmp/octx-provider-docs/sourcegraph-docs-old-web.index.json",
     },
     "../../../../../../provider/hello-world/dist/index.js": true,
   },
-  "opencodegraph.providers2": {
-    // "https://sourcegraph.test:3443/.api/opencodegraph": true,
+  "octx.providers2": {
+    // "https://sourcegraph.test:3443/.api/octx": true,
     // "../../../../../../provider/hello-world/dist/index.js": true,
-    "https://opencodegraph.org/npm/@opencodegraph/provider-hello-world": true,
-    "https://opencodegraph.org/npm/@opencodegraph/provider-links": {
+    "https://octx.org/npm/@octx/provider-hello-world": true,
+    "https://octx.org/npm/@octx/provider-links": {
       "links": [
         {
           "title": "Telemetry",

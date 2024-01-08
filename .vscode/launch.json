@@ -25,7 +25,7 @@
       "runtimeExecutable": "${execPath}",
       "preLaunchTask": "Build VS Code Extension (Desktop)",
       "args": [
-        "--user-data-dir=/tmp/vscode-opencodegraph-extension-dev-host",
+        "--user-data-dir=/tmp/vscode-openctx-extension-dev-host",
         "--profile-temp",
         "--extensionDevelopmentPath=${workspaceRoot}/client/vscode"
       ],

@@ -1,7 +1,7 @@
 import { javascript } from '@codemirror/lang-javascript'
-import { createClient } from '@opencodegraph/client'
-import { type ConfigurationUserInput } from '@opencodegraph/client/src/configuration'
-import { useOpenCodeGraphExtension } from '@opencodegraph/codemirror-extension'
+import { createClient } from '@openctx/client'
+import { type ConfigurationUserInput } from '@openctx/client/src/configuration'
+import { useOpenCtxExtension } from '@openctx/codemirror-extension'
 import CodeMirror, { type ReactCodeMirrorProps } from '@uiw/react-codemirror'
 import { useObservableState } from 'observable-hooks'
 import React, { useMemo, useState } from 'react'
@@ -42,7 +42,7 @@ export const AnnotatedEditor: React.FunctionComponent<{
                         enable: true,
                         providers: JSON.parse(settings)[
                             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                            'opencodegraph.providers'
+                            'openctx.providers'
                         ] as ConfigurationUserInput['providers'],
                     }),
                 // eslint-disable-next-line @typescript-eslint/require-await
@@ -91,11 +91,11 @@ export const AnnotatedEditor: React.FunctionComponent<{
         []
     )
 
-    const ocgExtension = useOpenCodeGraphExtension({
+    const octxExtension = useOpenCtxExtension({
         visibility: true,
         annotations,
     })
-    const extensions = useMemo(() => [javascript({ jsx: true, typescript: true }), ocgExtension], [ocgExtension])
+    const extensions = useMemo(() => [javascript({ jsx: true, typescript: true }), octxExtension], [octxExtension])
 
     return (
         <section className={className}>

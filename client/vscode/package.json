@@ -1,7 +1,7 @@
 {
-  "name": "opencodegraph",
+  "name": "openctx",
   "private": true,
-  "displayName": "OpenCodeGraph",
+  "displayName": "OpenCtx",
   "version": "0.2.3",
   "publisher": "sourcegraph",
   "license": "Apache-2.0",
@@ -10,10 +10,10 @@
   "scripts": {
     "dev": "pnpm run -s dev:desktop",
     "dev:insiders": "pnpm run -s dev:desktop:insiders",
-    "start:dev:desktop": "NODE_ENV=development code --extensionDevelopmentPath=$PWD --disable-extension=sourcegraph.opencodegraph --inspect-extensions=9333 --new-window test/fixtures/workspace",
+    "start:dev:desktop": "NODE_ENV=development code --extensionDevelopmentPath=$PWD --disable-extension=sourcegraph.openctx --inspect-extensions=9333 --new-window test/fixtures/workspace",
     "dev:desktop": "pnpm run -s build:dev:desktop && pnpm run start:dev:desktop",
-    "dev:desktop:insiders": "pnpm run -s build:dev:desktop && NODE_ENV=development code-insiders --extensionDevelopmentPath=$PWD --disable-extension=sourcegraph.opencodegraph --inspect-extensions=9333 --new-window . --goto ./src/controller.ts:16:5",
-    "dev:desktop:vsix": "RELEASE_TYPE=pre pnpm run -s release:dry-run && code --user-data-dir=/tmp/ocg-tmp-vscode --install-extension dist/opencodegraph.vsix && code --user-data-dir=/tmp/ocg-tmp-vscode --new-window test/fixtures/workspace",
+    "dev:desktop:insiders": "pnpm run -s build:dev:desktop && NODE_ENV=development code-insiders --extensionDevelopmentPath=$PWD --disable-extension=sourcegraph.openctx --inspect-extensions=9333 --new-window . --goto ./src/controller.ts:16:5",
+    "dev:desktop:vsix": "RELEASE_TYPE=pre pnpm run -s release:dry-run && code --user-data-dir=/tmp/octx-tmp-vscode --install-extension dist/openctx.vsix && code --user-data-dir=/tmp/octx-tmp-vscode --new-window test/fixtures/workspace",
     "dev:web": "pnpm run -s build:dev:web && pnpm run -s _dev:vscode-test-web --browserType none",
     "watch:dev:web": "concurrently \"pnpm run -s watch:build:dev:web\" \"pnpm run -s _dev:vscode-test-web --browserType none\"",
     "_dev:vscode-test-web": "vscode-test-web --port 3199 --extensionDevelopmentPath=. ${WORKSPACE-test/fixtures/workspace}",
@@ -42,18 +42,18 @@
   ],
   "preview": true,
   "keywords": [
-    "opencodegraph",
+    "openctx",
     "metadata"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "client/vscode"
   },
   "bugs": {
-    "url": "https://github.com/sourcegraph/opencodegraph/issues"
+    "url": "https://github.com/sourcegraph/openctx/issues"
   },
-  "homepage": "https://opencodegraph.org",
+  "homepage": "https://openctx.org",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -65,20 +65,20 @@
   "contributes": {
     "configuration": {
       "type": "object",
-      "title": "OpenCodeGraph",
+      "title": "OpenCtx",
       "properties": {
-        "opencodegraph.enable": {
-          "description": "Enable or disable OpenCodeGraph.",
+        "openctx.enable": {
+          "description": "Enable or disable OpenCtx.",
           "order": 1,
           "type": "boolean",
           "default": true
         },
-        "opencodegraph.providers": {
-          "description": "Configure the OpenCodeGraph providers to use, as an object mapping provider URIs to settings (or `true`/`false`). Example: `{\"https://example.com/opencodegraph\": true}`",
+        "openctx.providers": {
+          "description": "Configure the OpenCtx providers to use, as an object mapping provider URIs to settings (or `true`/`false`). Example: `{\"https://example.com/openctx\": true}`",
           "order": 2,
           "type": "object",
           "propertyNames": {
-            "description": "The OpenCodeGraph provider's URL (or relative file path).",
+            "description": "The OpenCtx provider's URL (or relative file path).",
             "type": "string",
             "format": [
               "uri",
@@ -98,12 +98,12 @@
           },
           "examples": [
             {
-              "https://sourcegraph.com/.api/opencodegraph": true
+              "https://sourcegraph.com/.api/openctx": true
             }
           ]
         },
-        "opencodegraph.debug": {
-          "description": "Enable debug logging to troubleshoot problems with OpenCodeGraph.",
+        "openctx.debug": {
+          "description": "Enable debug logging to troubleshoot problems with OpenCtx.",
           "order": 3,
           "type": "boolean",
           "default": false,
@@ -113,63 +113,63 @@
     },
     "commands": [
       {
-        "category": "OpenCodeGraph",
+        "category": "OpenCtx",
         "title": "Enable/Disable",
-        "command": "opencodegraph.toggleEnable"
+        "command": "openctx.toggleEnable"
       },
       {
-        "category": "OpenCodeGraph",
+        "category": "OpenCtx",
         "title": "Clear Authentication",
-        "command": "opencodegraph.clearAuthentication"
+        "command": "openctx.clearAuthentication"
       },
       {
-        "category": "OpenCodeGraph",
+        "category": "OpenCtx",
         "title": "Show Context for File",
-        "command": "opencodegraph.showFileAnnotations",
-        "enablement": "config.opencodegraph.enable",
-        "shortTitle": "OpenCodeGraph Context",
-        "icon": "$(ocg-logo)"
+        "command": "openctx.showFileAnnotations",
+        "enablement": "config.openctx.enable",
+        "shortTitle": "OpenCtx",
+        "icon": "$(octx-logo)"
       }
     ],
     "menus": {
       "commandPalette": [
         {
-          "command": "opencodegraph.toggleEnable"
+          "command": "openctx.toggleEnable"
         },
         {
-          "command": "opencodegraph.clearAuthentication"
+          "command": "openctx.clearAuthentication"
         },
         {
-          "command": "opencodegraph.showFileAnnotations"
+          "command": "openctx.showFileAnnotations"
         }
       ],
       "editor/title": [
         {
-          "command": "opencodegraph.showFileAnnotations",
-          "when": "config.opencodegraph.enable",
+          "command": "openctx.showFileAnnotations",
+          "when": "config.openctx.enable",
           "group": "navigation"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "opencodegraph.showFileAnnotations",
+        "command": "openctx.showFileAnnotations",
         "key": "ctrl+alt+/",
         "mac": "cmd+alt+/"
       }
     ],
     "icons": {
-      "ocg-logo": {
-        "description": "OpenCodeGraph logo",
+      "octx-logo": {
+        "description": "OpenCtx logo",
         "default": {
-          "fontPath": "resources/ocg-icons.woff",
+          "fontPath": "resources/icons.woff",
           "fontCharacter": "\\EA01"
         }
       },
-      "ocg-logo-off": {
-        "description": "OpenCodeGraph logo with strikethrough",
+      "octx-logo-off": {
+        "description": "OpenCtx logo with strikethrough",
         "default": {
-          "fontPath": "resources/ocg-icons.woff",
+          "fontPath": "resources/icons.woff",
           "fontCharacter": "\\EA02"
         }
       }
@@ -178,33 +178,33 @@
   "capabilities": {
     "untrustedWorkspaces": {
       "supported": "limited",
-      "description": "OpenCodeGraph only uses providers (configured in `opencodegraph.providers`) from trusted workspaces because providers may execute arbitrary code.",
+      "description": "OpenCtx only uses providers (configured in `openctx.providers`) from trusted workspaces because providers may execute arbitrary code.",
       "restrictedConfigurations": [
-        "opencodegraph.providers"
+        "openctx.providers"
       ]
     },
     "virtualWorkspaces": true
   },
   "dependencies": {
-    "@opencodegraph/client": "workspace:*",
-    "@opencodegraph/ui-common": "workspace:*",
-    "esbuild-wasm": "^0.19.10",
+    "@openctx/client": "workspace:*",
+    "@openctx/ui-common": "workspace:*",
+    "esbuild-wasm": "^0.19.11",
     "path-browserify": "^1.0.1",
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
-    "@types/mocha": "^10.0.1",
+    "@types/mocha": "^10.0.6",
     "@types/node": "20.10.0",
     "@types/vscode": "^1.85.0",
-    "@vscode/test-electron": "^2.3.2",
+    "@vscode/test-electron": "^2.3.8",
     "@vscode/test-web": "^0.0.47",
     "@vscode/vsce": "^2.22.0",
     "concurrently": "^8.2.2",
-    "esbuild": "^0.19.8",
+    "esbuild": "^0.19.11",
     "glob": "^10.3.10",
     "mocha": "^10.2.0",
-    "ovsx": "^0.8.2",
+    "ovsx": "^0.8.3",
     "vscode-uri": "^3.0.8"
   },
   "sideEffects": false

@@ -1,10 +1,10 @@
-import { type AnnotationsParams, type AnnotationsResult, type ProviderSettings } from '@opencodegraph/protocol'
+import { type AnnotationsParams, type AnnotationsResult, type ProviderSettings } from '@openctx/protocol'
 import { scopedLogger } from '../logger'
 import { matchSelectors } from './selector'
 import { createTransport, type ProviderTransportOptions } from './transport/createTransport'
 
 /**
- * A {@link ProviderClient} communicates with a single OpenCodeGraph provider. It is stateless and
+ * A {@link ProviderClient} communicates with a single OpenCtx provider. It is stateless and
  * wraps a {@link ProviderTransport}.
  */
 export interface ProviderClient {

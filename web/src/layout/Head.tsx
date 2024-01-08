@@ -6,7 +6,7 @@ import svgIconUrl from '/logomark-v0.svg'
 import { type FunctionComponent } from 'react'
 import { usePageContext } from 'vike-react/usePageContext'
 
-const CANONICAL_BASE_URL = new URL('https://opencodegraph.org')
+const CANONICAL_BASE_URL = new URL('https://openctx.org')
 
 export const Head: FunctionComponent = () => {
     const { urlPathname } = usePageContext()

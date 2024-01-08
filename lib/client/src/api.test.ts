@@ -1,5 +1,5 @@
-import { type AnnotationsParams, type AnnotationsResult } from '@opencodegraph/protocol'
-import { type Range } from '@opencodegraph/schema'
+import { type AnnotationsParams, type AnnotationsResult } from '@openctx/protocol'
+import { type Range } from '@openctx/schema'
 import { of } from 'rxjs'
 import { TestScheduler } from 'rxjs/testing'
 import { describe, expect, test } from 'vitest'

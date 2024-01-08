@@ -5,7 +5,7 @@ import type { ExtensionApi } from '../../src/api'
 suite('API', () => {
     test('get exported extension API', async () => {
         // Wait for the extension to become ready.
-        const ext = vscode.extensions.getExtension<ExtensionApi>('sourcegraph.opencodegraph')
+        const ext = vscode.extensions.getExtension<ExtensionApi>('sourcegraph.openctx')
         assert.ok(ext, 'extension not found')
 
         const api = await ext.activate()

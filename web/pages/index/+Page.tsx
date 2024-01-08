@@ -14,7 +14,7 @@ export const Page: FunctionComponent = () => (
                 <span className="absolute right-[5px] top-[-4px] bg-destructive px-1 py-0 font-mono text-[75%] font-semibold leading-normal text-destructive-foreground">
                     alpha
                 </span>
-                <span className="sr-only">OpenCodeGraph</span>
+                <span className="sr-only">OpenCtx</span>
             </h1>
 
             <p className="mt-4 max-w-lg text-center text-lg">

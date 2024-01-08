@@ -1,6 +1,6 @@
 [build]
 publish = "web/dist/client"
-command = "pnpm --filter @opencodegraph/opencodegraph.org run build"
+command = "pnpm --filter @openctx/openctx.org run build"
 
 [build.environment]
 # Keep this in sync with package.json "engines".

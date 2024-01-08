@@ -86,7 +86,7 @@ execFileSync(
             : []),
         '--no-dependencies',
         '--out',
-        'dist/opencodegraph.vsix',
+        'dist/openctx.vsix',
     ],
     {
         stdio: 'inherit',
@@ -110,7 +110,7 @@ execFileSync(
     'zip',
     [
         '-ur',
-        'dist/opencodegraph.vsix',
+        'dist/openctx.vsix',
         'extension/node_modules/esbuild-wasm/esbuild.wasm',
         'extension/node_modules/esbuild-wasm/package.json',
     ],
@@ -132,7 +132,7 @@ if (dryRun) {
             'publish',
             ...(releaseType === ReleaseType.Pre ? ['--pre-release', '--no-git-tag-version'] : []),
             '--packagePath',
-            'dist/opencodegraph.vsix',
+            'dist/openctx.vsix',
         ],
         {
             env: { ...process.env, VSCE_PAT: tokens.vscode },
@@ -147,7 +147,7 @@ if (dryRun) {
             'publish',
             ...(releaseType === ReleaseType.Pre ? ['--pre-release'] : []),
             '--packagePath',
-            'dist/opencodegraph.vsix',
+            'dist/openctx.vsix',
             '--pat',
             tokens.openvsx,
         ],

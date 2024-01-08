@@ -6,7 +6,7 @@ export interface PageContextForTitle {
 
 export function title(pageContext: PageContext): string {
     const title = getTitle(pageContext)
-    return `${title ? `${title} | ` : ''}OpenCodeGraph`
+    return `${title ? `${title} | ` : ''}OpenCtx`
 }
 
 /**

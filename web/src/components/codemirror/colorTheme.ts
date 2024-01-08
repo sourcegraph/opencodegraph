@@ -5,7 +5,7 @@ import { tags as t } from '@lezer/highlight'
 
 const cursor = 'hsla(276, 72%, 75%, 1)'
 
-export const ocgDarkTheme = EditorView.theme(
+export const octxDarkTheme = EditorView.theme(
     {
         '&': {
             color: 'hsla(0, 0%, 100%, 0.8)',
@@ -41,7 +41,7 @@ const sage = 'hsl(200, 72%, 50%)'
 const whiskey = '#d19a66'
 const violet = '#c678dd'
 
-export const ocgHighlightStyle = syntaxHighlighting(
+export const octxHighlightStyle = syntaxHighlighting(
     HighlightStyle.define([
         { tag: t.keyword, color: violet },
         { tag: [t.name, t.deleted, t.character, t.propertyName, t.macroName], color: coral },
@@ -65,4 +65,4 @@ export const ocgHighlightStyle = syntaxHighlighting(
     ])
 )
 
-export const ocgTheme: Extension = [ocgDarkTheme, ocgHighlightStyle]
+export const octxTheme: Extension = [octxDarkTheme, octxHighlightStyle]

@@ -1,6 +1,6 @@
-# Demo: OpenCodeGraph extension for Monaco Editor
+# Demo: OpenCtx extension for Monaco Editor
 
-This is a simple demo that uses the [`@opencodegraph/codemirror-extension`](https://www.npmjs.com/package/@opencodegraph/codemirror-extension) npm package to show OpenCodeGraph annotations in Monaco Editor.
+This is a simple demo that uses the [`@openctx/codemirror-extension`](https://www.npmjs.com/package/@openctx/codemirror-extension) npm package to show OpenCtx annotations in Monaco Editor.
 
 ## Usage
 

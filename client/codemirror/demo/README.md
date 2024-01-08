@@ -1,6 +1,6 @@
-# Demo: OpenCodeGraph extension for CodeMirror
+# Demo: OpenCtx extension for CodeMirror
 
-This is a simple demo that uses the [`@opencodegraph/codemirror-extension`](https://www.npmjs.com/package/@opencodegraph/codemirror-extension) npm package to show OpenCodeGraph annotations in a CodeMirror editor.
+This is a simple demo that uses the [`@openctx/codemirror-extension`](https://www.npmjs.com/package/@openctx/codemirror-extension) npm package to show OpenCtx annotations in a CodeMirror editor.
 
 ## Usage
 

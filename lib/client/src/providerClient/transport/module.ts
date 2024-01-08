@@ -1,4 +1,4 @@
-import { type Provider } from '@opencodegraph/provider'
+import { type Provider } from '@openctx/provider'
 import type { ProviderTransport, ProviderTransportOptions } from './createTransport'
 
 export function createRemoteModuleFileTransport(
@@ -14,7 +14,7 @@ export function createRemoteModuleFileTransport(
             : fetch(providerUri).then(async resp => {
                   if (!resp.ok) {
                       throw new Error(
-                          `OpenCodeGraph remote provider module URL ${providerUri} responded with HTTP error ${resp.status} ${resp.statusText}`
+                          `OpenCtx remote provider module URL ${providerUri} responded with HTTP error ${resp.status} ${resp.statusText}`
                       )
                   }
                   const contentType = resp.headers.get('Content-Type')?.trim()?.replace(/;.*$/, '')
@@ -25,7 +25,7 @@ export function createRemoteModuleFileTransport(
                           contentType !== 'text/plain')
                   ) {
                       throw new Error(
-                          `OpenCodeGraph remote provider module URL ${providerUri} reported invalid Content-Type ${JSON.stringify(
+                          `OpenCtx remote provider module URL ${providerUri} reported invalid Content-Type ${JSON.stringify(
                               contentType
                           )} (expected "text/javascript" or "text/plain")`
                       )

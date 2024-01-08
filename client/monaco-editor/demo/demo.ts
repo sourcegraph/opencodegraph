@@ -1,6 +1,6 @@
-import { createClient, type ClientConfiguration } from '@opencodegraph/client'
-import { createExtension, makeRange } from '@opencodegraph/monaco-editor-extension'
-import providerHelloWorldUrl from '@opencodegraph/provider-hello-world?url'
+import { createClient, type ClientConfiguration } from '@openctx/client'
+import { createExtension, makeRange } from '@openctx/monaco-editor-extension'
+import providerHelloWorldUrl from '@openctx/provider-hello-world?url'
 import * as monaco from 'monaco-editor'
 
 const container = document.createElement('div')

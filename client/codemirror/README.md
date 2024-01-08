@@ -1,21 +1,21 @@
-# OpenCodeGraph extension for CodeMirror
+# OpenCtx extension for CodeMirror
 
-The [`@opencodegraph/codemirror-extension`](https://www.npmjs.com/package/@opencodegraph/codemirror-extension) npm package implements a [CodeMirror](https://codemirror.net/) extension that shows [OpenCodeGraph](https://opencodegraph.org) annotations in the editor.
+The [`@openctx/codemirror-extension`](https://www.npmjs.com/package/@openctx/codemirror-extension) npm package implements a [CodeMirror](https://codemirror.net/) extension that shows [OpenCtx](https://openctx.org) annotations in the editor.
 
-Check out the [OpenCodeGraph playground](https://opencodegraph.org/playground) for a live example of this extension.
+Check out the [OpenCtx playground](https://openctx.org/playground) for a live example of this extension.
 
 ## Usage
 
 Install it:
 
 ```shell
-npm install @opencodegraph/codemirror-extension @opencodegraph/client
+npm install @openctx/codemirror-extension @openctx/client
 ```
 
-Set up an OpenCodeGraph client and fetch annotations:
+Set up an OpenCtx client and fetch annotations:
 
 ```typescript
-import { createClient } from '@opencodegraph/client'
+import { createClient } from '@openctx/client'
 
 // Set up a client.
 const client = createClient({
@@ -23,7 +23,7 @@ const client = createClient({
     Promise.resolve({
       enable: true,
       providers: {
-        'https://opencodegraph.org/npm/@opencodegraph/provider-hello-world': true,
+        'https://openctx.org/npm/@openctx/provider-hello-world': true,
       },
     }),
   makeRange: r => r,
@@ -36,42 +36,42 @@ const annotations = await client.annotations({ file: 'file:///foo.js', content: 
 
 Then register the extension with CodeMirror.
 
-If you're using React, the `useOpenCodeGraphExtension` hook makes it easy:
+If you're using React, the `useOpenCtxExtension` hook makes it easy:
 
 ```typescript
-import { useOpenCodeGraphExtension } from '@opencodegraph/codemirror-extension'
+import { useOpenCtxExtension } from '@openctx/codemirror-extension'
 
 function MyComponent() {
   // ...
 
   // A helpful React hook if using React.
-  const ocgExtension = useOpenCodeGraphExtension({
+  const octxExtension = useOpenCtxExtension({
     visibility: true,
     annotations,
   })
 
-  // Pass `ocgExtension` to CodeMirror as an extension.
+  // Pass `octxExtension` to CodeMirror as an extension.
 
   // ...
 }
 ```
 
-Otherwise, set up the extension manually. If you're using React, you can get UI components from `@opencodegraph/ui-react`; otherwise, use `@opencodegraph/ui-standalone`.
+Otherwise, set up the extension manually. If you're using React, you can get UI components from `@openctx/ui-react`; otherwise, use `@openctx/ui-standalone`.
 
 ```tsx
 import type { Extension } from '@codemirror/state'
-import { openCodeGraphData, showOpenCodeGraphDecorations } from '@opencodegraph/codemirror-extension'
-import { ChipList, IndentationWrapper } from '@opencodegraph/ui-react'
+import { openCtxData, showOpenCtxDecorations } from '@openctx/codemirror-extension'
+import { ChipList, IndentationWrapper } from '@openctx/ui-react'
 
-const ocgExtension: Extension = [
-  openCodeGraphData(annotations),
-  showOpenCodeGraphDecorations({
+const octxExtension: Extension = [
+  openCtxData(annotations),
+  showOpenCtxDecorations({
     visibility: true,
     createDecoration(container, { indent, annotations }) {
       const root = createRoot(container)
       root.render(
         <IndentationWrapper indent={indent}>
-          <ChipList annotations={annotations} chipClassName="ocg-chip" popoverClassName="ocg-chip-popover" />
+          <ChipList annotations={annotations} chipClassName="octx-chip" popoverClassName="octx-chip-popover" />
         </IndentationWrapper>
       )
       return {
@@ -83,17 +83,17 @@ const ocgExtension: Extension = [
   }),
 ]
 
-// Pass `ocgExtension` to CodeMirror as an extension.
+// Pass `octxExtension` to CodeMirror as an extension.
 ```
 
 ## Demo
 
-The [OpenCodeGraph playground](https://opencodegraph.org/playground) is a live demo of this extension.
+The [OpenCtx playground](https://openctx.org/playground) is a live demo of this extension.
 
 You can also clone this repository and run `pnpm run demo` from this directory, then visit http://localhost:5902. See the `demo/` dir for source code.
 
 ## Development
 
-- [Source code](https://sourcegraph.com/github.com/sourcegraph/opencodegraph/-/tree/client/codemirror)
-- [Docs](https://opencodegraph.org/docs/clients/codemirror)
+- [Source code](https://sourcegraph.com/github.com/sourcegraph/openctx/-/tree/client/codemirror)
+- [Docs](https://openctx.org/docs/clients/codemirror)
 - License: Apache 2.0

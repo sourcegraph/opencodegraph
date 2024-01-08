@@ -1,11 +1,11 @@
 {
-  "name": "@opencodegraph/client",
+  "name": "@openctx/client",
   "version": "0.0.3",
-  "description": "OpenCodeGraph client library",
+  "description": "OpenCtx client library",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "lib/client"
   },
   "type": "module",
@@ -24,9 +24,9 @@
     "prepublishOnly": "tsc --build --clean && pnpm run build"
   },
   "dependencies": {
-    "@opencodegraph/protocol": "workspace:*",
-    "@opencodegraph/provider": "workspace:*",
-    "@opencodegraph/schema": "workspace:*",
+    "@openctx/protocol": "workspace:*",
+    "@openctx/provider": "workspace:*",
+    "@openctx/schema": "workspace:*",
     "lru-cache": "^10.1.0",
     "picomatch": "^3.0.1",
     "rxjs": "^7.8.1"

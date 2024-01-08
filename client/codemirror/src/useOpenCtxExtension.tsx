@@ -1,11 +1,11 @@
 import type { Extension } from '@codemirror/state'
-import { type Annotation } from '@opencodegraph/client'
-import { ChipList, IndentationWrapper } from '@opencodegraph/ui-react'
+import { type Annotation } from '@openctx/client'
+import { ChipList, IndentationWrapper } from '@openctx/ui-react'
 import { useMemo } from 'react'
 import { createRoot } from 'react-dom/client'
-import { openCodeGraphData, showOpenCodeGraphDecorations } from './extension'
+import { openCtxData, showOpenCtxDecorations } from './extension'
 
-export function useOpenCodeGraphExtension({
+export function useOpenCtxExtension({
     visibility,
     annotations,
 }: {
@@ -17,8 +17,8 @@ export function useOpenCodeGraphExtension({
         () =>
             visibility
                 ? [
-                      openCodeGraphData(annotations),
-                      showOpenCodeGraphDecorations({
+                      openCtxData(annotations),
+                      showOpenCtxDecorations({
                           visibility,
                           createDecoration(container, { indent, annotations }) {
                               const root = createRoot(container)
@@ -26,8 +26,8 @@ export function useOpenCodeGraphExtension({
                                   <IndentationWrapper indent={indent}>
                                       <ChipList
                                           annotations={annotations}
-                                          chipClassName="ocg-chip"
-                                          popoverClassName="ocg-chip-popover"
+                                          chipClassName="octx-chip"
+                                          popoverClassName="octx-chip-popover"
                                       />
                                   </IndentationWrapper>
                               )

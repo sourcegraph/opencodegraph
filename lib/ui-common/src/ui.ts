@@ -1,4 +1,4 @@
-import { type Annotation, type Range } from '@opencodegraph/schema'
+import { type Annotation, type Range } from '@openctx/schema'
 
 export interface AnnotationWithRichRange<R extends Range> extends Omit<Annotation, 'range'> {
     range?: R

@@ -31,7 +31,7 @@ export const NavMenu: FunctionComponent<{
                 </section>
             ))}
             <Link
-                href="https://github.com/sourcegraph/opencodegraph"
+                href="https://github.com/sourcegraph/openctx"
                 target="_blank"
                 className="mt-6 flex items-center gap-2 text-sm font-semibold no-underline hover:underline"
             >

@@ -1,4 +1,4 @@
-import { Provider } from '@opencodegraph/provider'
+import { Provider } from '@openctx/provider'
 
 const provider: Provider = {
     capabilities: () => ({ selector: [{ path: 'foo' }] }),

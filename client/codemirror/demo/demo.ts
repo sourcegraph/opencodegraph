@@ -2,9 +2,9 @@ import { defaultKeymap } from '@codemirror/commands'
 import { javascript } from '@codemirror/lang-javascript'
 import { EditorState, type Extension } from '@codemirror/state'
 import { EditorView, keymap } from '@codemirror/view'
-import { createClient, type ClientConfiguration } from '@opencodegraph/client'
-import providerHelloWorldUrl from '@opencodegraph/provider-hello-world?url'
-import { openCodeGraphData, showOpenCodeGraphDecorations } from '../src'
+import { createClient, type ClientConfiguration } from '@openctx/client'
+import providerHelloWorldUrl from '@openctx/provider-hello-world?url'
+import { openCtxData, showOpenCtxDecorations } from '../src'
 
 const container = document.createElement('div')
 container.id = 'container'
@@ -28,9 +28,9 @@ const CONTENT = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(n => `console.log("H
 
 const annotations = await client.annotations({ file: 'file:///foo.js', content: CONTENT })
 
-const ocgExtension: Extension = [
-    openCodeGraphData(annotations),
-    showOpenCodeGraphDecorations({
+const octxExtension: Extension = [
+    openCtxData(annotations),
+    showOpenCtxDecorations({
         visibility: true,
         createDecoration(container, { annotations }) {
             const div = document.createElement('div')
@@ -66,7 +66,7 @@ const startState = EditorState.create({
     doc: CONTENT,
     extensions: [
         keymap.of(defaultKeymap),
-        ocgExtension,
+        octxExtension,
         javascript(),
         EditorView.baseTheme({ '&': { fontSize: '140%' } }),
     ],

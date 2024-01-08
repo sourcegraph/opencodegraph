@@ -1,1 +1,1 @@
-export type * from './opencodegraph-protocol.schema'
+export type * from './openctx-protocol.schema'

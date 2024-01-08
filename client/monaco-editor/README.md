@@ -1,20 +1,20 @@
-# OpenCodeGraph extension for Monaco Editor
+# OpenCtx extension for Monaco Editor
 
-The [`@opencodegraph/monaco-editor-extension`](https://www.npmjs.com/package/@opencodegraph/monaco-editor-extension) npm package implements a [Monaco Editor](https://microsoft.github.io/monaco-editor/) extension that shows [OpenCodeGraph](https://opencodegraph.org) annotations on files.
+The [`@openctx/monaco-editor-extension`](https://www.npmjs.com/package/@openctx/monaco-editor-extension) npm package implements a [Monaco Editor](https://microsoft.github.io/monaco-editor/) extension that shows [OpenCtx](https://openctx.org) annotations on files.
 
 ## Usage
 
 Install it:
 
 ```shell
-npm install @opencodegraph/monaco-editor-extension @opencodegraph/client
+npm install @openctx/monaco-editor-extension @openctx/client
 ```
 
-Set up an OpenCodeGraph client:
+Set up an OpenCtx client:
 
 ```typescript
-import { createClient } from '@opencodegraph/client'
-import { createExtension, makeRange } from '@opencodegraph/monaco-editor-extension'
+import { createClient } from '@openctx/client'
+import { createExtension, makeRange } from '@openctx/monaco-editor-extension'
 
 // Set up a client.
 const client = createClient({
@@ -22,7 +22,7 @@ const client = createClient({
     Promise.resolve({
       enable: true,
       providers: {
-        'https://opencodegraph.org/npm/@opencodegraph/provider-hello-world': true,
+        'https://openctx.org/npm/@openctx/provider-hello-world': true,
       },
     }),
   makeRange,
@@ -46,6 +46,6 @@ Clone this repository and run `pnpm run demo` from this directory, then visit ht
 
 ## Development
 
-- [Source code](https://sourcegraph.com/github.com/sourcegraph/opencodegraph/-/tree/client/monaco-editor)
-- [Docs](https://opencodegraph.org/docs/clients/monaco-editor)
+- [Source code](https://sourcegraph.com/github.com/sourcegraph/openctx/-/tree/client/monaco-editor)
+- [Docs](https://openctx.org/docs/clients/monaco-editor)
 - License: Apache 2.0

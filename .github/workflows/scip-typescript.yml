@@ -8,7 +8,7 @@ on:
 
 jobs:
   scip-typescript:
-    if: github.repository == 'sourcegraph/opencodegraph'
+    if: github.repository == 'sourcegraph/openctx'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

@@ -1,6 +1,6 @@
 {
   "recommendations": [
-    "sourcegraph.opencodegraph",
+    "sourcegraph.openctx",
     "sourcegraph.cody-ai",
     "esbenp.prettier-vscode",
     "ecmel.vscode-html-css",

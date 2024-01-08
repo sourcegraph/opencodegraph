@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the OpenCodeGraph browser extension will be documented in this file.
+All notable changes to the OpenCtx browser extension will be documented in this file.
 
 ## (Unreleased)
 

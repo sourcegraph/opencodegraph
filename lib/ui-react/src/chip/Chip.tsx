@@ -1,10 +1,10 @@
-import { type Annotation } from '@opencodegraph/schema'
+import { type Annotation } from '@openctx/schema'
 import { type FunctionComponent } from 'react'
 import { BaseChip } from './BaseChip'
 import styles from './Chip.module.css'
 
 /**
- * A single OpenCodeGraph annotation, displayed as a "chip".
+ * A single OpenCtx annotation, displayed as a "chip".
  */
 export const Chip: FunctionComponent<{
     annotation: Annotation

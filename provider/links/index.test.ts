@@ -1,4 +1,4 @@
-import { type AnnotationsResult, type CapabilitiesResult } from '@opencodegraph/provider'
+import { type AnnotationsResult, type CapabilitiesResult } from '@openctx/provider'
 import { describe, expect, test } from 'vitest'
 import links, { type Settings } from './index'
 

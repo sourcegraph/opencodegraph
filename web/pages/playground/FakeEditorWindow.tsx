@@ -1,4 +1,4 @@
-import { AnnotatedEditor as _AnnotatedEditor } from '@opencodegraph/web-playground'
+import { AnnotatedEditor as _AnnotatedEditor } from '@openctx/web-playground'
 import clsx from 'clsx'
 import { ArrowRightIcon, FileCodeIcon } from 'lucide-react'
 import { useCallback, type FunctionComponent } from 'react'

@@ -1,11 +1,11 @@
 {
-  "name": "@opencodegraph/ui-standalone",
+  "name": "@openctx/ui-standalone",
   "version": "0.0.2",
-  "description": "OpenCodeGraph standalone UI library",
+  "description": "OpenCtx standalone UI library",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "lib/ui-standalone"
   },
   "type": "module",
@@ -28,8 +28,8 @@
     "prepublishOnly": "tsc --build --clean && pnpm run build"
   },
   "dependencies": {
-    "@opencodegraph/schema": "workspace:*",
-    "@opencodegraph/ui-common": "workspace:*",
-    "clsx": "^2.0.0"
+    "@openctx/schema": "workspace:*",
+    "@openctx/ui-common": "workspace:*",
+    "clsx": "^2.1.0"
   }
 }

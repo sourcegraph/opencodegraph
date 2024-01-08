@@ -1,18 +1,18 @@
 import { RangeSetBuilder, type EditorState, type Extension } from '@codemirror/state'
 import { Decoration, EditorView, WidgetType, type DecorationSet } from '@codemirror/view'
-import { type Annotation } from '@opencodegraph/client'
-import { prepareAnnotationsForPresentation } from '@opencodegraph/ui-common'
+import { type Annotation } from '@openctx/client'
+import { prepareAnnotationsForPresentation } from '@openctx/ui-common'
 import deepEqual from 'deep-equal'
-import { openCodeGraphDataFacet, type OpenCodeGraphDecorationsConfig } from './extension'
+import { openCtxDataFacet, type OpenCtxDecorationsConfig } from './extension'
 
 class BlockWidget extends WidgetType {
     private container: HTMLElement | null = null
-    private decoration: ReturnType<OpenCodeGraphDecorationsConfig['createDecoration']> | undefined
+    private decoration: ReturnType<OpenCtxDecorationsConfig['createDecoration']> | undefined
 
     constructor(
         private readonly anns: Annotation[],
         private readonly indent: string | undefined,
-        private readonly config: OpenCodeGraphDecorationsConfig
+        private readonly config: OpenCtxDecorationsConfig
     ) {
         super()
     }
@@ -43,7 +43,7 @@ class BlockWidget extends WidgetType {
 function computeDecorations(
     state: EditorState,
     annotations: Annotation[],
-    config: OpenCodeGraphDecorationsConfig
+    config: OpenCtxDecorationsConfig
 ): DecorationSet {
     const builder = new RangeSetBuilder<Decoration>()
 
@@ -73,10 +73,10 @@ function computeDecorations(
     return builder.finish()
 }
 
-export function openCodeGraphWidgets(config: OpenCodeGraphDecorationsConfig): Extension {
+export function openCtxWidgets(config: OpenCtxDecorationsConfig): Extension {
     return [
-        EditorView.decorations.compute(['doc', openCodeGraphDataFacet], state => {
-            const data = state.facet(openCodeGraphDataFacet)
+        EditorView.decorations.compute(['doc', openCtxDataFacet], state => {
+            const data = state.facet(openCtxDataFacet)
             return computeDecorations(state, data, config)
         }),
     ]

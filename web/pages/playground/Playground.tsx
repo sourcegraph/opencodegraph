@@ -1,4 +1,4 @@
-import { AnnotatedEditor, SettingsEditor } from '@opencodegraph/web-playground'
+import { AnnotatedEditor, SettingsEditor } from '@openctx/web-playground'
 import clsx from 'clsx'
 import { useCallback, useState, type FunctionComponent } from 'react'
 import { ClientOnlySync } from '../../src/components/ClientOnlySync.tsx'

@@ -6,10 +6,10 @@ import {
     type CapabilitiesResult,
     type Provider,
     type ProviderSettings,
-} from '@opencodegraph/provider'
+} from '@openctx/provider'
 
 /**
- * A demo [OpenCodeGraph](https://opencodegraph.org) provider that annotates every 10th line in every
+ * A demo [OpenCtx](https://openctx.org) provider that annotates every 10th line in every
  * file with "✨ Hello, world!".
  */
 const helloWorld: Provider = {
@@ -26,9 +26,9 @@ const helloWorld: Provider = {
             }
             annotations.push({
                 title: '✨ Hello, world!',
-                url: 'https://opencodegraph.org',
+                url: 'https://openctx.org',
                 ui: {
-                    detail: 'From OpenCodeGraph',
+                    detail: 'From OpenCtx',
                 },
                 range: {
                     start: { line: i, character: 0 },

@@ -1,7 +1,7 @@
-import { Annotation } from '@opencodegraph/schema'
+import { Annotation } from '@openctx/schema'
 
 /**
- * OpenCodeGraph client/provider protocol
+ * OpenCtx client/provider protocol
  */
 export type Protocol =
     | RequestMessage

@@ -2,7 +2,7 @@ import {
     groupAnnotations,
     prepareAnnotationsForPresentation,
     type AnnotationWithAdjustedRange,
-} from '@opencodegraph/ui-common'
+} from '@openctx/ui-common'
 import { firstValueFrom, map, type Observable } from 'rxjs'
 import * as vscode from 'vscode'
 import { makeRange, type Controller } from '../../controller'
@@ -82,7 +82,7 @@ function annotationCodeLens(
 function createShowHoverCommand(): {
     createCommandArgs: (uri: vscode.Uri, pos: vscode.Position) => Pick<vscode.Command, 'command' | 'arguments'>
 } & vscode.Disposable {
-    const COMMAND_ID = 'opencodegraph._showHover'
+    const COMMAND_ID = 'openctx._showHover'
     const disposable = vscode.commands.registerCommand(COMMAND_ID, (uri: vscode.Uri, pos: vscode.Position): void => {
         const editor = vscode.window.activeTextEditor
         if (!editor || editor.document.uri.toString() !== uri.toString()) {
@@ -131,7 +131,7 @@ function createShowGroupCommand(): {
 } & vscode.Disposable {
     const disposables: vscode.Disposable[] = []
 
-    const COMMAND_ID = 'opencodegraph._showGroup'
+    const COMMAND_ID = 'openctx._showGroup'
 
     interface QuickPickItem extends vscode.QuickPickItem {
         annotation: AnnotationWithAdjustedRange<vscode.Range>

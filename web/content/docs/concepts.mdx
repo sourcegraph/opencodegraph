@@ -34,23 +34,23 @@ See "[Provider API](protocol.mdx#provider-api)" for more information.
 
 ## User configuration
 
-A list of provider URIs is the only configuration needed for OpenCodeGraph.
+A list of provider URIs is the only configuration needed for OpenCtx.
 
-To use a provider in your editor, you just need its URL (e.g., `https://example.com/opencodegraph`).
+To use a provider in your editor, you just need its URL (e.g., `https://example.com/openctx`).
 
-For example, the following is an example of VS Code user settings for OpenCodeGraph:
+For example, the following is an example of VS Code user settings for OpenCtx:
 
 ```json
 {
-  "opencodegraph.providers": {
-    "https://sourcegraph.com/.api/opencodegraph": {},
-    "https://opencodegraph.org/npm/@opencodegraph/provider-storybook": { ... },
-    "https://opencodegraph.org/npm/@opencodegraph/provider-prometheus": { ... }
+  "openctx.providers": {
+    "https://sourcegraph.com/.api/openctx": {},
+    "https://openctx.org/npm/@openctx/provider-storybook": { ... },
+    "https://openctx.org/npm/@openctx/provider-prometheus": { ... }
   }
 }
 ```
 
-The first provider (`https://sourcegraph.com/.api/opencodegraph`) is an HTTP endpoint. The others are JavaScript bundles that are executed on the client.
+The first provider (`https://sourcegraph.com/.api/openctx`) is an HTTP endpoint. The others are JavaScript bundles that are executed on the client.
 
 See the [playground](/playground) for examples of providers with settings.
 
@@ -62,7 +62,7 @@ How do clients authenticate with providers? Right now, a few hostnames are hard-
 
 ### Implementing providers: thin clients or lots-of-logic?
 
-Will OpenCodeGraph providers be super lightweight presentation-layer programs that hit some existing system that makes the data easy to fetch? Maybe that existing system is a separate server built for OCG to hit for now, but ideally in the future (years) it would become a common endpoint for dev tools vendors to expose, like oEmbed.
+Will OpenCtx providers be super lightweight presentation-layer programs that hit some existing system that makes the data easy to fetch? Maybe that existing system is a separate server built for OpenCtx to hit for now, but ideally in the future (years) it would become a common endpoint for dev tools vendors to expose, like oEmbed.
 
 ### Recording additional metadata
 

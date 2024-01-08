@@ -1,11 +1,11 @@
 {
-  "name": "@opencodegraph/provider-docs",
+  "name": "@openctx/provider-docs",
   "version": "0.0.1",
-  "description": "Add contextual documentation to your code from an existing documentation corpus (OpenCodeGraph provider)",
+  "description": "Add contextual documentation to your code from an existing documentation corpus (OpenCtx provider)",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sourcegraph/opencodegraph",
+    "url": "https://github.com/sourcegraph/openctx",
     "directory": "provider/docs"
   },
   "type": "module",
@@ -25,16 +25,16 @@
   },
   "dependencies": {
     "@mozilla/readability": "^0.5.0",
-    "@opencodegraph/provider": "workspace:*",
+    "@openctx/provider": "workspace:*",
     "@xenova/transformers": "^2.13.4",
     "buffer": "^6.0.3",
-    "jsdom": "^23.0.1",
+    "jsdom": "^23.2.0",
     "lru-cache": "^10.1.0",
-    "onnxruntime-web": "*"
+    "onnxruntime-web": "^1.16.3"
   },
   "devDependencies": {
     "@types/jsdom": "^21.1.6",
-    "esbuild": "^0.19.8",
+    "esbuild": "^0.19.11",
     "vitest-fetch-mock": "^0.2.2"
   }
 }

@@ -1,18 +1,18 @@
 {
   "private": true,
-  "name": "@opencodegraph/codemirror-extension-demo",
+  "name": "@openctx/codemirror-extension-demo",
   "type": "module",
   "sideEffects": false,
   "scripts": {
     "dev": "vite"
   },
   "dependencies": {
-    "@codemirror/commands": "^6.3.2",
+    "@codemirror/commands": "^6.3.3",
     "@codemirror/lang-javascript": "^6.2.1",
-    "@codemirror/state": "^6.3.1",
-    "@codemirror/view": "^6.22.0",
-    "@opencodegraph/client": "workspace:*",
-    "@opencodegraph/codemirror-extension": "workspace:*",
-    "@opencodegraph/provider-hello-world": "workspace:*"
+    "@codemirror/state": "^6.4.0",
+    "@codemirror/view": "^6.23.0",
+    "@openctx/client": "workspace:*",
+    "@openctx/codemirror-extension": "workspace:*",
+    "@openctx/provider-hello-world": "workspace:*"
   }
 }

@@ -1,4 +1,4 @@
-import { getPopoverDimensions } from '@opencodegraph/ui-standalone'
+import { getPopoverDimensions } from '@openctx/ui-standalone'
 import { useCallback, useEffect, useRef, type FunctionComponent, type ReactNode } from 'react'
 import styles from './Popover.module.css'
 

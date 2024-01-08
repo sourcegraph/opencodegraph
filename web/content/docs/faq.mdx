@@ -6,29 +6,29 @@ export const info = {
 
 # FAQ
 
-## How is OpenCodeGraph different from a VS Code extension that decorates code files with information?
+## How is OpenCtx different from a VS Code extension that decorates code files with information?
 
-1. OpenCodeGraph providers and the information they supply can be used with any editor, not just VS Code, similar to how the [Language Server Protocol (LSP)](https://langserver.org/) defines a common protocol for programming language tooling.
-1. OpenCodeGraph providers are just URLs that implement an open standard, so everybody can participate freely and equally. With VS Code, however, Microsoft controls the extension marketplace and gives its own extensions exclusive access to many VS Code extension APIs.
-1. OpenCodeGraph information is also intended for consumption by code AI tools as additional context. VS Code extension decorations are purely presentation-based, and their information is not accessible to other extensions.
-1. OpenCodeGraph providers can be centrally deployed, configured, and authenticated for large-scale, consistent use in an organization. VS Code extensions require per-user configuration and authentication, which means each user would need to individually configure and authenticate to each provider's external service from each device.
+1. OpenCtx providers and the information they supply can be used with any editor, not just VS Code, similar to how the [Language Server Protocol (LSP)](https://langserver.org/) defines a common protocol for programming language tooling.
+1. OpenCtx providers are just URLs that implement an open standard, so everybody can participate freely and equally. With VS Code, however, Microsoft controls the extension marketplace and gives its own extensions exclusive access to many VS Code extension APIs.
+1. OpenCtx information is also intended for consumption by code AI tools as additional context. VS Code extension decorations are purely presentation-based, and their information is not accessible to other extensions.
+1. OpenCtx providers can be centrally deployed, configured, and authenticated for large-scale, consistent use in an organization. VS Code extensions require per-user configuration and authentication, which means each user would need to individually configure and authenticate to each provider's external service from each device.
 
-## How is OpenCodeGraph different from [Language Server Protocol (LSP)](https://langserver.org/)?
+## How is OpenCtx different from [Language Server Protocol (LSP)](https://langserver.org/)?
 
-[Language Server Protocol (LSP)](https://langserver.org/) and OpenCodeGraph target different kinds of information about code. LSP is about code compiler/typechecker information (definitions, references, type signatures, syntax, etc.), and OpenCodeGraph is about information from other external dev tools with information that lives outside the codebase.
+[Language Server Protocol (LSP)](https://langserver.org/) and OpenCtx target different kinds of information about code. LSP is about code compiler/typechecker information (definitions, references, type signatures, syntax, etc.), and OpenCtx is about information from other external dev tools with information that lives outside the codebase.
 
-## How is OpenCodeGraph different from linters?
+## How is OpenCtx different from linters?
 
-OpenCodeGraph provides information that may be helpful to humans (and code AI) but that is not auto-fixable or necessarily indicative of a problem. It also is intended to be run across all code for greater coverage, not just code that is explicitly configured for linting.
+OpenCtx provides information that may be helpful to humans (and code AI) but that is not auto-fixable or necessarily indicative of a problem. It also is intended to be run across all code for greater coverage, not just code that is explicitly configured for linting.
 
-## Why is it helpful to have OpenCodeGraph add links to documentation to my code?
+## Why is it helpful to have OpenCtx add links to documentation to my code?
 
-OpenCodeGraph makes it easy for you to add docs links alongside code that matches certain patterns. It's intended for documentation of high-level concepts, such as "how we do X at $COMPANY", where X is logging, styling, calling APIs, builds, releases, etc. It's not intended to replace language-specific docstrings for functions and other symbols.
+OpenCtx makes it easy for you to add docs links alongside code that matches certain patterns. It's intended for documentation of high-level concepts, such as "how we do X at $COMPANY", where X is logging, styling, calling APIs, builds, releases, etc. It's not intended to replace language-specific docstrings for functions and other symbols.
 
 This is helpful because in our experience, most devs don't actually consult those high-level documentation pages very often. The biggest reasons for this are: (1) they forget they exist, (2) they don't know how to find them, or (3) they are unsure which of the many related docs are current and which are outdated.
 
-By annotating the code with the right links, OpenCodeGraph helps massively with discoverability and trust. Plus, because devs know that _other_ devs will also use the docs, they're more likely to keep them updated. It's a virtuous cycle!
+By annotating the code with the right links, OpenCtx helps massively with discoverability and trust. Plus, because devs know that _other_ devs will also use the docs, they're more likely to keep them updated. It's a virtuous cycle!
 
 ## How does this relate to the [Open Graph protocol](https://ogp.me/)?
 
-OpenCodeGraph was inspired by the [Open Graph protocol](https://ogp.me/), which is a common standard for fetching link previews. The first thought was: what if URLs in source code were expanded into image/text previews for additional context? But most source code isn't already thoroughly annotated with URLs. So, how can we bootstrap it? How can we automatically add context based on patterns or ad-hoc code analysis? That is how the idea of OpenCodeGraph was born.
+OpenCtx was inspired by the [Open Graph protocol](https://ogp.me/), which is a common standard for fetching link previews. The first thought was: what if URLs in source code were expanded into image/text previews for additional context? But most source code isn't already thoroughly annotated with URLs. So, how can we bootstrap it? How can we automatically add context based on patterns or ad-hoc code analysis? That is how the idea of OpenCtx was born.
