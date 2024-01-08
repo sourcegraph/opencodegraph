@@ -8,7 +8,7 @@ describe('prepareAnnotationsForPresentation', () => {
                 {
                     title: '📟 http_request_queue (metric)',
                     ui: {
-                        presentationHints: ['group-at-top-of-file'],
+                        presentationHints: ['show-at-top-of-file'],
                     },
                     range: {
                         start: { line: 3, character: 4 },
@@ -20,7 +20,7 @@ describe('prepareAnnotationsForPresentation', () => {
             {
                 title: '📟 http_request_queue (metric)',
                 ui: {
-                    presentationHints: ['group-at-top-of-file'],
+                    presentationHints: ['show-at-top-of-file'],
                 },
                 range: {
                     start: { line: 0, character: 0 },

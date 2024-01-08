@@ -12,7 +12,7 @@ describe('keywordSearch', () => {
             keywordSearch(await createCorpusIndex(await createCorpusArchive([doc(1, 'aaa'), doc(2, 'bbb')])), {
                 text: 'bbb',
             })
-        ).toEqual<SearchResult[]>([
+        ).toEqual<Omit<SearchResult, 'scores'>[]>([
             {
                 doc: 2,
                 chunk: 0,
@@ -22,7 +22,6 @@ describe('keywordSearch', () => {
                     totalChunks: 2,
                     termChunkFrequency: 1,
                 }),
-                scores: {},
                 excerpt: 'bbb',
             },
         ])

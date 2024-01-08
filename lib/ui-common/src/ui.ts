@@ -19,7 +19,7 @@ export function prepareAnnotationsForPresentation<R extends Range = Range>(
 ): AnnotationWithAdjustedRange<R>[] {
     return annotations
         .map(ann => {
-            if (ann.ui?.presentationHints?.includes('group-at-top-of-file')) {
+            if (ann.ui?.presentationHints?.includes('show-at-top-of-file')) {
                 // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
                 ann = {
                     ...ann,

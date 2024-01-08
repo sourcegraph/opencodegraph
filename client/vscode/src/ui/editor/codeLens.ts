@@ -1,12 +1,14 @@
 import { prepareAnnotationsForPresentation } from '@opencodegraph/ui-common'
 import { type AnnotationWithAdjustedRange } from '@opencodegraph/ui-common/src/ui'
-import { firstValueFrom, map } from 'rxjs'
+import { firstValueFrom, map, type Observable } from 'rxjs'
 import * as vscode from 'vscode'
 import { makeRange, type Controller } from '../../controller'
 
 interface CodeLens extends vscode.CodeLens {}
 
-export function createCodeLensProvider(controller: Controller): vscode.CodeLensProvider<CodeLens> & vscode.Disposable {
+export function createCodeLensProvider(controller: Controller): vscode.CodeLensProvider<CodeLens> & {
+    observeCodeLenses(doc: vscode.TextDocument): Observable<CodeLens[]>
+} & vscode.Disposable {
     const disposables: vscode.Disposable[] = []
 
     const showHover = createShowHoverCommand()
@@ -17,22 +19,22 @@ export function createCodeLensProvider(controller: Controller): vscode.CodeLensP
 
     disposables.push(controller.onDidChangeProviders(() => changeCodeLenses.fire()))
 
-    return {
+    const provider = {
         onDidChangeCodeLenses: changeCodeLenses.event,
-        async provideCodeLenses(doc: vscode.TextDocument): Promise<CodeLens[]> {
-            return firstValueFrom(
-                controller.observeAnnotations(doc).pipe(
-                    map(anns => {
-                        if (anns === null) {
-                            return []
-                        }
-                        return prepareAnnotationsForPresentation<vscode.Range>(anns, makeRange).map(ann =>
-                            createCodeLens(doc, ann, showHover)
-                        )
-                    })
-                ),
-                { defaultValue: [] }
+        observeCodeLenses(doc: vscode.TextDocument): Observable<CodeLens[]> {
+            return controller.observeAnnotations(doc).pipe(
+                map(anns => {
+                    if (anns === null) {
+                        return []
+                    }
+                    return prepareAnnotationsForPresentation<vscode.Range>(anns, makeRange).map(ann =>
+                        createCodeLens(doc, ann, showHover)
+                    )
+                })
             )
+        },
+        async provideCodeLenses(doc: vscode.TextDocument): Promise<CodeLens[]> {
+            return firstValueFrom(provider.observeCodeLenses(doc), { defaultValue: [] })
         },
         dispose() {
             for (const disposable of disposables) {
@@ -40,6 +42,7 @@ export function createCodeLensProvider(controller: Controller): vscode.CodeLensP
             }
         },
     }
+    return provider
 }
 
 function createCodeLens(
@@ -47,10 +50,13 @@ function createCodeLens(
     ann: AnnotationWithAdjustedRange<vscode.Range>,
     showHover: ReturnType<typeof createShowHoverCommand>
 ): CodeLens {
-    // If the presentationHint `group-at-top-of-file` is used, show the code lens at the top of the
+    // If the presentationHint `show-at-top-of-file` is used, show the code lens at the top of the
     // file, but make it trigger the hover at its actual location.
     const attachRange = ann.range ?? new vscode.Range(0, 0, 0, 0)
     const hoverRange = ann.originalRange ?? attachRange
+    if (ann.originalRange) {
+        console.log('XX1')
+    }
     return {
         range: attachRange,
         command: {

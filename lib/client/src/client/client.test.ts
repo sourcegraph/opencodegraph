@@ -1,4 +1,4 @@
-import { type AnnotationsParams, type AnnotationsResult } from '@opencodegraph/protocol'
+import { type AnnotationsParams } from '@opencodegraph/protocol'
 import { type Range } from '@opencodegraph/schema'
 import { firstValueFrom, of } from 'rxjs'
 import { TestScheduler } from 'rxjs/testing'
@@ -14,15 +14,6 @@ function testdataFileUri(file: string): string {
 const FIXTURE_PARAMS: AnnotationsParams = {
     file: 'file:///f',
     content: 'A',
-}
-
-function fixtureProviderResult(label: string): AnnotationsResult {
-    return [
-        {
-            title: label.toUpperCase(),
-            range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } },
-        },
-    ]
 }
 
 function fixtureResult(label: string): Annotation {
@@ -82,7 +73,7 @@ describe('Client', () => {
                             a: { enable: true, providers: { [testdataFileUri('simple.js')]: {} } },
                         }),
                     __mock__: {
-                        getProviderClient: () => ({ annotations: () => of(fixtureProviderResult('a')) }),
+                        getProviderClient: () => ({ annotations: () => of([fixtureResult('a')]) }),
                     },
                 }).annotationsChanges(FIXTURE_PARAMS)
             ).toBe('(0a)', { '0': [], a: [fixtureResult('a')] } satisfies Record<string, Annotation[]>)

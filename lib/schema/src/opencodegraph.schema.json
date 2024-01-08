@@ -65,9 +65,9 @@
           "type": "array",
           "items": {
             "title": "PresentationHint",
-            "description": "A hint about how to best present an annotation to the human in the client's user interface.\n\n- `group-at-top-of-file`: Group all annotations with the same `ui.group` value together and display them at the top of the file instead of at their given file range.\n- `prefer-link-over-detail`: Prefer to show the annotation as a link over showing the detail text, if the client does not cleanly support doing both.",
+            "description": "A hint about how to best present an annotation to the human in the client's user interface.\n\n- `show-at-top-of-file`: Group all annotations with the same `ui.group` value together and display them at the top of the file instead of at their given file range.\n- `prefer-link-over-detail`: Prefer to show the annotation as a link over showing the detail text, if the client does not cleanly support doing both.",
             "type": "string",
-            "enum": ["group-at-top-of-file", "prefer-link-over-detail"]
+            "enum": ["show-at-top-of-file", "prefer-link-over-detail"]
           }
         }
       }
