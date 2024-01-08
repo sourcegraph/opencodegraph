@@ -1,9 +1,9 @@
-import { Annotation } from '@opencodegraph/client'
+import { type Annotation } from '@opencodegraph/client'
 import { TestScheduler } from 'rxjs/testing'
-import { describe, expect, MockedObject, test, vi } from 'vitest'
+import { describe, expect, test, vi, type MockedObject } from 'vitest'
 import type * as vscode from 'vscode'
 import { URI } from 'vscode-uri'
-import { Controller } from '../../controller'
+import { type Controller } from '../../controller'
 import { createMockController } from '../../controller.test'
 import { createPosition, createRange, mockTextDocument } from '../../util/vscode.test'
 import { createCodeLensProvider } from './codeLens'
@@ -16,16 +16,21 @@ vi.mock(
     'vscode',
     () =>
         ({
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             Range: function (): vscode.Range {
                 return createRange(0, 0, 0, 0)
             } as any,
-            commands: {
-                registerCommand: vi.fn(),
-            },
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             EventEmitter: function () {
                 return { event: null }
             } as any,
             Uri: URI,
+            commands: {
+                registerCommand: vi.fn(),
+            },
+            window: {
+                createQuickPick: vi.fn(() => ({ onDidAccept: () => {} })),
+            },
         }) satisfies RecursivePartial<typeof vscode>
 )
 
@@ -147,17 +152,18 @@ describe('createCodeLensProvider', () => {
         })
     })
 
-    test.skip('grouped', () => {
+    test('grouped', () => {
         const { controller, provider } = createTestProvider()
         const doc = mockTextDocument()
+        const FIXTURE_ANNS: Annotation<vscode.Range>[] = [
+            { title: 'A', range: createRange(1, 0, 1, 0), ui: { group: 'G' } },
+            { title: 'B', range: createRange(1, 0, 1, 0), ui: { group: 'G' } },
+        ]
         testScheduler().run(({ cold, expectObservable }): void => {
             controller.observeAnnotations.mockImplementation(doc => {
                 expect(doc).toBe(doc)
                 return cold<Annotation<vscode.Range>[] | null>('a', {
-                    a: [
-                        { title: 'A', range: createRange(1, 0, 1, 0), ui: { group: 'G' } },
-                        { title: 'B', range: createRange(1, 0, 1, 0), ui: { group: 'G' } },
-                    ],
+                    a: FIXTURE_ANNS,
                 })
             })
             expectObservable(provider.observeCodeLenses(doc)).toBe('a', {
@@ -165,7 +171,7 @@ describe('createCodeLensProvider', () => {
                     {
                         isResolved: true,
                         range: createRange(1, 0, 1, 0),
-                        command: { command: 'opencodegraph._showGroup', title: 'G' },
+                        command: { title: 'G', command: 'opencodegraph._showGroup', arguments: ['G', FIXTURE_ANNS] },
                     },
                 ],
             } satisfies Record<string, vscode.CodeLens[] | null>)

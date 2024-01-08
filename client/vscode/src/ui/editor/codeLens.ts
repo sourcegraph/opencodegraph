@@ -36,7 +36,10 @@ export function createCodeLensProvider(controller: Controller): vscode.CodeLensP
                     const { groups, ungrouped } = groupAnnotations(
                         prepareAnnotationsForPresentation<vscode.Range>(anns, makeRange)
                     )
-                    return x.map(ann => createCodeLens(doc, ann, showHover, showGroup))
+                    return [
+                        ...groups.map(([group, anns]) => groupCodeLens(group, anns, showGroup)),
+                        ...ungrouped.map(ann => annotationCodeLens(doc, ann, showHover)),
+                    ]
                 })
             )
         },
@@ -52,11 +55,11 @@ export function createCodeLensProvider(controller: Controller): vscode.CodeLensP
     return provider
 }
 
-function createCodeLens(
+/** Create a code lens for a single annotation. */
+function annotationCodeLens(
     doc: vscode.TextDocument,
     ann: AnnotationWithAdjustedRange<vscode.Range>,
-    showHover: ReturnType<typeof createShowHoverCommand>,
-    showGroup: ReturnType<typeof createShowGroupCommand>
+    showHover: ReturnType<typeof createShowHoverCommand>
 ): CodeLens {
     // If the presentationHint `show-at-top-of-file` is used, show the code lens at the top of the
     // file, but make it trigger the hover at its actual location.
@@ -102,23 +105,73 @@ function createShowHoverCommand(): {
     }
 }
 
+/** Create a code lens for a group of annotations. */
+function groupCodeLens(
+    group: string,
+    anns: AnnotationWithAdjustedRange<vscode.Range>[],
+    showGroup: ReturnType<typeof createShowGroupCommand>
+): CodeLens {
+    // Attach to the range of the first annotation with a range.
+    const attachRange = anns.find(ann => ann.range)?.range ?? new vscode.Range(0, 0, 0, 0)
+    return {
+        range: attachRange,
+        command: {
+            title: group,
+            ...showGroup.createCommandArgs(group, anns),
+        },
+        isResolved: true,
+    }
+}
+
 function createShowGroupCommand(): {
-    createCommandArgs: (uri: vscode.Uri, pos: vscode.Position) => Pick<vscode.Command, 'command' | 'arguments'>
+    createCommandArgs: (
+        group: string,
+        annotations: AnnotationWithAdjustedRange<vscode.Range>[]
+    ) => Pick<vscode.Command, 'command' | 'arguments'>
 } & vscode.Disposable {
+    const disposables: vscode.Disposable[] = []
+
     const COMMAND_ID = 'opencodegraph._showGroup'
-    const disposable = vscode.commands.registerCommand(
-        COMMAND_ID,
-        (annotations: AnnotationWithAdjustedRange<vscode.Range>[]): void => {}
+
+    interface QuickPickItem extends vscode.QuickPickItem {
+        annotation: AnnotationWithAdjustedRange<vscode.Range>
+    }
+    const quickPick = vscode.window.createQuickPick<QuickPickItem>()
+    disposables.push(quickPick)
+    disposables.push(
+        quickPick.onDidAccept(() => {
+            const item = quickPick.selectedItems.at(0)
+            if (item?.annotation.url) {
+                // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(item.annotation.url))
+                quickPick.hide()
+            }
+        })
+    )
+
+    disposables.push(
+        vscode.commands.registerCommand(
+            COMMAND_ID,
+            (group: string, annotations: AnnotationWithAdjustedRange<vscode.Range>[]): void => {
+                quickPick.title = group
+                quickPick.items = annotations.map(ann => ({
+                    label: ann.title,
+                    detail: ann.url,
+                    annotation: ann,
+                }))
+                quickPick.show()
+            }
+        )
     )
     return {
-        createCommandArgs(uri, pos) {
+        createCommandArgs(group, annotations) {
             return {
                 command: COMMAND_ID,
-                arguments: [uri, pos],
+                arguments: [group, annotations],
             }
         },
         dispose() {
-            disposable.dispose()
+            vscode.Disposable.from(...disposables).dispose()
         },
     }
 }

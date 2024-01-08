@@ -8,6 +8,7 @@
       // "index": "file:///home/sqs/tmp/ocg-provider-docs/vite-docs-web.index.json",
       "index": "file:///home/sqs/tmp/ocg-provider-docs/sourcegraph-docs-old-web.index.json",
     },
+    "../../../../../../provider/hello-world/dist/index.js": true,
   },
   "opencodegraph.providers2": {
     // "https://sourcegraph.test:3443/.api/opencodegraph": true,

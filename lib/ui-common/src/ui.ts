@@ -1,7 +1,10 @@
 import { type Annotation, type Range } from '@opencodegraph/schema'
 
-export interface AnnotationWithAdjustedRange<R extends Range> extends Omit<Annotation, 'range'> {
+export interface AnnotationWithRichRange<R extends Range> extends Omit<Annotation, 'range'> {
     range?: R
+}
+
+export interface AnnotationWithAdjustedRange<R extends Range> extends AnnotationWithRichRange<R> {
     originalRange?: R
 }
 
@@ -37,11 +40,13 @@ const ZERO_RANGE: Range = { start: { line: 0, character: 0 }, end: { line: 0, ch
 /**
  * Group annotations that have the same `ui.group` value.
  */
-export function groupAnnotations(annotations: Annotation[]): {
-    groups: [string, Annotation[]][]
-    ungrouped: Annotation[]
+export function groupAnnotations<A extends Annotation>(
+    annotations: A[]
+): {
+    groups: [string, A[]][]
+    ungrouped: A[]
 } {
-    const groups: { [group: string]: Annotation[] } = {}
+    const groups: { [group: string]: A[] } = {}
     for (const ann of annotations) {
         if (ann.ui?.group) {
             if (!groups[ann.ui.group]) {
