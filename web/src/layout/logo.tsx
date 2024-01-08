@@ -6,6 +6,6 @@ export const LogotextHorizColorImage: FunctionComponent<{ size?: 'sm' | 'lg' }> 
     <picture>
         <source srcSet={logotextHorizColorDarkV0} media="(prefers-color-scheme: dark)" />
         <source srcSet={logotextHorizColorLightV0} media="(prefers-color-scheme: light)" />
-        <img width={size === 'sm' ? 170 : 300} src={logotextHorizColorLightV0} alt="OpenCodeGraph logo" />
+        <img width={size === 'sm' ? 120 : 250} src={logotextHorizColorLightV0} alt="OpenCodeGraph logo" />
     </picture>
 )

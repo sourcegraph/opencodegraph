@@ -39,6 +39,8 @@ _Status: alpha_
 
 ---
 
+OpenCtx
+
 Annotations - should generalize and just make it ContextItems. Adds context about code files, chat messages, etc. Attachment can be a file range,
 .
 
