@@ -37,7 +37,11 @@ _Status: alpha_
 - [Docs](https://opencodegraph.org)
 - License: [Apache 2.0](LICENSE)
 
-# TODOs
+---
 
-- Make the VS Code status bar toggle show/hide not enable/disable - and let it show/hide per-provider?
-- Add support for "group"
+Annotations - should generalize and just make it ContextItems. Adds context about code files, chat messages, etc. Attachment can be a file range,
+.
+
+Not just context, but also actions.
+
+OpenCtx

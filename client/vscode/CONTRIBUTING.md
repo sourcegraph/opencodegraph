@@ -67,3 +67,13 @@ VS Code will preserve some extension state (e.g., configuration settings) even w
 ```shell
 code --user-data-dir=/tmp/separate-vscode-instance --profile-temp
 ```
+
+## Developing with another VS Code extension
+
+If you're working on another VS Code extension that uses the OpenCodeGraph extension's API, you can use `pnpm link` to develop using your local packages.
+
+In the other extension's package directory, run:
+
+```shell
+pnpm link /path/to/opencodegraph/lib/client
+```
