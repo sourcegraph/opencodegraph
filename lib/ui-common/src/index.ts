@@ -1,1 +1,1 @@
-export { groupAnnotations, prepareAnnotationsForPresentation } from './ui'
+export { groupAnnotations, prepareAnnotationsForPresentation, type AnnotationWithAdjustedRange } from './ui'

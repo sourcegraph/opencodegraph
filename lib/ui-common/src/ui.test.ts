@@ -26,6 +26,10 @@ describe('prepareAnnotationsForPresentation', () => {
                     start: { line: 0, character: 0 },
                     end: { line: 0, character: 0 },
                 },
+                originalRange: {
+                    start: { line: 3, character: 4 },
+                    end: { line: 5, character: 6 },
+                },
             },
         ])
     })
@@ -50,20 +54,23 @@ describe('groupAnnotations', () => {
                 },
             ])
         ).toEqual<ReturnType<typeof groupAnnotations>>({
-            groups: {
-                Docs: [
-                    {
-                        title: '📘 Docs: Page 1',
-                        url: 'https://example.com/1',
-                        ui: { detail: 'Detail 1', group: 'Docs' },
-                    },
-                    {
-                        title: '📘 Docs: Page 2',
-                        url: 'https://example.com/2',
-                        ui: { group: 'Docs' },
-                    },
+            groups: [
+                [
+                    'Docs',
+                    [
+                        {
+                            title: '📘 Docs: Page 1',
+                            url: 'https://example.com/1',
+                            ui: { detail: 'Detail 1', group: 'Docs' },
+                        },
+                        {
+                            title: '📘 Docs: Page 2',
+                            url: 'https://example.com/2',
+                            ui: { group: 'Docs' },
+                        },
+                    ],
                 ],
-            },
+            ],
             ungrouped: [
                 {
                     title: '📟 http_request_queue (metric)',

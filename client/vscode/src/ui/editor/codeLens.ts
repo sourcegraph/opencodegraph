@@ -1,5 +1,8 @@
-import { prepareAnnotationsForPresentation } from '@opencodegraph/ui-common'
-import { type AnnotationWithAdjustedRange } from '@opencodegraph/ui-common/src/ui'
+import {
+    groupAnnotations,
+    prepareAnnotationsForPresentation,
+    type AnnotationWithAdjustedRange,
+} from '@opencodegraph/ui-common'
 import { firstValueFrom, map, type Observable } from 'rxjs'
 import * as vscode from 'vscode'
 import { makeRange, type Controller } from '../../controller'
@@ -14,6 +17,9 @@ export function createCodeLensProvider(controller: Controller): vscode.CodeLensP
     const showHover = createShowHoverCommand()
     disposables.push(showHover)
 
+    const showGroup = createShowGroupCommand()
+    disposables.push(showGroup)
+
     const changeCodeLenses = new vscode.EventEmitter<void>()
     disposables.push(changeCodeLenses)
 
@@ -27,9 +33,10 @@ export function createCodeLensProvider(controller: Controller): vscode.CodeLensP
                     if (anns === null) {
                         return []
                     }
-                    return prepareAnnotationsForPresentation<vscode.Range>(anns, makeRange).map(ann =>
-                        createCodeLens(doc, ann, showHover)
+                    const { groups, ungrouped } = groupAnnotations(
+                        prepareAnnotationsForPresentation<vscode.Range>(anns, makeRange)
                     )
+                    return x.map(ann => createCodeLens(doc, ann, showHover, showGroup))
                 })
             )
         },
@@ -48,7 +55,8 @@ export function createCodeLensProvider(controller: Controller): vscode.CodeLensP
 function createCodeLens(
     doc: vscode.TextDocument,
     ann: AnnotationWithAdjustedRange<vscode.Range>,
-    showHover: ReturnType<typeof createShowHoverCommand>
+    showHover: ReturnType<typeof createShowHoverCommand>,
+    showGroup: ReturnType<typeof createShowGroupCommand>
 ): CodeLens {
     // If the presentationHint `show-at-top-of-file` is used, show the code lens at the top of the
     // file, but make it trigger the hover at its actual location.
@@ -72,7 +80,7 @@ function createShowHoverCommand(): {
     createCommandArgs: (uri: vscode.Uri, pos: vscode.Position) => Pick<vscode.Command, 'command' | 'arguments'>
 } & vscode.Disposable {
     const COMMAND_ID = 'opencodegraph._showHover'
-    const disposable = vscode.commands.registerCommand(COMMAND_ID, (uri: vscode.Uri, pos: vscode.Position) => {
+    const disposable = vscode.commands.registerCommand(COMMAND_ID, (uri: vscode.Uri, pos: vscode.Position): void => {
         const editor = vscode.window.activeTextEditor
         if (!editor || editor.document.uri.toString() !== uri.toString()) {
             return
@@ -81,6 +89,27 @@ function createShowHoverCommand(): {
         // eslint-disable-next-line no-void
         void vscode.commands.executeCommand('editor.action.showHover')
     })
+    return {
+        createCommandArgs(uri, pos) {
+            return {
+                command: COMMAND_ID,
+                arguments: [uri, pos],
+            }
+        },
+        dispose() {
+            disposable.dispose()
+        },
+    }
+}
+
+function createShowGroupCommand(): {
+    createCommandArgs: (uri: vscode.Uri, pos: vscode.Position) => Pick<vscode.Command, 'command' | 'arguments'>
+} & vscode.Disposable {
+    const COMMAND_ID = 'opencodegraph._showGroup'
+    const disposable = vscode.commands.registerCommand(
+        COMMAND_ID,
+        (annotations: AnnotationWithAdjustedRange<vscode.Range>[]): void => {}
+    )
     return {
         createCommandArgs(uri, pos) {
             return {

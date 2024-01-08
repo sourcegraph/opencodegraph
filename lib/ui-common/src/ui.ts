@@ -38,7 +38,7 @@ const ZERO_RANGE: Range = { start: { line: 0, character: 0 }, end: { line: 0, ch
  * Group annotations that have the same `ui.group` value.
  */
 export function groupAnnotations(annotations: Annotation[]): {
-    groups: { [group: string]: Annotation[] }
+    groups: [string, Annotation[]][]
     ungrouped: Annotation[]
 } {
     const groups: { [group: string]: Annotation[] } = {}
@@ -68,5 +68,5 @@ export function groupAnnotations(annotations: Annotation[]): {
     }
     const ungrouped = annotations.filter(ann => !ann.ui?.group || !groups[ann.ui.group])
 
-    return { groups, ungrouped }
+    return { groups: Object.entries(groups).toSorted(([a], [b]) => a.localeCompare(b)), ungrouped }
 }

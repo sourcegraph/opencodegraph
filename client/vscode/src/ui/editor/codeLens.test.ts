@@ -161,7 +161,13 @@ describe('createCodeLensProvider', () => {
                 })
             })
             expectObservable(provider.observeCodeLenses(doc)).toBe('a', {
-                a: [{ isResolved: true, range: createRange(1, 0, 1, 0), command: { command: 'noop', title: 'A' } }],
+                a: [
+                    {
+                        isResolved: true,
+                        range: createRange(1, 0, 1, 0),
+                        command: { command: 'opencodegraph._showGroup', title: 'G' },
+                    },
+                ],
             } satisfies Record<string, vscode.CodeLens[] | null>)
         })
     })
