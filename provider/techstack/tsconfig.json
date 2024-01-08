@@ -4,7 +4,7 @@
     "module": "ESNext",
     "rootDir": ".",
     "outDir": "dist",
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
   },
   "include": ["*.ts"],
   "exclude": ["dist", "vitest.config.ts"],

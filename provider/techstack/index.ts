@@ -25,7 +25,10 @@ async function load(filename: string): Promise<TSF> {
     const cpath = new URL(import.meta.url).pathname
     const filePath = path.resolve(path.join(path.dirname(cpath), filename))
 
-    if (Object.prototype.hasOwnProperty.call(global, 'window')) {
+    if (typeof window === 'undefined') {
+        // Server
+        content = await fs.promises.readFile(filePath, 'utf-8')
+    } else {
         // Browser
         const fileUrl = import.meta.resolve(filePath)
         const r: Response = await fetch(fileUrl)
@@ -34,9 +37,6 @@ async function load(filename: string): Promise<TSF> {
             return {} as TSF
         }
         content = await r.text()
-    } else {
-        // Server
-        content = await fs.promises.readFile(filePath, 'utf-8')
     }
     return YAML.parse(content)
 }
