@@ -79,6 +79,7 @@ async function showQuickPick(controller: Controller): Promise<void> {
                 // eslint-disable-next-line @typescript-eslint/no-floating-promises
                 vscode.commands.executeCommand('vscode.open', selectedItem.annotation?.url)
             }
+            quickPick.hide()
             disposeAll()
         })
     )
