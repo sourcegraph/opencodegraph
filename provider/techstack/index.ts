@@ -19,7 +19,7 @@ export interface Settings { yaml: string }
  * @param filename - techstack yml filename
  * @returns parsed yaml object
  */
-async function configuration(filename: string): Promise<TSF> {
+async function load(filename: string): Promise<TSF> {
     const cpath: string = new URL(import.meta.url).pathname
     const fileUrl: string = import.meta.resolve(
         path.resolve(path.join(path.dirname(cpath), filename)))
@@ -44,34 +44,34 @@ const techstack: Provider<Settings> = {
         const regex = /\b(?:import\s*[\w{},\s]+|require\s*\([^)]+\))\s*/g
 
         if (settings.yaml !== null) {
-            const spec = await configuration(settings.yaml)
             const targets = params.content
                 .split(/\r?\n/)
                 .map((line, index) => line.match(regex) ? {[index]: line} : null)
-                .filter(line => line !== null)
-            const pkgs = spec.tools?.filter(t => t.detection_source === 'package.json')
+            const report = await load(settings.yaml)
+            const pkgs = report.tools?.filter(t => t.detection_source === 'package.json')
 
             if (pkgs.length > 0) {
                 targets.forEach((line, index) => {
-                    const target = Object.values(line as object).pop()
-                    const linenum = Object.keys(line as object).pop()
-                    const heading = pkgs.find(p => target.includes(p.name))
-
-                    if (heading !== undefined) {
-                        const item: Item = {
-                            id: linenum?.toString() || '-1',
-                            title: `📖 Techstack: ${heading.sub_category}`
-                        }
-
-                        // Populate results
-                        result.items.push(item)
-                        result.annotations.push({
-                            item: { id: item.id },
-                            range: {
-                                start: { line: index, character: 0 },
-                                end: { line: index, character: 1 }
+                    if (line !== null) {
+                        const target = Object.values(line as object).pop()
+                        const linenum = Object.keys(line as object).pop()
+                        const tool = pkgs.find(p => target.includes(p.name))
+                        if (tool !== undefined) {
+                            const item: Item = {
+                                id: linenum?.toString() || '-1',
+                                title: `📖 Techstack: ${tool.sub_category}`
                             }
-                        })
+
+                            // Populate results
+                            result.items.push(item)
+                            result.annotations.push({
+                                item: { id: item.id },
+                                range: {
+                                    start: { line: index, character: 0 },
+                                    end: { line: index, character: 1 }
+                                }
+                            })
+                        }
                     }
                 })
             }
