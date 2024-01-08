@@ -59,7 +59,8 @@ const techstack: Provider<Settings> = {
                         if (tool !== undefined) {
                             const item: Item = {
                                 id: linenum?.toString() || '-1',
-                                title: `📖 Techstack: ${tool.sub_category}`
+                                title: `📖 Techstack: ${tool.sub_category}`,
+                                url: tool.website_url ?? tool.package_url
                             }
 
                             // Populate results

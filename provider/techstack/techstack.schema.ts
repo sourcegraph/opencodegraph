@@ -8,6 +8,7 @@ export interface Tool {
     category: string,
     sub_category: string,
     image_url: string,
+    package_url: string,
     detection_source: string,
     last_updated_by: string,
     last_updated_on: string
