@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest'
 import type * as vscode from 'vscode'
 import { URI } from 'vscode-uri'
 
@@ -35,3 +36,8 @@ export function createRange(
         },
     } as vscode.Range
 }
+
+describe('dummy', () =>
+    test('dummy', () => {
+        expect(true).toBe(true)
+    }))

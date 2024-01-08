@@ -54,9 +54,6 @@ function createCodeLens(
     // file, but make it trigger the hover at its actual location.
     const attachRange = ann.range ?? new vscode.Range(0, 0, 0, 0)
     const hoverRange = ann.originalRange ?? attachRange
-    if (ann.originalRange) {
-        console.log('XX1')
-    }
     return {
         range: attachRange,
         command: {

@@ -1,4 +1,4 @@
-import { MockedObject, vi } from 'vitest'
+import { describe, expect, MockedObject, test, vi } from 'vitest'
 import { Controller } from './controller'
 
 export function createMockController(): MockedObject<Controller> {
@@ -7,3 +7,8 @@ export function createMockController(): MockedObject<Controller> {
         onDidChangeProviders: vi.fn(),
     }
 }
+
+describe('dummy', () =>
+    test('dummy', () => {
+        expect(true).toBe(true)
+    }))
