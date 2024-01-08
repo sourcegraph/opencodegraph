@@ -1,36 +1,36 @@
-import { type Annotation, type Range } from '@openctx/schema'
+import { type Item, type Range } from '@openctx/schema'
 
-export interface AnnotationWithRichRange<R extends Range> extends Omit<Annotation, 'range'> {
+export interface ItemWithRichRange<R extends Range> extends Omit<Item, 'range'> {
     range?: R
 }
 
-export interface AnnotationWithAdjustedRange<R extends Range> extends AnnotationWithRichRange<R> {
+export interface ItemWithAdjustedRange<R extends Range> extends ItemWithRichRange<R> {
     originalRange?: R
 }
 
 /**
- * Applies presentation hints to annotations.
+ * Applies presentation hints to items.
  */
-export function prepareAnnotationsForPresentation(annotations: Annotation[]): Annotation[]
-export function prepareAnnotationsForPresentation<R extends Range = Range>(
-    annotations: AnnotationWithAdjustedRange<R>[],
+export function prepareItemsForPresentation(items: Item[]): Item[]
+export function prepareItemsForPresentation<R extends Range = Range>(
+    items: ItemWithAdjustedRange<R>[],
     makeRange: (range: Range) => R
-): AnnotationWithAdjustedRange<R>[]
-export function prepareAnnotationsForPresentation<R extends Range = Range>(
-    annotations: AnnotationWithAdjustedRange<R>[],
+): ItemWithAdjustedRange<R>[]
+export function prepareItemsForPresentation<R extends Range = Range>(
+    items: ItemWithAdjustedRange<R>[],
     makeRange?: (range: Range) => R
-): AnnotationWithAdjustedRange<R>[] {
-    return annotations
-        .map(ann => {
-            if (ann.ui?.presentationHints?.includes('show-at-top-of-file')) {
+): ItemWithAdjustedRange<R>[] {
+    return items
+        .map(item => {
+            if (item.ui?.presentationHints?.includes('show-at-top-of-file')) {
                 // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-                ann = {
-                    ...ann,
-                    originalRange: ann.range,
+                item = {
+                    ...item,
+                    originalRange: item.range,
                     range: makeRange ? makeRange(ZERO_RANGE) : ZERO_RANGE,
-                } as AnnotationWithAdjustedRange<R>
+                } as ItemWithAdjustedRange<R>
             }
-            return ann
+            return item
         })
         .toSorted((a, b) => (a.range?.start.line ?? 0) - (b.range?.start.line ?? 0))
 }
@@ -38,32 +38,32 @@ export function prepareAnnotationsForPresentation<R extends Range = Range>(
 const ZERO_RANGE: Range = { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } }
 
 /**
- * Group annotations that have the same `ui.group` value.
+ * Group items that have the same `ui.group` value.
  */
-export function groupAnnotations<A extends Annotation>(
-    annotations: A[]
+export function groupItems<A extends Item>(
+    items: A[]
 ): {
     groups: [string, A[]][]
     ungrouped: A[]
 } {
     const groups: { [group: string]: A[] } = {}
-    for (const ann of annotations) {
-        if (ann.ui?.group) {
-            if (!groups[ann.ui.group]) {
-                groups[ann.ui.group] = []
+    for (const item of items) {
+        if (item.ui?.group) {
+            if (!groups[item.ui.group]) {
+                groups[item.ui.group] = []
             }
-            groups[ann.ui.group].push(ann)
+            groups[item.ui.group].push(item)
         }
     }
-    for (const [group, anns] of Object.entries(groups)) {
-        if (anns.length === 1) {
+    for (const [group, items] of Object.entries(groups)) {
+        if (items.length === 1) {
             delete groups[group]
         }
 
         // Ensure unique on (title, url).
         const seen = new Set<string>()
-        groups[group] = anns.filter(ann => {
-            const key = `${ann.title}:${ann.url}`
+        groups[group] = items.filter(item => {
+            const key = `${item.title}:${item.url}`
             if (seen.has(key)) {
                 return false
             }
@@ -71,7 +71,7 @@ export function groupAnnotations<A extends Annotation>(
             return true
         })
     }
-    const ungrouped = annotations.filter(ann => !ann.ui?.group || !groups[ann.ui.group])
+    const ungrouped = items.filter(item => !item.ui?.group || !groups[item.ui.group])
 
     return { groups: Object.entries(groups).toSorted(([a], [b]) => a.localeCompare(b)), ungrouped }
 }

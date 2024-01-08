@@ -1,4 +1,4 @@
-import { type Annotation } from '@openctx/client'
+import { type Item } from '@openctx/client'
 import { firstValueFrom } from 'rxjs'
 import type * as vscode from 'vscode'
 import { type Controller } from './controller'
@@ -12,9 +12,9 @@ export interface ExtensionApi {
      */
     apiVersion(version: 1): {
         /**
-         * Get OpenCtx annotations for the document.
+         * Get OpenCtx items for the document.
          */
-        getAnnotations(doc: Pick<vscode.TextDocument, 'uri' | 'getText'>): Promise<Annotation<vscode.Range>[] | null>
+        getItems(doc: Pick<vscode.TextDocument, 'uri' | 'getText'>): Promise<Item<vscode.Range>[] | null>
     }
 }
 
@@ -25,7 +25,7 @@ export function createApi(controller: Controller): ExtensionApi {
                 throw new Error(`unsupported OpenCtx extension API version: ${version}`)
             }
             return {
-                getAnnotations: doc => firstValueFrom(controller.observeAnnotations(doc), { defaultValue: null }),
+                getItems: doc => firstValueFrom(controller.observeItems(doc), { defaultValue: null }),
             }
         },
     }

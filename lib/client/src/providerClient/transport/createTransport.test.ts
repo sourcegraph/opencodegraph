@@ -45,7 +45,7 @@ describe('createTransport', () => {
                     return Promise.resolve({
                         default: {
                             capabilities: () => ({ selector: [{ path: 'asdf' }] }),
-                            annotations: () => [],
+                            items: () => [],
                         },
                     })
                 },
@@ -60,7 +60,7 @@ describe('createTransport', () => {
                     return Promise.resolve({
                         default: {
                             capabilities: () => ({ selector: [{ path: 'asdf' }] }),
-                            annotations: () => [],
+                            items: () => [],
                         },
                     })
                 },
@@ -80,7 +80,7 @@ describe('createTransport', () => {
                         exports: {
                             default: {
                                 capabilities: () => ({ selector: [{ path: 'asdf' }] }),
-                                annotations: () => [],
+                                items: () => [],
                             },
                         },
                     })

@@ -4,7 +4,7 @@ This is a context provider for [OpenCtx](https://openctx.org) that lets you hove
 
 ## Screenshot
 
-![Screenshot of OpenCtx Prometheus annotations in a GitHub PR](https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-github-pr-prometheus-browser-v1.png)
+![Screenshot of OpenCtx Prometheus items in a GitHub PR](https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-github-pr-prometheus-browser-v1.png)
 
 _Hover over a Prometheus metric registration in a GitHub PR to see what it's doing in prod_
 

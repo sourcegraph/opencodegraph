@@ -1,4 +1,4 @@
-import { type AnnotationsParams, type ProviderSettings } from '@openctx/protocol'
+import { type ItemsParams, type ProviderSettings } from '@openctx/protocol'
 import { type Provider } from '@openctx/provider'
 import { type Range } from '@openctx/schema'
 import { LRUCache } from 'lru-cache'
@@ -16,7 +16,7 @@ import {
     type ObservableInput,
     type Unsubscribable,
 } from 'rxjs'
-import { observeAnnotations, type Annotation, type ObservableProviderClient } from '../api'
+import { observeItems, type Item, type ObservableProviderClient } from '../api'
 import { configurationFromUserInput, type Configuration, type ConfigurationUserInput } from '../configuration'
 import { type Logger } from '../logger'
 import { createProviderClient, type ProviderClient } from '../providerClient/createProviderClient'
@@ -91,30 +91,30 @@ export interface AuthInfo {
 
 /**
  * An OpenCtx client, used by client applications (such as editors, code browsers, etc.) to
- * manage OpenCtx providers and annotations.
+ * manage OpenCtx providers and items.
  *
  * @template R The type to use for ranges (such as `vscode.Range` for VS Code extensions).
  */
 export interface Client<R extends Range> {
     /**
-     * Get the annotations returned by the configured providers for the given file.
+     * Get the items returned by the configured providers for the given file.
      *
-     * It is called `firstAnnotations` because it only returns the first annotations returned by
+     * It is called `firstItems` because it only returns the first items returned by
      * each provider. It does not continue to listen for changes, as
-     * {@link Client.annotationsChanges} does. Using {@link Client.annotations} is simpler and
+     * {@link Client.itemsChanges} does. Using {@link Client.items} is simpler and
      * does not require use of observables (with a library like RxJS), but it means that the client
-     * needs to manually poll for updated annotations if freshness is important.
+     * needs to manually poll for updated items if freshness is important.
      */
-    annotations(params: AnnotationsParams): Promise<Annotation<R>[]>
+    items(params: ItemsParams): Promise<Item<R>[]>
 
     /**
-     * Observe OpenCtx annotations from the configured providers for the given file.
+     * Observe OpenCtx items from the configured providers for the given file.
      *
-     * The returned observable streams annotations as they are received from the providers and
+     * The returned observable streams items as they are received from the providers and
      * continues passing along any updates until unsubscribed.
      */
-    annotationsChanges(
-        params: AnnotationsParams,
+    itemsChanges(
+        params: ItemsParams,
         options?: {
             /**
              * Emit partial results immediately. If `false`, wait for all providers to return an initial
@@ -125,7 +125,7 @@ export interface Client<R extends Range> {
              */
             emitPartial?: boolean
         }
-    ): Observable<Annotation<R>[]>
+    ): Observable<Item<R>[]>
 
     /**
      * Dispose of the client and release all resources.
@@ -160,10 +160,10 @@ export function createClient<R extends Range>(env: ClientEnv<R>): Client<R> {
             .catch(() => {})
     }
 
-    const annotationsChanges: Client<R>['annotationsChanges'] = (
-        params: AnnotationsParams,
+    const itemsChanges: Client<R>['itemsChanges'] = (
+        params: ItemsParams,
         { emitPartial = true } = { emitPartial: true }
-    ): Observable<Annotation<R>[]> => {
+    ): Observable<Item<R>[]> => {
         const configuration: Observable<Configuration> = from(env.configuration(params.file)).pipe(
             map(config => {
                 if (!config.enable) {
@@ -214,7 +214,7 @@ export function createClient<R extends Range>(env: ClientEnv<R>): Client<R> {
             )
         )
 
-        return observeAnnotations(providerClientsWithSettings, params, {
+        return observeItems(providerClientsWithSettings, params, {
             logger: env.logger,
             makeRange: env.makeRange,
             emitPartial,
@@ -222,10 +222,10 @@ export function createClient<R extends Range>(env: ClientEnv<R>): Client<R> {
     }
 
     return {
-        annotations(params) {
-            return firstValueFrom(annotationsChanges(params, { emitPartial: false }))
+        items(params) {
+            return firstValueFrom(itemsChanges(params, { emitPartial: false }))
         },
-        annotationsChanges,
+        itemsChanges,
         dispose() {
             for (const sub of subscriptions) {
                 sub.unsubscribe()

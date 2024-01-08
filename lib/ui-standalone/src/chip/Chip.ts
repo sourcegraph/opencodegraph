@@ -1,30 +1,30 @@
-import { type Annotation } from '@openctx/schema'
+import { type Item } from '@openctx/schema'
 import { createBaseChip } from './BaseChip'
 import styles from './Chip.module.css'
 
 /**
- * A single OpenCtx annotation, displayed as a "chip".
+ * A single OpenCtx item, displayed as a "chip".
  */
 export function createChip({
-    annotation,
+    item,
     className,
     popoverClassName,
 }: {
-    annotation: Annotation
+    item: Item
     className?: string
     popoverClassName?: string
 }): HTMLElement {
     let popover: HTMLElement | undefined
-    if (annotation.ui?.detail) {
+    if (item.ui?.detail) {
         const detailEl = document.createElement('p')
         detailEl.className = styles.detail
-        detailEl.innerText = annotation.ui?.detail
+        detailEl.innerText = item.ui?.detail
         popover = detailEl
     }
 
     return createBaseChip({
-        title: annotation.title,
-        url: annotation.url,
+        title: item.title,
+        url: item.url,
         className,
         popover,
         popoverClassName,

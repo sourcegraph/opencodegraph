@@ -1,5 +1,5 @@
-import { type AnnotationsParams, type AnnotationsResult, type ProviderSettings } from '@openctx/protocol'
-import { type Annotation as AnnotationWithPlainRange, type Range } from '@openctx/schema'
+import { type ItemsParams, type ItemsResult, type ProviderSettings } from '@openctx/protocol'
+import { type Item as ItemWithPlainRange, type Range } from '@openctx/schema'
 import {
     catchError,
     combineLatest,
@@ -17,15 +17,15 @@ import { type ClientEnv } from './client/client'
 import { type ProviderClient } from './providerClient/createProviderClient'
 
 /**
- * An OpenCtx annotation.
+ * An OpenCtx item.
  */
-export interface Annotation<R extends Range = Range> extends Omit<AnnotationWithPlainRange, 'range'> {
+export interface Item<R extends Range = Range> extends Omit<ItemWithPlainRange, 'range'> {
     range?: R | undefined
 }
 
 /**
  * Like {@link ProviderClient}, but the provider methods return {@link Observable} values instead of
- * just {@link Promise} values. This makes it easier to test {@link observeAnnotations}.
+ * just {@link Promise} values. This makes it easier to test {@link observeItems}.
  */
 export type ObservableProviderClient = {
     [M in keyof ProviderClient]: (
@@ -39,22 +39,22 @@ export interface ProviderClientWithSettings {
 }
 
 /**
- * Observes OpenCtx annotations from the configured providers.
+ * Observes OpenCtx items from the configured providers.
  */
-export function observeAnnotations<R extends Range>(
+export function observeItems<R extends Range>(
     providerClients: Observable<ProviderClientWithSettings[]>,
-    params: AnnotationsParams,
+    params: ItemsParams,
     { emitPartial, logger, makeRange }: Pick<ClientEnv<R>, 'logger' | 'makeRange'> & { emitPartial?: boolean }
-): Observable<Annotation<R>[]> {
+): Observable<Item<R>[]> {
     return providerClients.pipe(
         mergeMap(providerClients =>
             providerClients && providerClients.length > 0
                 ? combineLatest(
                       providerClients.map(({ providerClient, settings }) =>
-                          defer(() => from(providerClient.annotations(params, settings))).pipe(
+                          defer(() => from(providerClient.items(params, settings))).pipe(
                               emitPartial ? startWith(null) : tap(),
                               catchError(error => {
-                                  logger?.(`failed to get annotations: ${error}`)
+                                  logger?.(`failed to get items: ${error}`)
                                   console.error(error)
                                   return of(null)
                               })
@@ -63,10 +63,10 @@ export function observeAnnotations<R extends Range>(
                   )
                 : of([])
         ),
-        map(result => result.filter((v): v is AnnotationsResult => v !== null).flat()),
-        map(anns =>
-            anns
-                .map(ann => ({ ...ann, range: ann.range ? makeRange(ann.range) : undefined }))
+        map(result => result.filter((v): v is ItemsResult => v !== null).flat()),
+        map(items =>
+            items
+                .map(item => ({ ...item, range: item.range ? makeRange(item.range) : undefined }))
                 .sort((a, b) => {
                     const lineCmp = (a.range?.start.line ?? 0) - (b.range?.start.line ?? 0)
                     if (lineCmp !== 0) {
@@ -75,12 +75,12 @@ export function observeAnnotations<R extends Range>(
                     return (a.range?.start.character ?? 0) - (b.range?.start.character ?? 0)
                 })
         ),
-        tap(anns => {
-            if (LOG_ANNOTATIONS) {
-                logger?.(`got ${anns.length} annotations: ${JSON.stringify(anns)}`)
+        tap(items => {
+            if (LOG_VERBOSE) {
+                logger?.(`got ${items.length} items: ${JSON.stringify(items)}`)
             }
         })
     )
 }
 
-const LOG_ANNOTATIONS = true
+const LOG_VERBOSE = true

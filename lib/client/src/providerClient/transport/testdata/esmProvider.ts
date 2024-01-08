@@ -2,7 +2,7 @@ import { Provider } from '@openctx/provider'
 
 const provider: Provider = {
     capabilities: () => ({ selector: [{ path: 'foo' }] }),
-    annotations: () => [],
+    items: () => [],
 }
 
 export default provider

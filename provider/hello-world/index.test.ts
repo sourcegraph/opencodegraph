@@ -1,20 +1,20 @@
-import { type AnnotationsResult, type CapabilitiesResult } from '@openctx/provider'
+import { type ItemsResult, type CapabilitiesResult } from '@openctx/provider'
 import { describe, expect, test } from 'vitest'
 import helloWorld from './index'
 
 describe('helloWorld', () => {
     test('capabilities', () => expect(helloWorld.capabilities({}, {})).toStrictEqual<CapabilitiesResult>({}))
 
-    test('annotations', () =>
+    test('items', () =>
         expect(
-            helloWorld.annotations(
+            helloWorld.items(
                 {
                     file: 'file:///a',
                     content: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'].join('\n'),
                 },
                 {}
             )
-        ).toStrictEqual<AnnotationsResult>([
+        ).toStrictEqual<ItemsResult>([
             {
                 title: '✨ Hello, world!',
                 url: 'https://openctx.org',

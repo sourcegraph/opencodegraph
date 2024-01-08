@@ -1,5 +1,5 @@
-import { type Annotation } from '@openctx/schema'
-import { groupAnnotations } from '@openctx/ui-common'
+import { type Item } from '@openctx/schema'
+import { groupItems } from '@openctx/ui-common'
 import clsx from 'clsx'
 import { type FunctionComponent } from 'react'
 import { Chip } from './Chip'
@@ -7,32 +7,32 @@ import { ChipGroup } from './ChipGroup'
 import styles from './ChipList.module.css'
 
 /**
- * A list of OpenCtx annotations (displayed as "chips").
+ * A list of OpenCtx items (displayed as "chips").
  *
- * If multiple annotations share a `ui.group` value, then the annotations will be grouped.
+ * If multiple items share a `ui.group` value, then the items will be grouped.
  */
 export const ChipList: FunctionComponent<{
-    annotations: Annotation[]
+    items: Item[]
     className?: string
     chipClassName?: string
     popoverClassName?: string
-}> = ({ annotations, className, chipClassName, popoverClassName }) => {
-    const { groups, ungrouped } = groupAnnotations(annotations)
+}> = ({ items, className, chipClassName, popoverClassName }) => {
+    const { groups, ungrouped } = groupItems(items)
     return (
         <div className={clsx(styles.list, className)}>
-            {groups.map(([group, anns]) => (
+            {groups.map(([group, items]) => (
                 <ChipGroup
                     key={`g:${group}`}
                     group={group}
-                    annotations={anns}
+                    items={items}
                     className={chipClassName}
                     popoverClassName={popoverClassName}
                 />
             ))}
-            {ungrouped.map((annotation, i) => (
+            {ungrouped.map((item, i) => (
                 <Chip
-                    key={`u:${annotation.url ?? i}`}
-                    annotation={annotation}
+                    key={`u:${item.url ?? i}`}
+                    item={item}
                     className={chipClassName}
                     popoverClassName={popoverClassName}
                 />

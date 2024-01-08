@@ -91,7 +91,7 @@ const settings = {
 export const INITIAL_SETTINGS = JSON.stringify(settings, null, 2)
 
 /**
- * Preload resources that show up in the sample hovers for the annotations above so they are faster.
+ * Preload resources that show up in the sample hovers for the items above so they are faster.
  */
 export const PRELOAD_RESOURCES: { url: string; as: 'document' | 'image' | 'script' }[] = [
     {

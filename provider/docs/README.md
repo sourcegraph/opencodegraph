@@ -4,7 +4,7 @@ This is a context provider for [OpenCtx](https://openctx.org) that adds contextu
 
 ## Screenshot
 
-![Screenshot of OpenCtx docs annotations](<TODO(sqs)>)
+![Screenshot of OpenCtx docs items](<TODO(sqs)>)
 
 _TODO(sqs)_
 

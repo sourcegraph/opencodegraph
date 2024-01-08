@@ -22,13 +22,13 @@ _Status: alpha_
           "https://openctx.org/npm/@openctx/provider-hello-world": true,
       },
       ```
-1. Open a code file and look for the "Hello World" annotations from OpenCtx.
+1. Open a code file and look for the "Hello World" items from OpenCtx.
 1. Add other OpenCtx providers to see more contextual info about your code:
    - [Links](https://openctx.org/docs/providers/links)
    - [Storybook](https://openctx.org/docs/providers/storybook)
    - [Prometheus](https://openctx.org/docs/providers/prometheus)
    - For more and to write your own, see "[OpenCtx docs](https://openctx.org/docs/start)".
-1. _(Optional)_ Add Sourcegraph as an OpenCtx provider in VS Code to get the same annotations in your editor as you get in Sourcegraph:
+1. _(Optional)_ Add Sourcegraph as an OpenCtx provider in VS Code to get the same items in your editor as you get in Sourcegraph:
 
     ```json
     "openctx.providers": {

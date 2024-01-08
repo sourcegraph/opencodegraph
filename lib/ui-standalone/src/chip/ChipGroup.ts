@@ -1,45 +1,45 @@
-import { type Annotation } from '@openctx/schema'
+import { type Item } from '@openctx/schema'
 import { createBaseChip } from './BaseChip'
 import styles from './ChipGroup.module.css'
 
 export function createChipGroup({
     group,
-    annotations,
+    items,
     className,
     popoverClassName,
 }: {
     group: string
-    annotations: Annotation[]
+    items: Item[]
     className?: string
     popoverClassName?: string
 }): HTMLElement {
-    return createBaseChip({ title: group, className, popover: createChipList(annotations), popoverClassName })
+    return createBaseChip({ title: group, className, popover: createChipList(items), popoverClassName })
 }
 
-function createChipList(annotations: Annotation[]): HTMLElement {
+function createChipList(items: Item[]): HTMLElement {
     const el = document.createElement('ul')
     el.className = styles.list
-    for (const ann of annotations) {
-        el.append(createChipListItem(ann))
+    for (const item of items) {
+        el.append(createChipListItem(item))
     }
     return el
 }
 
-function createChipListItem(annotation: Annotation): HTMLElement {
+function createChipListItem(item: Item): HTMLElement {
     const el = document.createElement('li')
     el.tabIndex = -1
 
-    if (annotation.url) {
+    if (item.url) {
         const linkEl = document.createElement('a')
-        linkEl.title = annotation.ui?.detail ?? ''
-        linkEl.href = annotation.url
+        linkEl.title = item.ui?.detail ?? ''
+        linkEl.href = item.url
         linkEl.className = styles.listItemLink
-        linkEl.innerText = annotation.title
+        linkEl.innerText = item.title
         el.append(linkEl)
     } else {
         const spanEl = document.createElement('span')
-        spanEl.title = annotation.ui?.detail ?? ''
-        spanEl.innerText = annotation.title
+        spanEl.title = item.ui?.detail ?? ''
+        spanEl.innerText = item.title
         el.append(spanEl)
     }
 

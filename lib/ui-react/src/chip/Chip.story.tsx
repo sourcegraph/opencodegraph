@@ -1,8 +1,8 @@
-import type { Annotation } from '@openctx/schema'
+import type { Item } from '@openctx/schema'
 import { type Meta, type StoryObj } from '@storybook/react'
 import { Chip } from './Chip'
 
-const FIXTURE_ANN: Annotation = {
+const FIXTURE_ITEM: Item = {
     title: '📘 Docs: CSS in client/web',
 }
 
@@ -20,30 +20,30 @@ type Story = StoryObj<typeof Chip>
 
 export const Text: Story = {
     args: {
-        annotation: { ...FIXTURE_ANN } satisfies Annotation,
+        item: { ...FIXTURE_ITEM } satisfies Item,
     },
 }
 
 export const Link: Story = {
     args: {
-        annotation: { ...FIXTURE_ANN, url: 'https://example.com' } satisfies Annotation,
+        item: { ...FIXTURE_ITEM, url: 'https://example.com' } satisfies Item,
     },
 }
 
 export const Detail: Story = {
     args: {
-        annotation: { ...FIXTURE_ANN, ui: { detail: 'View doc page' } } satisfies Annotation,
+        item: { ...FIXTURE_ITEM, ui: { detail: 'View doc page' } } satisfies Item,
     },
 }
 
 export const Image: Story = {
     args: {
-        annotation: {
-            ...FIXTURE_ANN,
+        item: {
+            ...FIXTURE_ITEM,
             ui: {
                 detail: '<img src="https://lh3.googleusercontent.com/d_S5gxu_S1P6NR1gXeMthZeBzkrQMHdI5uvXrpn3nfJuXpCjlqhLQKH_hbOxTHxFhp5WugVOEcl4WDrv9rmKBDOMExhKU5KmmLFQVg" width=512 height=300 />',
                 format: 'markdown',
             },
-        } satisfies Annotation,
+        } satisfies Item,
     },
 }

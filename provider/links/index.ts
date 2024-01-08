@@ -1,7 +1,7 @@
 import {
     matchGlob,
-    type AnnotationsParams,
-    type AnnotationsResult,
+    type ItemsParams,
+    type ItemsResult,
     type CapabilitiesParams,
     type CapabilitiesResult,
     type Provider,
@@ -66,7 +66,7 @@ const links: Provider<Settings> = {
         return { selector: settings.links?.map(({ path }) => ({ path })) || [] }
     },
 
-    annotations(params: AnnotationsParams, settings: Settings): AnnotationsResult {
+    items(params: ItemsParams, settings: Settings): ItemsResult {
         const compiledPatterns:
             | (Pick<LinkPattern, 'title' | 'url' | 'description' | 'type'> & {
                   pattern?: RegExp
@@ -79,7 +79,7 @@ const links: Provider<Settings> = {
         }))
 
         const lines = params.content.split(/\r?\n/)
-        const anns: AnnotationsResult = []
+        const items: ItemsResult = []
         for (const { title, url, description, type, matchPath, pattern } of compiledPatterns || []) {
             if (!matchPath(new URL(params.file).pathname)) {
                 continue
@@ -87,7 +87,7 @@ const links: Provider<Settings> = {
 
             const ranges = matchResults(pattern, lines)
             for (const { range, groups } of ranges) {
-                anns.push({
+                items.push({
                     title: `${type === 'docs' ? '📘 Docs: ' : ''}${interpolate(title, groups)}`,
                     url: interpolate(url, groups),
                     ui: description ? { detail: interpolate(description, groups), format: 'markdown' } : undefined,
@@ -96,7 +96,7 @@ const links: Provider<Settings> = {
             }
         }
 
-        return anns
+        return items
     },
 }
 

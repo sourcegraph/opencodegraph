@@ -1,4 +1,4 @@
-import { type Annotation } from '@openctx/client'
+import { type Item } from '@openctx/client'
 import { firstValueFrom, map } from 'rxjs'
 import * as vscode from 'vscode'
 import { type Controller } from '../../controller'
@@ -7,10 +7,10 @@ export function createHoverProvider(controller: Controller): vscode.HoverProvide
     return {
         async provideHover(doc, pos): Promise<vscode.Hover | null> {
             return firstValueFrom(
-                controller.observeAnnotations(doc).pipe(
-                    map(anns => {
-                        const containedByAnns = anns?.filter(ann => (ann.range ?? ZERO_RANGE).contains(pos))
-                        return containedByAnns && containedByAnns.length > 0 ? createHover(containedByAnns) : null
+                controller.observeItems(doc).pipe(
+                    map(items => {
+                        const containedByItems = items?.filter(item => (item.range ?? ZERO_RANGE).contains(pos))
+                        return containedByItems && containedByItems.length > 0 ? createHover(containedByItems) : null
                     })
                 )
             )
@@ -23,28 +23,28 @@ export function createHoverProvider(controller: Controller): vscode.HoverProvide
 
 const ZERO_RANGE = new vscode.Range(0, 0, 0, 0)
 
-function createHover(anns: Annotation<vscode.Range>[]): vscode.Hover {
+function createHover(items: Item<vscode.Range>[]): vscode.Hover {
     const contents: vscode.Hover['contents'] = []
-    for (const ann of anns) {
+    for (const item of items) {
         const content = new vscode.MarkdownString()
         content.supportHtml = true
 
         // Render title in bold.
         content.appendMarkdown('**')
-        content.appendText(ann.title)
+        content.appendText(item.title)
         content.appendMarkdown('**')
 
-        if (ann.ui?.detail) {
+        if (item.ui?.detail) {
             content.appendMarkdown('\n\n')
-            if (ann.ui.format === 'markdown') {
-                content.appendMarkdown(ann.ui.detail)
+            if (item.ui.format === 'markdown') {
+                content.appendMarkdown(item.ui.detail)
             } else {
-                content.appendText(ann.ui.detail)
+                content.appendText(item.ui.detail)
             }
         }
-        if (ann.url) {
+        if (item.url) {
             content.appendMarkdown('\n\n')
-            content.appendMarkdown(`[Open in browser...](${ann.url})`)
+            content.appendMarkdown(`[Open in browser...](${item.url})`)
         }
 
         contents.push(content)
@@ -52,6 +52,6 @@ function createHover(anns: Annotation<vscode.Range>[]): vscode.Hover {
 
     return {
         contents,
-        range: anns[0].range, // TODO(sqs): use smallest overlapping range
+        range: items[0].range, // TODO(sqs): use smallest overlapping range
     }
 }

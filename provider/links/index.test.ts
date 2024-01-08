@@ -1,4 +1,4 @@
-import { type AnnotationsResult, type CapabilitiesResult } from '@openctx/provider'
+import { type ItemsResult, type CapabilitiesResult } from '@openctx/provider'
 import { describe, expect, test } from 'vitest'
 import links, { type Settings } from './index'
 
@@ -22,16 +22,16 @@ describe('links', () => {
         })
     })
 
-    test('annotations', () => {
+    test('items', () => {
         expect(
-            links.annotations(
+            links.items(
                 {
                     file: 'file:///a/b.ts',
                     content: '0foo0\nbar\nbaz\n1foo1',
                 },
                 SETTINGS
             )
-        ).toEqual<AnnotationsResult>([
+        ).toEqual<ItemsResult>([
             {
                 title: '📘 Docs: Foo',
                 url: 'https://example.com/foo',
@@ -64,8 +64,8 @@ describe('links', () => {
             ],
         }
         expect(
-            links.annotations({ file: 'file:///a/b.ts', content: 'log.Print(foo, b/a+r)' }, settingsWithCaptureGroups)
-        ).toEqual<AnnotationsResult>([
+            links.items({ file: 'file:///a/b.ts', content: 'log.Print(foo, b/a+r)' }, settingsWithCaptureGroups)
+        ).toEqual<ItemsResult>([
             {
                 title: 'Print foo $3 b/a+r',
                 url: 'https://example.com/search?q=b%2Fa%2Br',

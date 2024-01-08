@@ -1,4 +1,4 @@
-import { type AnnotationsParams, type Selector } from '@openctx/protocol'
+import { type ItemsParams, type Selector } from '@openctx/protocol'
 //
 // Import from a subpackage because the main module calls `os.platform()`, which doesn't work on
 // non-Node engines.
@@ -8,7 +8,7 @@ import match from 'picomatch/lib/picomatch'
  * Creates a function that matches the request parameters against the selector. See {@link Selector}
  * docs for the selector specification.
  */
-export function matchSelectors(selectors: Selector[] | undefined): (params: AnnotationsParams) => boolean {
+export function matchSelectors(selectors: Selector[] | undefined): (params: ItemsParams) => boolean {
     if (selectors === undefined) {
         return ALWAYS_TRUE
     }

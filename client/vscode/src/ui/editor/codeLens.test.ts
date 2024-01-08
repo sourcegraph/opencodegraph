@@ -1,4 +1,4 @@
-import { type Annotation } from '@openctx/client'
+import { type Item } from '@openctx/client'
 import { TestScheduler } from 'rxjs/testing'
 import { describe, expect, test, vi, type MockedObject } from 'vitest'
 import type * as vscode from 'vscode'
@@ -34,7 +34,7 @@ vi.mock(
         }) satisfies RecursivePartial<typeof vscode>
 )
 
-function fixtureResult(label: string): Annotation<vscode.Range> {
+function fixtureResult(label: string): Item<vscode.Range> {
     return {
         title: label.toUpperCase(),
         range: createRange(0, 0, 0, 1),
@@ -57,9 +57,9 @@ describe('createCodeLensProvider', () => {
         const { controller, provider } = createTestProvider()
         const doc = mockTextDocument()
         testScheduler().run(({ cold, expectObservable }): void => {
-            controller.observeAnnotations.mockImplementation(doc => {
+            controller.observeItems.mockImplementation(doc => {
                 expect(doc).toBe(doc)
-                return cold<Annotation<vscode.Range>[] | null>('a', { a: [fixtureResult('a')] })
+                return cold<Item<vscode.Range>[] | null>('a', { a: [fixtureResult('a')] })
             })
             expectObservable(provider.observeCodeLenses(doc)).toBe('a', {
                 a: [{ isResolved: true, range: createRange(0, 0, 0, 1), command: { title: 'A', command: 'noop' } }],
@@ -71,8 +71,8 @@ describe('createCodeLensProvider', () => {
         const { controller, provider } = createTestProvider()
         const doc = mockTextDocument()
         testScheduler().run(({ cold, expectObservable }): void => {
-            controller.observeAnnotations.mockImplementation(doc =>
-                cold<Annotation<vscode.Range>[] | null>('a', { a: [{ title: 'A', ui: { detail: 'D' } }] })
+            controller.observeItems.mockImplementation(doc =>
+                cold<Item<vscode.Range>[] | null>('a', { a: [{ title: 'A', ui: { detail: 'D' } }] })
             )
             expectObservable(provider.observeCodeLenses(doc)).toBe('a', {
                 a: [
@@ -94,8 +94,8 @@ describe('createCodeLensProvider', () => {
         const { controller, provider } = createTestProvider()
         const doc = mockTextDocument()
         testScheduler().run(({ cold, expectObservable }): void => {
-            controller.observeAnnotations.mockImplementation(doc =>
-                cold<Annotation<vscode.Range>[] | null>('a', {
+            controller.observeItems.mockImplementation(doc =>
+                cold<Item<vscode.Range>[] | null>('a', {
                     a: [
                         {
                             title: 'A',
@@ -125,8 +125,8 @@ describe('createCodeLensProvider', () => {
         const { controller, provider } = createTestProvider()
         const doc = mockTextDocument()
         testScheduler().run(({ cold, expectObservable }): void => {
-            controller.observeAnnotations.mockImplementation(doc =>
-                cold<Annotation<vscode.Range>[] | null>('a', {
+            controller.observeItems.mockImplementation(doc =>
+                cold<Item<vscode.Range>[] | null>('a', {
                     a: [
                         {
                             title: 'A',
@@ -155,15 +155,15 @@ describe('createCodeLensProvider', () => {
     test('grouped', () => {
         const { controller, provider } = createTestProvider()
         const doc = mockTextDocument()
-        const FIXTURE_ANNS: Annotation<vscode.Range>[] = [
+        const FIXTURE_ITEMS: Item<vscode.Range>[] = [
             { title: 'A', range: createRange(1, 0, 1, 0), ui: { group: 'G' } },
             { title: 'B', range: createRange(1, 0, 1, 0), ui: { group: 'G' } },
         ]
         testScheduler().run(({ cold, expectObservable }): void => {
-            controller.observeAnnotations.mockImplementation(doc => {
+            controller.observeItems.mockImplementation(doc => {
                 expect(doc).toBe(doc)
-                return cold<Annotation<vscode.Range>[] | null>('a', {
-                    a: FIXTURE_ANNS,
+                return cold<Item<vscode.Range>[] | null>('a', {
+                    a: FIXTURE_ITEMS,
                 })
             })
             expectObservable(provider.observeCodeLenses(doc)).toBe('a', {
@@ -171,7 +171,7 @@ describe('createCodeLensProvider', () => {
                     {
                         isResolved: true,
                         range: createRange(1, 0, 1, 0),
-                        command: { title: 'G', command: 'openctx._showGroup', arguments: ['G', FIXTURE_ANNS] },
+                        command: { title: 'G', command: 'openctx._showGroup', arguments: ['G', FIXTURE_ITEMS] },
                     },
                 ],
             } satisfies Record<string, vscode.CodeLens[] | null>)

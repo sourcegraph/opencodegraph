@@ -5,24 +5,24 @@ export const info = {
 
 # Concepts
 
-## Annotations
+## Items
 
-An annotation is some information that is relevant to parts of a code file, such as:
+An item is some information that is relevant to parts of a code file, such as:
 
 - A link to an internal wiki page with documentation about a package
 - A link to live logs being printed by a logging statement
 - A design mockup (image) showing how a UI component should appear
 - A user analytics chart showing how often a certain UI button is pressed
 
-The annotation describes how to present the information to the user and exposes raw information to code AI tools.
+The item describes how to present the information to the user and exposes raw information to code AI tools.
 
-See the [protocol documentation](protocol.mdx) for the schema of annotations.
+See the [protocol documentation](protocol.mdx) for the schema of items.
 
 ## Providers
 
-A provider returns annotations for a code file.
+A provider returns items for a code file.
 
-A provider is just a program that implements the [provider API](protocol.mdx#provider-api), which is basically: "given a file, return a list of annotations (for ranges in the file)".
+A provider is just a program that implements the [provider API](protocol.mdx#provider-api), which is basically: "given a file, return a list of items (for ranges in the file)".
 
 Although there is no formal distinction between different kinds of providers, most providers will fit into one of these categories:
 
@@ -66,8 +66,8 @@ Will OpenCtx providers be super lightweight presentation-layer programs that hit
 
 ### Recording additional metadata
 
-How should annotations record other kinds of metadata to make it searchable and exportable? For example, the Storybook provider could add `{"storybook": true}` metadata in an annotation on all storybook files, which would make it possible to identify all storybook files in a code search application.
+How should items record other kinds of metadata to make it searchable and exportable? For example, the Storybook provider could add `{"storybook": true}` metadata in an item on all storybook files, which would make it possible to identify all storybook files in a code search application.
 
 ### Multiple resolution passes
 
-Should annotations initially be returned with minimal information that can be quickly produced, and then resolved to provide additional detail (such as when the user interacts with the chip)?
+Should items initially be returned with minimal information that can be quickly produced, and then resolved to provide additional detail (such as when the user interacts with the chip)?

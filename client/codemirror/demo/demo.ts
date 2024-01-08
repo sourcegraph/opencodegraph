@@ -26,25 +26,25 @@ const client = createClient({
 
 const CONTENT = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(n => `console.log("Hello, world #${n}");`).join('\n')
 
-const annotations = await client.annotations({ file: 'file:///foo.js', content: CONTENT })
+const items = await client.items({ file: 'file:///foo.js', content: CONTENT })
 
 const octxExtension: Extension = [
-    openCtxData(annotations),
+    openCtxData(items),
     showOpenCtxDecorations({
         visibility: true,
-        createDecoration(container, { annotations }) {
+        createDecoration(container, { items }) {
             const div = document.createElement('div')
             div.style.display = 'flex'
             div.style.gap = '1rem'
 
-            for (const ann of annotations) {
-                const el = document.createElement(ann.url ? 'a' : 'span')
-                el.innerText = ann.title
-                if (ann.ui?.detail) {
-                    el.title = ann.ui?.detail
+            for (const item of items) {
+                const el = document.createElement(item.url ? 'a' : 'span')
+                el.innerText = item.title
+                if (item.ui?.detail) {
+                    el.title = item.ui?.detail
                 }
-                if (ann.url && el instanceof HTMLAnchorElement) {
-                    el.href = ann.url
+                if (item.url && el instanceof HTMLAnchorElement) {
+                    el.href = item.url
                     el.style.textDecoration = 'none'
                     el.style.fontFamily = 'system-ui, sans-serif'
                     el.style.backgroundColor = '#ffffff22'

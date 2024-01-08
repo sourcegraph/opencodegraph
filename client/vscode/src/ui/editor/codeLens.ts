@@ -1,8 +1,4 @@
-import {
-    groupAnnotations,
-    prepareAnnotationsForPresentation,
-    type AnnotationWithAdjustedRange,
-} from '@openctx/ui-common'
+import { groupItems, prepareItemsForPresentation, type ItemWithAdjustedRange } from '@openctx/ui-common'
 import { firstValueFrom, map, type Observable } from 'rxjs'
 import * as vscode from 'vscode'
 import { makeRange, type Controller } from '../../controller'
@@ -28,17 +24,17 @@ export function createCodeLensProvider(controller: Controller): vscode.CodeLensP
     const provider = {
         onDidChangeCodeLenses: changeCodeLenses.event,
         observeCodeLenses(doc: vscode.TextDocument): Observable<CodeLens[]> {
-            return controller.observeAnnotations(doc).pipe(
-                map(anns => {
-                    if (anns === null) {
+            return controller.observeItems(doc).pipe(
+                map(items => {
+                    if (items === null) {
                         return []
                     }
-                    const { groups, ungrouped } = groupAnnotations(
-                        prepareAnnotationsForPresentation<vscode.Range>(anns, makeRange)
+                    const { groups, ungrouped } = groupItems(
+                        prepareItemsForPresentation<vscode.Range>(items, makeRange)
                     )
                     return [
-                        ...groups.map(([group, anns]) => groupCodeLens(group, anns, showGroup)),
-                        ...ungrouped.map(ann => annotationCodeLens(doc, ann, showHover)),
+                        ...groups.map(([group, items]) => groupCodeLens(group, items, showGroup)),
+                        ...ungrouped.map(item => itemCodeLens(doc, item, showHover)),
                     ]
                 })
             )
@@ -55,24 +51,24 @@ export function createCodeLensProvider(controller: Controller): vscode.CodeLensP
     return provider
 }
 
-/** Create a code lens for a single annotation. */
-function annotationCodeLens(
+/** Create a code lens for a single item. */
+function itemCodeLens(
     doc: vscode.TextDocument,
-    ann: AnnotationWithAdjustedRange<vscode.Range>,
+    item: ItemWithAdjustedRange<vscode.Range>,
     showHover: ReturnType<typeof createShowHoverCommand>
 ): CodeLens {
     // If the presentationHint `show-at-top-of-file` is used, show the code lens at the top of the
     // file, but make it trigger the hover at its actual location.
-    const attachRange = ann.range ?? new vscode.Range(0, 0, 0, 0)
-    const hoverRange = ann.originalRange ?? attachRange
+    const attachRange = item.range ?? new vscode.Range(0, 0, 0, 0)
+    const hoverRange = item.originalRange ?? attachRange
     return {
         range: attachRange,
         command: {
-            title: ann.title,
-            ...(ann.ui?.detail && !ann.ui.presentationHints?.includes('prefer-link-over-detail')
+            title: item.title,
+            ...(item.ui?.detail && !item.ui.presentationHints?.includes('prefer-link-over-detail')
                 ? showHover.createCommandArgs(doc.uri, hoverRange.start)
-                : ann.url
-                ? openWebBrowserCommandArgs(ann.url)
+                : item.url
+                ? openWebBrowserCommandArgs(item.url)
                 : { command: 'noop' }),
         },
         isResolved: true,
@@ -105,19 +101,19 @@ function createShowHoverCommand(): {
     }
 }
 
-/** Create a code lens for a group of annotations. */
+/** Create a code lens for a group of items. */
 function groupCodeLens(
     group: string,
-    anns: AnnotationWithAdjustedRange<vscode.Range>[],
+    items: ItemWithAdjustedRange<vscode.Range>[],
     showGroup: ReturnType<typeof createShowGroupCommand>
 ): CodeLens {
-    // Attach to the range of the first annotation with a range.
-    const attachRange = anns.find(ann => ann.range)?.range ?? new vscode.Range(0, 0, 0, 0)
+    // Attach to the range of the first item with a range.
+    const attachRange = items.find(item => item.range)?.range ?? new vscode.Range(0, 0, 0, 0)
     return {
         range: attachRange,
         command: {
             title: group,
-            ...showGroup.createCommandArgs(group, anns),
+            ...showGroup.createCommandArgs(group, items),
         },
         isResolved: true,
     }
@@ -126,7 +122,7 @@ function groupCodeLens(
 function createShowGroupCommand(): {
     createCommandArgs: (
         group: string,
-        annotations: AnnotationWithAdjustedRange<vscode.Range>[]
+        items: ItemWithAdjustedRange<vscode.Range>[]
     ) => Pick<vscode.Command, 'command' | 'arguments'>
 } & vscode.Disposable {
     const disposables: vscode.Disposable[] = []
@@ -134,16 +130,16 @@ function createShowGroupCommand(): {
     const COMMAND_ID = 'openctx._showGroup'
 
     interface QuickPickItem extends vscode.QuickPickItem {
-        annotation: AnnotationWithAdjustedRange<vscode.Range>
+        item: ItemWithAdjustedRange<vscode.Range>
     }
     const quickPick = vscode.window.createQuickPick<QuickPickItem>()
     disposables.push(quickPick)
     disposables.push(
         quickPick.onDidAccept(() => {
             const item = quickPick.selectedItems.at(0)
-            if (item?.annotation.url) {
+            if (item?.item.url) {
                 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(item.annotation.url))
+                vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(item.item.url))
                 quickPick.hide()
             }
         })
@@ -152,22 +148,22 @@ function createShowGroupCommand(): {
     disposables.push(
         vscode.commands.registerCommand(
             COMMAND_ID,
-            (group: string, annotations: AnnotationWithAdjustedRange<vscode.Range>[]): void => {
+            (group: string, items: ItemWithAdjustedRange<vscode.Range>[]): void => {
                 quickPick.title = group
-                quickPick.items = annotations.map(ann => ({
-                    label: ann.title,
-                    detail: ann.url,
-                    annotation: ann,
+                quickPick.items = items.map(item => ({
+                    label: item.title,
+                    detail: item.url,
+                    item,
                 }))
                 quickPick.show()
             }
         )
     )
     return {
-        createCommandArgs(group, annotations) {
+        createCommandArgs(group, items) {
             return {
                 command: COMMAND_ID,
-                arguments: [group, annotations],
+                arguments: [group, items],
             }
         },
         dispose() {

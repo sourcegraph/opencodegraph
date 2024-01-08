@@ -97,7 +97,7 @@ function providerFromModule(providerModule: ProviderModule): Provider {
 function lazyProvider(provider: Promise<Provider>): ProviderTransport {
     return {
         capabilities: async (params, settings) => (await provider).capabilities(params, settings),
-        annotations: async (params, settings) => (await provider).annotations(params, settings),
+        items: async (params, settings) => (await provider).items(params, settings),
         dispose: () => {
             provider.then(provider => provider.dispose?.()).catch(error => console.error(error))
         },

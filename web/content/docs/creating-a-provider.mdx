@@ -10,11 +10,11 @@ An OpenCtx provider is just an HTTP server that implements the [provider API](pr
 For convenience, you can also just bundle and publish a `.js` file that implements the simple `@openctx/provider` TypeScript API (as a default export):
 
 ```typescript
-import type { AnnotationsParams, AnnotationsResult, CapabilitiesParams, CapabilitiesResult, Provider } from '@openctx/provider'
+import type { ItemsParams, ItemsResult, CapabilitiesParams, CapabilitiesResult, Provider } from '@openctx/provider'
 
 export default {
   capabilities(params: CapabilitiesParams): Promise<CapabilitiesResult> { /* ... */ }
-  annotations(params: AnnotationsParams): Promise<AnnotationsResult> { /* ... */ }
+  items(params: ItemsParams): Promise<ItemsResult> { /* ... */ }
 } satisfies Provider
 ```
 

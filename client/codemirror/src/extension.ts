@@ -1,6 +1,6 @@
 import { Facet, type Extension } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
-import { type Annotation } from '@openctx/client'
+import { type Item } from '@openctx/client'
 import { openCtxWidgets } from './blockWidget'
 
 export interface OpenCtxDecorationsConfig {
@@ -8,11 +8,11 @@ export interface OpenCtxDecorationsConfig {
         container: HTMLElement,
         spec: {
             /**
-             * The leading whitespace on the line of code that the annotations are attached to.
+             * The leading whitespace on the line of code that the items are attached to.
              */
             indent: string | undefined
 
-            annotations: Annotation[]
+            items: Item[]
         }
     ) => { destroy?: () => void }
 
@@ -29,14 +29,14 @@ export function showOpenCtxDecorations(config: OpenCtxDecorationsConfig): Extens
 /**
  * Provide OpenCtx data.
  */
-export function openCtxData(data: Annotation[] | undefined): Extension {
+export function openCtxData(data: Item[] | undefined): Extension {
     return data ? openCtxDataFacet.of(data) : []
 }
 
 /**
  * Facet for OpenCtx data.
  */
-export const openCtxDataFacet = Facet.define<Annotation[], Annotation[]>({
+export const openCtxDataFacet = Facet.define<Item[], Item[]>({
     combine(values) {
         return values.flat()
     },
@@ -73,7 +73,7 @@ export const baseTheme = EditorView.baseTheme({
         whiteSpace: 'normal',
     },
 
-    // Move line number down to the line with code, not the line with the annotations.
+    // Move line number down to the line with code, not the line with the items.
     '.cm-lineNumbers': {
         '& .cm-gutterElement': {
             display: 'flex',

@@ -11,8 +11,8 @@
     { "$ref": "#/definitions/ProviderSettings" },
     { "$ref": "#/definitions/CapabilitiesParams" },
     { "$ref": "#/definitions/CapabilitiesResult" },
-    { "$ref": "#/definitions/AnnotationsParams" },
-    { "$ref": "#/definitions/AnnotationsResult" }
+    { "$ref": "#/definitions/ItemsParams" },
+    { "$ref": "#/definitions/ItemsResult" }
   ],
   "definitions": {
     "RequestMessage": {
@@ -80,7 +80,7 @@
         }
       }
     },
-    "AnnotationsParams": {
+    "ItemsParams": {
       "type": "object",
       "additionalProperties": false,
       "required": ["file", "content"],
@@ -95,12 +95,12 @@
         }
       }
     },
-    "AnnotationsResult": {
+    "ItemsResult": {
       "type": "array",
       "items": {
-        "$ref": "../../schema/src/openctx.schema.json#/definitions/Annotation"
+        "$ref": "../../schema/src/openctx.schema.json#/definitions/Item"
       },
-      "tsType": "Annotation[]"
+      "tsType": "Item[]"
     }
   }
 }

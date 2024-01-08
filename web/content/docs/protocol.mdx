@@ -26,11 +26,11 @@ Providers are stateless.
 Providers must implement 2 API methods:
 
 - [Capabilities](#capabilities)
-- [Annotations](#annotations)
+- [Items](#items)
 
 ### Capabilities
 
-The capabilities request is sent by the client to the provider to retrieve information about the provider's capabilities and when it should be invoked. This avoids unnecessary invocations of the provider on files where it would not have any annotations.
+The capabilities request is sent by the client to the provider to retrieve information about the provider's capabilities and when it should be invoked. This avoids unnecessary invocations of the provider on files where it would not have any items.
 
 **Request:** `{ method: "capabilities", params: CapabilitiesParams, settings?: object }`
 
@@ -79,14 +79,14 @@ interface Selector {
 }
 ```
 
-### Annotations
+### Items
 
-The annotations request is sent by the client to the provider to fetch a list of annotations for a file.
+The items request is sent by the client to the provider to fetch a list of items for a file.
 
-**Request:** `{ method: "annotations", params: AnnotationsParams, settings?: object }`
+**Request:** `{ method: "items", params: ItemsParams, settings?: object }`
 
 ```typescript
-interface AnnotationsParams {
+interface ItemsParams {
   /** The file's URI (e.g., `file:///home/alice/foo.js`). **/
   file: string
 
@@ -95,47 +95,47 @@ interface AnnotationsParams {
 }
 ```
 
-**Response:** `{ result: AnnotationsResult }` or `{ error: { code, integer, data? } }`
+**Response:** `{ result: ItemsResult }` or `{ error: { code, integer, data? } }`
 
 ```typescript
-type AnnotationsResult = Annotation[]
+type ItemsResult = Item[]
 
 /**
- * An annotation describes information relevant to a file (or a range within a file).
+ * An item describes information relevant to a file (or a range within a file).
  */
-interface Annotation {
+interface Item {
   /**
-   * A descriptive title of the annotation.
+   * A descriptive title of the item.
    */
   title: string
 
   /**
-   * An external URL with more information about the annotation.
+   * An external URL with more information about the item.
    */
   url?: string
 
   /**
-   * The human user interface of the annotation, with information for human consumption.
+   * The human user interface of the item, with information for human consumption.
    */
   ui?: UserInterface
 
   /**
-   * Information from the annotation intended for consumption by AI, not humans.
+   * Information from the item intended for consumption by AI, not humans.
    */
   ai?: AssistantInfo
 
   /**
-   * The range in the file that this annotation applies to. If not set, the annotation applies to the entire file.
+   * The range in the file that this item applies to. If not set, the item applies to the entire file.
    */
   range?: { start: Position; end: Position }
 }
 
 /**
- * The human user interface of the annotation, with information for human consumption.
+ * The human user interface of the item, with information for human consumption.
  */
 export interface UserInterface {
   /**
-   * Text containing additional details for the human, shown when they interact with the annotation.
+   * Text containing additional details for the human, shown when they interact with the item.
    */
   detail?: string
   /**
@@ -143,13 +143,13 @@ export interface UserInterface {
    */
   format?: 'markdown' | 'plaintext'
   /**
-   * If set, this annotation is grouped together with all other annotations with the same `group` value.
+   * If set, this item is grouped together with all other items with the same `group` value.
    */
   group?: string
 }
 
 /**
- * Information from the annotation intended for consumption by AI, not humans.
+ * Information from the item intended for consumption by AI, not humans.
  */
 export interface AssistantInfo {
   /**

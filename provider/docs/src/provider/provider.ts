@@ -2,8 +2,8 @@
 import { readFile } from 'node:fs/promises'
 import {
     createFilePositionCalculator,
-    type AnnotationsParams,
-    type AnnotationsResult,
+    type ItemsParams,
+    type ItemsResult,
     type CapabilitiesResult,
 } from '@openctx/provider'
 import { createClient } from '../client/client.ts'
@@ -29,8 +29,8 @@ export default multiplex<Settings>(async settings => {
             return {}
         },
 
-        async annotations(params: AnnotationsParams): Promise<AnnotationsResult> {
-            const result: AnnotationsResult = []
+        async items(params: ItemsParams): Promise<ItemsResult> {
+            const result: ItemsResult = []
             const positionCalculator = createFilePositionCalculator(params.content)
             const contentChunks = chunk(params.content, { isMarkdown: params.file.endsWith('.md'), isTargetDoc: true })
             await Promise.all(

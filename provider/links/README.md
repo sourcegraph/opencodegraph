@@ -4,11 +4,11 @@ This is a context provider for [OpenCtx](https://openctx.org) that annotates you
 
 ## Example
 
-![Screenshot of OpenCtx docs link annotations in a GitHub PR](https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-github-links-browser-v0-0.5x.png)
+![Screenshot of OpenCtx docs link items in a GitHub PR](https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-github-links-browser-v0-0.5x.png)
 
 _Show relevant internal docs in GitHub PRs_
 
-![Screenshot of OpenCtx docs link annotations in a code file](https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-vscode-links-v1.png)
+![Screenshot of OpenCtx docs link items in a code file](https://storage.googleapis.com/sourcegraph-assets/openctx/screenshot-vscode-links-v1.png)
 
 _Add links (in VS Code) to internal CSS guidelines to files using CSS_
 

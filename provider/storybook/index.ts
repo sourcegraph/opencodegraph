@@ -1,6 +1,6 @@
 import {
-    type AnnotationsParams,
-    type AnnotationsResult,
+    type ItemsParams,
+    type ItemsResult,
     type CapabilitiesParams,
     type CapabilitiesResult,
     type Provider,
@@ -37,11 +37,11 @@ const storybook: Provider<Settings> = {
         return { selector: [{ path: '**/*.story.(t|j)s?(x)' }, { path: '**/*.(t|j)s(x)', contentContains: 'react' }] }
     },
 
-    async annotations(params: AnnotationsParams, settings: Settings): Promise<AnnotationsResult> {
-        const anns: AnnotationsResult = []
+    async items(params: ItemsParams, settings: Settings): Promise<ItemsResult> {
+        const items: ItemsResult = []
 
         if (!settings.storybookUrl) {
-            return anns
+            return items
         }
 
         const contentLines = params.content.split(/\r?\n/)
@@ -58,7 +58,7 @@ const storybook: Provider<Settings> = {
                     const storyName = getStoryNameAlias(story, params.content)
                     const storyURL = chromaticStoryURL(component, storyName, settings)
                     const detail = await getImagePreviewMarkdown(storyURL)
-                    anns.push({
+                    items.push({
                         title: `🖼️ Storybook: ${component}/${storyName}`,
                         url: storyURL,
                         ui: detail ? { detail, format: 'markdown' } : undefined,
@@ -80,7 +80,7 @@ const storybook: Provider<Settings> = {
                     const story = 'Default'
                     const storyURL = chromaticStoryURL(storyTitle, story, settings)
                     const detail = await getImagePreviewMarkdown(storyURL)
-                    anns.push({
+                    items.push({
                         title: `🖼️ Storybook: ${storyTitle}`,
                         url: storyURL,
                         ui: detail ? { detail, format: 'markdown' } : undefined,
@@ -90,7 +90,7 @@ const storybook: Provider<Settings> = {
             }
         }
 
-        return anns
+        return items
     },
 }
 

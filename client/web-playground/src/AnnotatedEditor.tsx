@@ -73,11 +73,11 @@ export const AnnotatedEditor: React.FunctionComponent<{
 
     const [error, setError] = useState<string>()
 
-    const annotations = useObservableState(
+    const items = useObservableState(
         useMemo(
             () =>
                 value
-                    ? client.annotationsChanges({ file: fileUri, content: value }).pipe(
+                    ? client.itemsChanges({ file: fileUri, content: value }).pipe(
                           tap({
                               next: () => setError(undefined),
                               // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -93,7 +93,7 @@ export const AnnotatedEditor: React.FunctionComponent<{
 
     const octxExtension = useOpenCtxExtension({
         visibility: true,
-        annotations,
+        items,
     })
     const extensions = useMemo(() => [javascript({ jsx: true, typescript: true }), octxExtension], [octxExtension])
 
@@ -102,7 +102,7 @@ export const AnnotatedEditor: React.FunctionComponent<{
             {!simple && (
                 <EditorHeader
                     title="Annotated code"
-                    status={error ?? `${annotations.length} annotations`}
+                    status={error ?? `${items.length} items`}
                     error={Boolean(error)}
                     titleClassName={headerTitleClassName}
                     validClassName={headerValidClassName}

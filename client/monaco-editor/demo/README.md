@@ -1,6 +1,6 @@
 # Demo: OpenCtx extension for Monaco Editor
 
-This is a simple demo that uses the [`@openctx/codemirror-extension`](https://www.npmjs.com/package/@openctx/codemirror-extension) npm package to show OpenCtx annotations in Monaco Editor.
+This is a simple demo that uses the [`@openctx/codemirror-extension`](https://www.npmjs.com/package/@openctx/codemirror-extension) npm package to show OpenCtx items in Monaco Editor.
 
 ## Usage
 

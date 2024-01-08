@@ -21,7 +21,7 @@ export interface ManagedStorageItems {}
 /**
  * Functions in the background page that can be invoked from content scripts.
  */
-export interface BackgroundApi extends Pick<Client<Range>, 'annotationsChanges'> {}
+export interface BackgroundApi extends Pick<Client<Range>, 'itemsChanges'> {}
 
 /**
  * Shape of the handler object in the background worker.

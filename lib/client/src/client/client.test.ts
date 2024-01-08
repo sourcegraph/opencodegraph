@@ -1,9 +1,9 @@
-import { type AnnotationsParams } from '@openctx/protocol'
+import { type ItemsParams } from '@openctx/protocol'
 import { type Range } from '@openctx/schema'
 import { firstValueFrom, of } from 'rxjs'
 import { TestScheduler } from 'rxjs/testing'
 import { describe, expect, test } from 'vitest'
-import { type Annotation } from '../api'
+import { type Item } from '../api'
 import { type ConfigurationUserInput } from '../configuration'
 import { createClient, type Client, type ClientEnv } from './client'
 
@@ -11,12 +11,12 @@ function testdataFileUri(file: string): string {
     return `file://${__dirname}/testdata/${file}`
 }
 
-const FIXTURE_PARAMS: AnnotationsParams = {
+const FIXTURE_PARAMS: ItemsParams = {
     file: 'file:///f',
     content: 'A',
 }
 
-function fixtureResult(label: string): Annotation {
+function fixtureResult(label: string): Item {
     return {
         title: label.toUpperCase(),
         range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } },
@@ -37,15 +37,15 @@ describe('Client', () => {
     const testScheduler = (): TestScheduler =>
         new TestScheduler((actual, expected) => expect(actual).toStrictEqual(expected))
 
-    describe('annotations', () => {
+    describe('items', () => {
         test('with providers', async () => {
             const client = createTestClient({
                 configuration: () =>
                     Promise.resolve({ enable: true, providers: { [testdataFileUri('simple.js')]: {} } }),
             })
 
-            const anns = await client.annotations(FIXTURE_PARAMS)
-            expect(anns).toStrictEqual<typeof anns>([
+            const items = await client.items(FIXTURE_PARAMS)
+            expect(items).toStrictEqual<typeof items>([
                 {
                     title: 'A',
                     range: { start: { line: 1, character: 2 }, end: { line: 3, character: 4 } },
@@ -58,12 +58,12 @@ describe('Client', () => {
                 configuration: () => Promise.resolve({ providers: {} }),
             })
 
-            const anns = await firstValueFrom(client.annotationsChanges(FIXTURE_PARAMS))
-            expect(anns).toStrictEqual<typeof anns>([])
+            const items = await firstValueFrom(client.itemsChanges(FIXTURE_PARAMS))
+            expect(items).toStrictEqual<typeof items>([])
         })
     })
 
-    test('annotationsChanges', () => {
+    test('itemsChanges', () => {
         testScheduler().run(({ cold, expectObservable }) => {
             expectObservable(
                 createTestClient({
@@ -73,10 +73,10 @@ describe('Client', () => {
                             a: { enable: true, providers: { [testdataFileUri('simple.js')]: {} } },
                         }),
                     __mock__: {
-                        getProviderClient: () => ({ annotations: () => of([fixtureResult('a')]) }),
+                        getProviderClient: () => ({ items: () => of([fixtureResult('a')]) }),
                     },
-                }).annotationsChanges(FIXTURE_PARAMS)
-            ).toBe('(0a)', { '0': [], a: [fixtureResult('a')] } satisfies Record<string, Annotation[]>)
+                }).itemsChanges(FIXTURE_PARAMS)
+            ).toBe('(0a)', { '0': [], a: [fixtureResult('a')] } satisfies Record<string, Item[]>)
         })
     })
 })

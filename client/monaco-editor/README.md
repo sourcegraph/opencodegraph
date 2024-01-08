@@ -1,6 +1,6 @@
 # OpenCtx extension for Monaco Editor
 
-The [`@openctx/monaco-editor-extension`](https://www.npmjs.com/package/@openctx/monaco-editor-extension) npm package implements a [Monaco Editor](https://microsoft.github.io/monaco-editor/) extension that shows [OpenCtx](https://openctx.org) annotations on files.
+The [`@openctx/monaco-editor-extension`](https://www.npmjs.com/package/@openctx/monaco-editor-extension) npm package implements a [Monaco Editor](https://microsoft.github.io/monaco-editor/) extension that shows [OpenCtx](https://openctx.org) items on files.
 
 ## Usage
 

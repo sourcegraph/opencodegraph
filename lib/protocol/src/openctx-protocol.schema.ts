@@ -1,4 +1,4 @@
-import { Annotation } from '@openctx/schema'
+import { Item } from '@openctx/schema'
 
 /**
  * OpenCtx client/provider protocol
@@ -10,9 +10,9 @@ export type Protocol =
     | ProviderSettings
     | CapabilitiesParams
     | CapabilitiesResult
-    | AnnotationsParams
-    | AnnotationsResult
-export type AnnotationsResult = Annotation[]
+    | ItemsParams
+    | ItemsResult
+export type ItemsResult = Item[]
 
 export interface RequestMessage {
     method: string
@@ -60,7 +60,7 @@ export interface Selector {
      */
     contentContains?: string
 }
-export interface AnnotationsParams {
+export interface ItemsParams {
     /**
      * The file's URI.
      */

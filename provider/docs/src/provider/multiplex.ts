@@ -19,6 +19,6 @@ export function multiplex<S extends {}>(createProvider: (settings: S) => Promise
 
     return {
         capabilities: (params, settings) => getProvider(settings).then(p => p.capabilities(params, settings)),
-        annotations: (params, settings) => getProvider(settings).then(p => p.annotations(params, settings)),
+        items: (params, settings) => getProvider(settings).then(p => p.items(params, settings)),
     }
 }

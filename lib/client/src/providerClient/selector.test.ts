@@ -1,8 +1,8 @@
-import { type AnnotationsParams } from '@openctx/protocol'
+import { type ItemsParams } from '@openctx/protocol'
 import { describe, expect, test } from 'vitest'
 import { matchSelectors } from './selector'
 
-const FIXTURE_PARAMS: AnnotationsParams = {
+const FIXTURE_PARAMS: ItemsParams = {
     file: 'file:///dir1/dir2/file.txt',
     content: 'foo bar',
 }

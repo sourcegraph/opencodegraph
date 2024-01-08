@@ -7,48 +7,48 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "annotations": {
+    "items": {
       "type": "array",
-      "items": { "$ref": "#/definitions/Annotation" }
+      "items": { "$ref": "#/definitions/Item" }
     }
   },
   "definitions": {
-    "Annotation": {
-      "description": "An annotation describes information relevant to a file (or a range within a file).",
+    "Item": {
+      "description": "An item contains contextual information relevant to a file (or a range within a file).",
       "type": "object",
       "additionalProperties": false,
       "required": ["title"],
       "properties": {
         "title": {
-          "description": "A descriptive title of the annotation.",
+          "description": "A descriptive title.",
           "type": "string"
         },
         "url": {
-          "description": "An external URL with more information about the annotation.",
+          "description": "An external URL with more information.",
           "type": "string",
           "format": "uri"
         },
         "ui": {
-          "description": "The human user interface of the annotation, with information for human consumption.",
+          "description": "The human user interface of the item, with information for human consumption.",
           "$ref": "#/definitions/UserInterface"
         },
         "ai": {
-          "description": "Information from the annotation intended for consumption by AI, not humans.",
+          "description": "Information from the item intended for consumption by AI, not humans.",
           "$ref": "#/definitions/AssistantInfo"
         },
         "range": {
-          "description": "The range in the file that this annotation applies to. If not set, the annotation applies to the entire file.",
+          "description": "The range in the file that this item applies to. If not set, the item applies to the entire file.",
           "$ref": "#/definitions/Range"
         }
       }
     },
     "UserInterface": {
-      "description": "The human user interface of an annotation, with information for human consumption.",
+      "description": "The human user interface of an item, with information for human consumption.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "detail": {
-          "description": "Text containing additional details for the human, shown when they interact with the annotation.",
+          "description": "Text containing additional details for the human, shown when they interact with the item.",
           "type": "string"
         },
         "format": {
@@ -57,15 +57,15 @@
           "enum": ["markdown", "plaintext"]
         },
         "group": {
-          "description": "If set, this annotation is grouped together with all other annotations with the same `group` value.",
+          "description": "If set, this item is grouped together with all other items with the same `group` value.",
           "type": "string"
         },
         "presentationHints": {
-          "description": "Hints about the best way to present this annotation. Different clients interpret hints differently because they have different user interfaces.",
+          "description": "Hints about the best way to present this item. Different clients interpret hints differently because they have different user interfaces.",
           "type": "array",
           "items": {
             "title": "PresentationHint",
-            "description": "A hint about how to best present an annotation to the human in the client's user interface.\n\n- `show-at-top-of-file`: Group all annotations with the same `ui.group` value together and display them at the top of the file instead of at their given file range.\n- `prefer-link-over-detail`: Prefer to show the annotation as a link over showing the detail text, if the client does not cleanly support doing both.",
+            "description": "A hint about how to best present an item to the human in the client's user interface.\n\n- `show-at-top-of-file`: Group all items with the same `ui.group` value together and display them at the top of the file instead of at their given file range.\n- `prefer-link-over-detail`: Prefer to show the item as a link over showing the detail text, if the client does not cleanly support doing both.",
             "type": "string",
             "enum": ["show-at-top-of-file", "prefer-link-over-detail"]
           }
@@ -73,7 +73,7 @@
       }
     },
     "AssistantInfo": {
-      "description": "Information from an annotation intended for consumption by AI, not humans.",
+      "description": "Information from an item intended for consumption by AI, not humans.",
       "type": "object",
       "additionalProperties": false,
       "properties": {

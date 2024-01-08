@@ -1,4 +1,4 @@
-import { type AnnotationsParams, type AnnotationsResult, type ProviderSettings } from '@openctx/protocol'
+import { type ItemsParams, type ItemsResult, type ProviderSettings } from '@openctx/protocol'
 import { scopedLogger } from '../logger'
 import { matchSelectors } from './selector'
 import { createTransport, type ProviderTransportOptions } from './transport/createTransport'
@@ -9,11 +9,11 @@ import { createTransport, type ProviderTransportOptions } from './transport/crea
  */
 export interface ProviderClient {
     /**
-     * Get annotations from the provider, respecting the provider's capabilities. For example, if
-     * the document is not matched by the provider's selectors, then no annotations will be
+     * Get items from the provider, respecting the provider's capabilities. For example, if
+     * the document is not matched by the provider's selectors, then no items will be
      * returned.
      */
-    annotations(params: AnnotationsParams, settings: ProviderSettings): Promise<AnnotationsResult | null>
+    items(params: ItemsParams, settings: ProviderSettings): Promise<ItemsResult | null>
 }
 
 export interface ProviderClientOptions
@@ -34,8 +34,8 @@ export function createProviderClient(
     const transport = createTransport(providerUri, { ...options, cache: true, logger })
 
     return {
-        async annotations(params: AnnotationsParams, settings: ProviderSettings): Promise<AnnotationsResult | null> {
-            let match: (params: AnnotationsParams) => boolean | undefined
+        async items(params: ItemsParams, settings: ProviderSettings): Promise<ItemsResult | null> {
+            let match: (params: ItemsParams) => boolean | undefined
             try {
                 logger?.('checking provider capabilities')
                 const capabilities = await transport.capabilities({}, settings)
@@ -49,16 +49,16 @@ export function createProviderClient(
             const capable = match(params)
             if (!capable) {
                 logger?.(
-                    `skipping annotations for ${JSON.stringify(
+                    `skipping items for ${JSON.stringify(
                         params.file
                     )} because it did not match the provider's selector`
                 )
                 return null
             }
             try {
-                return await transport.annotations(params, settings)
+                return await transport.items(params, settings)
             } catch (error) {
-                logger?.(`failed to get annotations: ${error}`)
+                logger?.(`failed to get items: ${error}`)
                 return Promise.reject(error)
             }
         },

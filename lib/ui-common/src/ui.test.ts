@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest'
-import { groupAnnotations, prepareAnnotationsForPresentation } from './ui'
+import { groupItems, prepareItemsForPresentation } from './ui'
 
-describe('prepareAnnotationsForPresentation', () => {
+describe('prepareItemsForPresentation', () => {
     test('applies hints', () => {
         expect(
-            prepareAnnotationsForPresentation([
+            prepareItemsForPresentation([
                 {
                     title: '📟 http_request_queue (metric)',
                     ui: {
@@ -16,7 +16,7 @@ describe('prepareAnnotationsForPresentation', () => {
                     },
                 },
             ])
-        ).toEqual<ReturnType<typeof prepareAnnotationsForPresentation>>([
+        ).toEqual<ReturnType<typeof prepareItemsForPresentation>>([
             {
                 title: '📟 http_request_queue (metric)',
                 ui: {
@@ -35,10 +35,10 @@ describe('prepareAnnotationsForPresentation', () => {
     })
 })
 
-describe('groupAnnotations', () => {
-    test('groups annotations', () => {
+describe('groupItems', () => {
+    test('groups items', () => {
         expect(
-            groupAnnotations([
+            groupItems([
                 {
                     title: '📘 Docs: Page 1',
                     url: 'https://example.com/1',
@@ -53,7 +53,7 @@ describe('groupAnnotations', () => {
                     title: '📟 http_request_queue (metric)',
                 },
             ])
-        ).toEqual<ReturnType<typeof groupAnnotations>>({
+        ).toEqual<ReturnType<typeof groupItems>>({
             groups: [
                 [
                     'Docs',

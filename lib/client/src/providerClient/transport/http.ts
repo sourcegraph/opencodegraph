@@ -1,5 +1,5 @@
 import {
-    type AnnotationsResult,
+    type ItemsResult,
     type CapabilitiesResult,
     type RequestMessage,
     type ResponseMessage,
@@ -83,6 +83,6 @@ export function createHttpTransport(
 
     return {
         capabilities: async params => send<CapabilitiesResult>({ method: 'capabilities', params }),
-        annotations: async params => send<AnnotationsResult>({ method: 'annotations', params }),
+        items: async params => send<ItemsResult>({ method: 'items', params }),
     }
 }

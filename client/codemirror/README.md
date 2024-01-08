@@ -1,6 +1,6 @@
 # OpenCtx extension for CodeMirror
 
-The [`@openctx/codemirror-extension`](https://www.npmjs.com/package/@openctx/codemirror-extension) npm package implements a [CodeMirror](https://codemirror.net/) extension that shows [OpenCtx](https://openctx.org) annotations in the editor.
+The [`@openctx/codemirror-extension`](https://www.npmjs.com/package/@openctx/codemirror-extension) npm package implements a [CodeMirror](https://codemirror.net/) extension that shows [OpenCtx](https://openctx.org) items in the editor.
 
 Check out the [OpenCtx playground](https://openctx.org/playground) for a live example of this extension.
 
@@ -12,7 +12,7 @@ Install it:
 npm install @openctx/codemirror-extension @openctx/client
 ```
 
-Set up an OpenCtx client and fetch annotations:
+Set up an OpenCtx client and fetch items:
 
 ```typescript
 import { createClient } from '@openctx/client'
@@ -30,8 +30,8 @@ const client = createClient({
   logger: console.error,
 })
 
-// Fetch annotations for the file.
-const annotations = await client.annotations({ file: 'file:///foo.js', content: 'my file\nhello\nworld' })
+// Fetch items for the file.
+const items = await client.items({ file: 'file:///foo.js', content: 'my file\nhello\nworld' })
 ```
 
 Then register the extension with CodeMirror.
@@ -47,7 +47,7 @@ function MyComponent() {
   // A helpful React hook if using React.
   const octxExtension = useOpenCtxExtension({
     visibility: true,
-    annotations,
+    items,
   })
 
   // Pass `octxExtension` to CodeMirror as an extension.
@@ -64,14 +64,14 @@ import { openCtxData, showOpenCtxDecorations } from '@openctx/codemirror-extensi
 import { ChipList, IndentationWrapper } from '@openctx/ui-react'
 
 const octxExtension: Extension = [
-  openCtxData(annotations),
+  openCtxData(items),
   showOpenCtxDecorations({
     visibility: true,
-    createDecoration(container, { indent, annotations }) {
+    createDecoration(container, { indent, items }) {
       const root = createRoot(container)
       root.render(
         <IndentationWrapper indent={indent}>
-          <ChipList annotations={annotations} chipClassName="octx-chip" popoverClassName="octx-chip-popover" />
+          <ChipList items={items} chipClassName="octx-chip" popoverClassName="octx-chip-popover" />
         </IndentationWrapper>
       )
       return {

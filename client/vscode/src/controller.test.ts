@@ -3,7 +3,7 @@ import { Controller } from './controller'
 
 export function createMockController(): MockedObject<Controller> {
     return {
-        observeAnnotations: vi.fn(),
+        observeItems: vi.fn(),
         onDidChangeProviders: vi.fn(),
     }
 }
