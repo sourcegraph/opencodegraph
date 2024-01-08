@@ -20,7 +20,7 @@ export const ChipList: FunctionComponent<{
     const { groups, ungrouped } = groupAnnotations(annotations)
     return (
         <div className={clsx(styles.list, className)}>
-            {Object.entries(groups).map(([group, anns]) => (
+            {groups.map(([group, anns]) => (
                 <ChipGroup
                     key={`g:${group}`}
                     group={group}

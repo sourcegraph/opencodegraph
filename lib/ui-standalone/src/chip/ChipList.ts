@@ -25,7 +25,7 @@ export function createChipList({
     el.className = clsx(styles.list, className)
 
     const { groups, ungrouped } = groupAnnotations(annotations)
-    for (const [group, anns] of Object.entries(groups)) {
+    for (const [group, anns] of groups) {
         el.append(createChipGroup({ group, annotations: anns, className: chipClassName, popoverClassName }))
     }
     for (const annotation of ungrouped) {
