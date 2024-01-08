@@ -1,4 +1,5 @@
 
+import fs from 'fs'
 import path from 'path'
 import YAML from 'yaml'
 import {
@@ -20,16 +21,24 @@ export interface Settings { yaml: string }
  * @returns parsed yaml object
  */
 async function load(filename: string): Promise<TSF> {
-    const cpath: string = new URL(import.meta.url).pathname
-    const fileUrl: string = import.meta.resolve(
-        path.resolve(path.join(path.dirname(cpath), filename)))
-    const r: Response = await fetch(fileUrl)
+    let content
+    const cpath = new URL(import.meta.url).pathname
+    const filePath = path.resolve(path.join(path.dirname(cpath), filename))
 
-    if (r.status !== 200) {
-        console.error(`Techstack: failed to fetch settings from ${filename}`)
-        return {} as TSF
+    if (Object.prototype.hasOwnProperty.call(global, 'window')) {
+        // Browser
+        const fileUrl = import.meta.resolve(filePath)
+        const r: Response = await fetch(fileUrl)
+        if (r.status !== 200) {
+            console.error(`Techstack: failed to fetch settings from ${filename}`)
+            return {} as TSF
+        }
+        content = await r.text()
+    } else {
+        // Server
+        content = await fs.promises.readFile(filePath, 'utf-8')
     }
-    return YAML.parse(await r.text())
+    return YAML.parse(content)
 }
 
 const techstack: Provider<Settings> = {
