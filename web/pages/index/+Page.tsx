@@ -57,6 +57,7 @@ const INTEGRATIONS: IntegrationItem[] = [
     { name: 'Storybook', type: 'provider', slug: 'storybook' },
     { name: 'Prometheus', type: 'provider', slug: 'prometheus' },
     { name: 'Links', type: 'provider', slug: 'links' },
+    { name: 'Tech Stack File', type: 'provider', slug: 'techstack' },
 ]
 
 const IntegrationsSection: FunctionComponent<{ className?: string }> = ({ className }) => {
