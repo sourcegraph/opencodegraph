@@ -1,6 +1,5 @@
 
 import fs from 'fs'
-import path from 'path'
 import YAML from 'yaml'
 import {
     type AnnotationsParams,
@@ -17,23 +16,19 @@ export interface Settings { yaml: string }
 /**
  * Read the techstack file configuration for project
  *
- * @param filename - techstack yml filename
+ * @param fileUri - absolute path of techstack yml file
  * @returns parsed yaml object
  */
-async function load(filename: string): Promise<TSF> {
+async function load(fileUri: string): Promise<TSF> {
     let content
-    const cpath = new URL(import.meta.url).pathname
-    const filePath = path.resolve(path.join(path.dirname(cpath), filename))
-
     if (typeof window === 'undefined') {
         // Server
-        content = await fs.promises.readFile(filePath, 'utf-8')
+        content = await fs.promises.readFile(fileUri, 'utf-8')
     } else {
         // Browser
-        const fileUrl = import.meta.resolve(filePath)
-        const r: Response = await fetch(fileUrl)
+        const r: Response = await fetch(fileUri)
         if (r.status !== 200) {
-            console.error(`Techstack: failed to fetch settings from ${filename}`)
+            console.error(`Techstack: failed to fetch settings from ${fileUri}`)
             return {} as TSF
         }
         content = await r.text()

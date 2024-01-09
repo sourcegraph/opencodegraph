@@ -1,4 +1,5 @@
 
+import path from 'path'
 import { describe, expect, test } from 'vitest'
 import {type AnnotationsResult, type CapabilitiesResult} from '@opencodegraph/provider'
 
@@ -6,7 +7,7 @@ import techstack, { type Settings } from './index'
 
 describe('techstack', () => {
     const SETTINGS: Settings = {
-        yaml: './examples/mazure.yml'
+        yaml: path.resolve(path.join(__dirname, './examples/mazure.yml'))
     }
 
     test('capabilities', () => {
@@ -32,7 +33,7 @@ fs.readFileSync('example.txt', 'utf-8)
         expect(result).toBeDefined()
         expect(result).toStrictEqual<AnnotationsResult>({ annotations: [], items: [] })
 
-        SETTINGS.yaml = './examples/stackshare.yml'
+        SETTINGS.yaml = path.resolve(path.join(__dirname, './examples/stackshare.yml'))
         result = await techstack.annotations(params, SETTINGS)
         expect(result).toBeDefined()
         expect(result).toStrictEqual<AnnotationsResult>({ annotations: [], items: [] })
