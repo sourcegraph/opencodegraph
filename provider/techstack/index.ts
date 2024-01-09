@@ -39,8 +39,7 @@ async function load(fileUri: string): Promise<TSF> {
 const techstack: Provider<Settings> = {
     capabilities(params: CapabilitiesParams, settings: Settings): CapabilitiesResult {
         // TODO: support more languages
-        return { selector: [{ path: '**/*.js' }, { path: '**/*.jsx' },
-                            { path: '**/*.ts' }, { path: '**/*.tsx' }] }
+        return { selector: [{ path: '**/*.js?(x)' }, { path: '**/*.ts?(x)' }] }
     },
 
     async annotations(params: AnnotationsParams, settings: Settings): Promise<AnnotationsResult> {

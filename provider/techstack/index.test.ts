@@ -15,8 +15,7 @@ describe('techstack', () => {
 
         expect(result).toBeDefined()
         expect(result).toStrictEqual<CapabilitiesResult>({
-            selector: [{ path: '**/*.js' }, { path: '**/*.jsx' },
-                       { path: '**/*.ts' }, { path: '**/*.tsx' }]
+            selector: [{ path: '**/*.js?(x)' }, { path: '**/*.ts?(x)' }]
         })
     })
 
