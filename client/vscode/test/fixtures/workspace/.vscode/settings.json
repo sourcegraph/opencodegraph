@@ -6,6 +6,9 @@
     // "https://sourcegraph.test:3443/.api/opencodegraph": true,
     // "../../../../../../provider/hello-world/dist/index.js": true,
     "https://opencodegraph.org/npm/@opencodegraph/provider-hello-world": true,
+    "https://opencodegraph.org/npm/@opencodegraph/provider-techstack": {
+      "yaml": "./techstack.yml",
+    },
     "https://opencodegraph.org/npm/@opencodegraph/provider-links": {
       "links": [
         {

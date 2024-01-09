@@ -1,0 +1,73 @@
+repo_name: stackshareio/awesome-stacks
+report_id: b1e2755b077909415efce583ff0c25c6
+repo_type: Public
+timestamp: '2023-11-09T06:51:25+00:00'
+requested_by: yonasb
+provider: github
+branch: master
+detected_tools_count: 35
+tools:
+- name: React
+  description: A JavaScript library for building user interfaces
+  website_url: https://reactjs.org/
+  version: 16.8.3
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Javascript UI Libraries
+  image_url: https://img.stackshare.io/service/1020/OYIaJ1KK.png
+  detection_source_url: package-lock.json
+  detection_source: package.json
+  last_updated_by: dzello
+  last_updated_on: 2019-03-10 14:10:14.000000000 Z
+- name: Google Analytics
+  description: Enterprise-class web analytics.
+  website_url: http://www.google.com/analytics
+  open_source: false
+  hosted_saas: false
+  category: Analytics
+  sub_category: General Analytics
+  image_url: https://img.stackshare.io/service/64/cU74ahCn_400x400.jpg
+  detection_source: package.json
+  last_updated_by: Josh Dzielak
+  last_updated_on: 2019-04-08 16:24:57.000000000 Z
+- name: Netlify
+  description: Build, deploy and host your static site or app with a drag and drop
+    interface and automatic delpoys from GitHub or Bitbucket
+  website_url: https://www.netlify.com/
+  open_source: false
+  hosted_saas: true
+  category: Application Utilities
+  sub_category: Static Web Hosting
+  image_url: https://img.stackshare.io/service/2748/default_5dfbb146cf22182bca88c7d07f2515a5888fc12a.jpg
+  detection_source: netlify.toml
+  last_updated_by: Josh Dzielak
+  last_updated_on: 2019-04-13 15:40:16.000000000 Z
+- name: node-sass
+  description: Wrapper around libsass
+  package_url: https://www.npmjs.com/node-sass
+  version: 4.11.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15827/default_db4a7791d2f1174547374b9b587bc10fec088a5a.png
+  detection_source_url: package-lock.json
+  detection_source: package.json
+  last_updated_by: Josh Dzielak
+  last_updated_on: 2019-03-17 17:36:11.000000000 Z
+  vulnerabilities:
+  - name: Improper Certificate Validation in node-sass
+    cve_id: CVE-2020-24025
+    cve_url: https://github.com/advisories/GHSA-r8f7-9pfq-mjmv
+    detected_date: Feb 10
+    severity: moderate
+    first_patched: 7.0.0
+  - name: Denial of Service in node-sass
+    cve_id: 
+    cve_url: https://github.com/advisories/GHSA-9v62-24cr-58cx
+    detected_date: Aug 22
+    severity: moderate
+    first_patched: 4.13.1

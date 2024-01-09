@@ -1,8 +1,12 @@
+
 import { type ProviderSettings } from '@opencodegraph/client'
 
 async function getProviders(): Promise<Record<string, ProviderSettings | boolean>> {
     const providerSettings: Record<string, ProviderSettings | boolean> = {
         '../../../../provider/hello-world/index.ts': true,
+        '../../../../provider/techstack/index.ts': {
+            yaml: new URL('./techstack.yml', import.meta.url).toString()
+        },
         '../../../../provider/links/index.ts': {
             links: [
                 {
