@@ -17,7 +17,7 @@ if (args.length !== 0) {
     usage()
 }
 
-const archive: CorpusArchive = await readJSONFromStdin()
+const archive = (await readJSONFromStdin()) as CorpusArchive
 console.error(
     `# Using archive: ${archive.docs.length} docs, content ID ${archive.contentID}, description ${JSON.stringify(
         archive.description
@@ -44,6 +44,7 @@ function readJSONFromStdin(): Promise<any> {
         })
         process.stdin.once('end', () => {
             try {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 const json = JSON.parse(data.join(''))
                 resolve(json)
             } catch (error) {

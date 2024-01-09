@@ -40,7 +40,7 @@ if (isWebWindowRuntime) {
     //
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     env.backends.onnx.wasm.wasmPaths = import.meta.resolve('../../node_modules/@xenova/transformers/dist/')
-} else {
+} else if (typeof __dirname !== 'undefined') {
     // TODO(sqs): seems to be triggered when running in vscode
     env.backends.onnx.wasm.wasmPaths = __dirname + '/../node_modules/@xenova/transformers/dist/'
     env.backends.onnx.wasm.numThreads = 1
@@ -87,10 +87,10 @@ export const embedText = useWebWorker ? embedTextOnWorker : embedTextInThisScope
 export async function embedTextInThisScope(text: string, logger?: Logger): Promise<Float32Array> {
     try {
         const t0 = performance.now()
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
         const out = await (await pipe)(text, { pooling: 'mean', normalize: true })
         logger?.(`embedText (${text.length} chars) took ${Math.round(performance.now() - t0)}ms`)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
         return out.data as Float32Array // TODO(sqs): cast
     } catch (error) {
         console.log(error)
